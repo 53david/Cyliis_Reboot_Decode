@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Components;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADIANS;
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.normalizeRadians;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.pp;
 
 import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
@@ -13,39 +14,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
 
 public class Odo {
-    double res = 2000/(Math.PI * 31);
-    public static double RedGoalX = 144,RedGoalY = 144,BlueGoalX = 144, BlueGoalY = 0;
-    TelemetryManager telemetry;
-    static GoBildaPinpointDriver pp;
-    public Odo(GoBildaPinpointDriver pp){
-        this.pp=pp;
+
+    public Odo(){
+
         pp.setOffsets(48.366 * 0.0394,48.366 * 0.0394, DistanceUnit.INCH);
         pp.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         pp.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
     }
-    public double deltaRED(){
-        return Math.sqrt(Math.pow((pp.getPosX(DistanceUnit.INCH)-RedGoalX),2)+Math.pow((pp.getPosY(DistanceUnit.INCH)-RedGoalY),2));
-    }
-    public double deltaBLUE(){
-        return Math.sqrt(Math.pow((pp.getPosX(DistanceUnit.INCH)-BlueGoalX),2)+Math.pow((pp.getPosY(DistanceUnit.INCH)-BlueGoalY),2));
-    }
     public void update(){
         pp.update();
-    }
-    public double thetaRed(){
-        return pp.getHeading(AngleUnit.DEGREES)- Math.toDegrees(Math.atan(RedGoalX -pp.getPosX(DistanceUnit.INCH)/(RedGoalY-pp.getPosY(DistanceUnit.INCH))));
-    }
-    public double thetaBlue(){
-        return pp.getHeading(AngleUnit.DEGREES)- Math.toDegrees(Math.atan(BlueGoalX -pp.getPosX(DistanceUnit.INCH)/(BlueGoalY-pp.getPosY(DistanceUnit.INCH))));
-    }
-    public double podX(){
-        return pp.getPosX(DistanceUnit.MM);
-    }
-    public double podY(){
-        return pp.getPosY(DistanceUnit.MM);
-    }
-    public void reset(){
-        pp.resetPosAndIMU();
     }
 
     public void setPosition(SparkFunOTOS.Pose2D pose){

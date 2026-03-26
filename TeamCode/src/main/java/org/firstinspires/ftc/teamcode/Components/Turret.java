@@ -29,15 +29,14 @@ public class Turret {
     }
     AllienceState state = AllienceState.BLUE;
     public static double goalPositionX = 840, goalPositionY = 0;
-    public Turret(GoBildaPinpointDriver pp) {
-        this.pp = pp;
+    public Turret() {
         servo1.setPwmRange(new PwmControl.PwmRange(500 , 2500));
-        servo2.setPwmRange(new PwmControl.PwmRange(500 , 2500) );
+        servo2.setPwmRange(new PwmControl.PwmRange(500 , 2500));
         servo1.setDirection(Servo.Direction.REVERSE);
         servo2.setDirection(Servo.Direction.REVERSE);
 
     }
-    Odo odo = new Odo(pp);
+    Odo odo = new Odo();
 
     private void updateServosPosition() {
 

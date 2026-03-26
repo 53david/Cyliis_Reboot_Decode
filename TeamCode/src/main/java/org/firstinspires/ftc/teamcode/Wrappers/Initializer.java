@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.Wrappers;
 
 
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -21,8 +23,11 @@ public class Initializer {
     public static DcMotorEx shoot2;
     public static WebcamName webcam;
     public static Servo transfer;
-    public static DcMotorEx Spin;
+    public static DcMotorEx spin;
+    public static GoBildaPinpointDriver pp;
+    public static AnalogInput encoder;
     public static void start(HardwareMap hwMap){
+        pp = hwMap.get(GoBildaPinpointDriver.class,"pinpoint");
         intakeMotor = hwMap.get(DcMotorEx.class,"intake");
         transfer = hwMap.get(Servo.class,"transfer");
         leftFront = hwMap.get(DcMotorEx.class,"leftFront");
@@ -31,8 +36,12 @@ public class Initializer {
         leftBack = hwMap.get(DcMotorEx.class,"leftBack");
         shoot1 = hwMap.get(DcMotorEx.class,"shoot1");
         shoot2 = hwMap.get(DcMotorEx.class,"shoot2");
+        spin = hwMap.get(DcMotorEx.class,"spin");
         servo1 = hwMap.get(ServoImplEx.class,"servo1");
         servo2 = hwMap.get(ServoImplEx.class,"servo2");
         webcam = hwMap.get(WebcamName.class,"Webcam 1");
+        encoder = hwMap.get(AnalogInput.class,"encoder");
+        pp.resetPosAndIMU();
+        pp.recalibrateIMU();
     }
 }

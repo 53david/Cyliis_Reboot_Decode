@@ -30,13 +30,12 @@ import org.firstinspires.ftc.teamcode.Wrappers.Initializer;
 
 @TeleOp
 public class Teleop extends LinearOpMode {
-    public static IMU imu;
+
     private Drive chassis;
     private Turret turret;
     private Intake intake;
     private FlyWheel flyWheel;
     private Vision vision;
-    GoBildaPinpointDriver gobilda;
     public static TelemetryManager telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
     public static Gamepad prevgm1,prevgm2;
     public static Gamepad gm1,gm2;
@@ -65,15 +64,11 @@ public class Teleop extends LinearOpMode {
     }
     private void initializeHardware() {
         Initializer.start(hardwareMap);
-
-        gobilda = hardwareMap.get(GoBildaPinpointDriver.class,"pinpoint");
-        gobilda.resetPosAndIMU();
-        gobilda.recalibrateIMU();
         chassis = new Drive();
         intake = new Intake();
         flyWheel = new FlyWheel();
         vision = new Vision();
-        turret = new Turret(gobilda);
+        turret = new Turret();
         Turret.Voltage = 12.0/hardwareMap.getAll(VoltageSensor.class).get(0).getVoltage();
         Drive.Voltage = 12.0/hardwareMap.getAll(VoltageSensor.class).get(0).getVoltage();
     }
