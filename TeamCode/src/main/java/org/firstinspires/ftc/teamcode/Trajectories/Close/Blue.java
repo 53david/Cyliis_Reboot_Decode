@@ -1,0 +1,69 @@
+package org.firstinspires.ftc.teamcode.Trajectories.Close;
+
+import com.pedropathing.follower.Follower;
+import com.pedropathing.geometry.BezierCurve;
+import com.pedropathing.geometry.BezierLine;
+import com.pedropathing.geometry.Pose;
+import com.pedropathing.paths.PathChain;
+
+public class Blue {
+    public Follower follower;
+    public Pose start = new Pose(32,134,Math.toRadians(270));
+    public Pose spike1 = new Pose(24,85,Math.toRadians(180));
+    public Pose spike2 = new Pose(24,60,Math.toRadians(180));
+    public Pose gate = new Pose(15,60,Math.toRadians(150));
+    public Pose shoot = new Pose(60,70,Math.toRadians(180));
+    public Pose ctrlPt1 = new Pose(45,55);
+    public Pose ctrlPt2 = new Pose(45,85);
+    public PathChain startShoot,shootSpike1,spike1Shoot,shootSpike2,spike2Shoot,shootGate,gateShoot;
+    public enum State{
+        StartShoot,
+        ShootSpike1,
+        Spike1Shoot,
+        ShootSpike2,
+        Spike2Shoot,
+        ShootGate,
+        GateShoot,
+        IDLE,
+
+    };
+    State state = State.StartShoot;
+    State nextState = State.StartShoot;
+    public Blue(){
+        follower.setStartingPose(start);
+        follower.activateAllPIDFs(); /// nu e necesar
+        builder();
+
+    }
+    public void builder(){
+        startShoot = follower.pathBuilder()
+                .addPath(new BezierLine(start,shoot))
+                .setLinearHeadingInterpolation(start.getHeading(),shoot.getHeading())
+                .build();
+        shootSpike1 = follower.pathBuilder()
+                .addPath(new BezierCurve(shoot,ctrlPt2,spike1))
+                .setLinearHeadingInterpolation(shoot.getHeading(),spike1.getHeading())
+                .build();
+        spike1Shoot = follower.pathBuilder()
+                .addPath(new BezierLine(spike1,shoot))
+                .setLinearHeadingInterpolation(spike1.getHeading(),shoot.getHeading())
+                .build();
+        shootSpike2 = follower.pathBuilder()
+                .addPath(new BezierCurve(shoot,ctrlPt1,spike1))
+                .setLinearHeadingInterpolation(shoot.getHeading(),spike1.getHeading())
+                .build();
+        spike2Shoot = follower.pathBuilder()
+                .addPath(new BezierLine(spike2,shoot))
+                .setLinearHeadingInterpolation(spike2.getHeading(),shoot.getHeading())
+                .build();
+        shootGate = follower.pathBuilder()
+                .addPath(new BezierCurve(shoot,ctrlPt1,gate))
+                .setLinearHeadingInterpolation(shoot.getHeading(), gate.getHeading())
+                .build();
+        gateShoot = follower.pathBuilder()
+                .addPath(new BezierLine(gate,shoot))
+                .setLinearHeadingInterpolation(gate.getHeading(),shoot.getHeading())
+                .build();
+    }
+
+}

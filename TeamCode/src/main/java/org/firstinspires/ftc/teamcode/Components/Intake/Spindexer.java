@@ -1,13 +1,12 @@
-package org.firstinspires.ftc.teamcode.Components;
-import static org.firstinspires.ftc.teamcode.OpModes.Teleop.gm1;
-import static org.firstinspires.ftc.teamcode.OpModes.Teleop.prevgm1;
-import static org.firstinspires.ftc.teamcode.OpModes.Teleop.telemetryM;
+package org.firstinspires.ftc.teamcode.Components.Intake;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.encoder;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.spin;
 
 import com.bylazar.configurables.annotations.Configurable;
-import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -16,6 +15,7 @@ import org.firstinspires.ftc.teamcode.Wrappers.PIDController;
 @Configurable
 public class Spindexer {
     ElapsedTime timer = new ElapsedTime();
+    DigitalChannel proximitysensor;
     double target = 0;
     double angle = 0;
     double nrBalls = 0;
@@ -42,7 +42,13 @@ public class Spindexer {
         spinUpdate();
         switch (state){
             case IDLE:
-                telemetryM.addLine("IDLE");
+                Latch.state = Latch.State.IDLE;
+                if (ColorDetection.isBallInStorage() && !IsStorageSpinning() && nrBalls<3){
+                    state = State.BALL;
+                }
+                if (ColorDetection.isBallInStorage() && !IsStorageSpinning() && nrBalls == 3){
+                    state = State.TRANSFER;
+                }
                 break;
             case BALL:
                 turn120();
@@ -50,6 +56,7 @@ public class Spindexer {
                 state = State.IDLE;
                 break;
             case TRANSFER:
+                Latch.state = Latch.State.TRANSFER;
                 if (!isReady) {
                        turn60();
                     isReady = true;
@@ -77,11 +84,15 @@ public class Spindexer {
             return (encoder.getVoltage() / 3.3) * 2.0 * Math.PI;
     }
     public void turn60(){
-        target+= Math.PI/3;
+        target+= Math.PI /3 % 360;
         pid.setTargetPosition(target);
     }
     public void turn120(){
-        target+= Math.PI * 2/3;
+        target+= Math.PI * 2/3 % 360;
         pid.setTargetPosition(target);
     }
+    public boolean IsStorageSpinning(){
+        return Math.abs(target-FromVtoRads()) < Math.toRadians(5) && spin.getVelocity() < 20;
+    }
+
 }

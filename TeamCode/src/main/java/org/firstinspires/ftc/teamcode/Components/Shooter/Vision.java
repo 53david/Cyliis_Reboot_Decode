@@ -1,16 +1,13 @@
-package org.firstinspires.ftc.teamcode.Components;
+package org.firstinspires.ftc.teamcode.Components.Shooter;
 
-import static org.firstinspires.ftc.teamcode.OpModes.Teleop.gm1;
-import static org.firstinspires.ftc.teamcode.OpModes.Teleop.prevgm1;
-import static org.firstinspires.ftc.teamcode.OpModes.Teleop.telemetryM;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.webcam;
 
 import android.util.Size;
 
 import com.bylazar.camerastream.PanelsCameraStream;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.Camera;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.WhiteBalanceControl;
@@ -27,7 +24,7 @@ public class Vision {
     public  VisionPortal visionPortal;
     double fx = 807.567, fy = 807.567, cx = 345.549, cy = 267.084;
     public static double allianceID = 20;
-
+    boolean isTuned = false;
     public static long exposure = 2;
     public static int gain = 200;
     public static int temp = 40000;
@@ -59,7 +56,7 @@ public class Vision {
 
     }
     public void update(){
-        if (visionPortal.getCameraState()==VisionPortal.CameraState.STREAMING) {
+        if (visionPortal.getCameraState()==VisionPortal.CameraState.STREAMING && !isTuned) {
             ExposureControl exposureControl = visionPortal.getCameraControl(ExposureControl.class);
             GainControl gainControl = visionPortal.getCameraControl(GainControl.class);
             WhiteBalanceControl whiteBalanceControl= visionPortal.getCameraControl(WhiteBalanceControl.class);
@@ -68,7 +65,7 @@ public class Vision {
             exposureControl.setExposure(exposure, TimeUnit.MILLISECONDS);
             whiteBalanceControl.setWhiteBalanceTemperature(temp);
             gainControl.setGain(gain);
-
+            isTuned = true;
         }
         AllienceUpdate();
     }

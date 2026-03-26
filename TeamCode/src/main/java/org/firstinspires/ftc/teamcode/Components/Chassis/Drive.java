@@ -1,6 +1,9 @@
-package org.firstinspires.ftc.teamcode.Components;
+package org.firstinspires.ftc.teamcode.Components.Chassis;
 
-import static org.firstinspires.ftc.teamcode.OpModes.Teleop.gm1;
+import static org.firstinspires.ftc.teamcode.OpModes.Teleop.Voltage;
+
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.leftBack;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.leftFront;
@@ -14,14 +17,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
-import org.firstinspires.ftc.teamcode.Wrappers.PIDController;
-
 @Configurable
 public class Drive{
-    public static double Voltage = 0;
     public static double target = 0;
-    boolean ok; private static double multiplier = 0.01, multi = 1.2;
-    private PIDController tuner = new PIDController(0,0,0);
+    private static double multiplier = 0.01;
     public Drive() {
 
         rightFront.setDirection(DcMotorEx.Direction.REVERSE);
@@ -40,6 +39,7 @@ public class Drive{
         MotorConfigurationType m= leftFront.getMotorType();
 
         m.setAchieveableMaxRPMFraction(1);
+
         leftFront.setMotorType(m);
         rightFront.setMotorType(m);
         leftBack.setMotorType(m);

@@ -1,16 +1,15 @@
-package org.firstinspires.ftc.teamcode.Components;
+package org.firstinspires.ftc.teamcode.Components.Intake;
 
-import static org.firstinspires.ftc.teamcode.OpModes.Teleop.gm1;
-import static org.firstinspires.ftc.teamcode.OpModes.Teleop.prevgm1;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.intakeMotor;
-import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.transfer;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 @Configurable
-public class Intake {
+public class ActiveIntake {
     public static double rpm = 0;
     public static double Kp = 0;
     public static double Ki = 0;
@@ -18,7 +17,7 @@ public class Intake {
     public static double Ks = 0;
     public static double Kv = 0;
     public PIDController pid = new PIDController(Kp,Ki,Kd);
-    public Intake() {
+    public ActiveIntake() {
 
         intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

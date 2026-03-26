@@ -1,13 +1,13 @@
-package org.firstinspires.ftc.teamcode.Components;
+package org.firstinspires.ftc.teamcode.Components.Shooter;
 
 import static org.firstinspires.ftc.teamcode.OpModes.Teleop.telemetryM;
-import static org.firstinspires.ftc.teamcode.OpModes.Teleop.gm1;
-import static org.firstinspires.ftc.teamcode.OpModes.Teleop.prevgm1;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.pp;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.servo1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.servo2;
 
 import com.bylazar.configurables.annotations.Configurable;
-import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -15,19 +15,19 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.teamcode.Components.Chassis.Odo;
 
 @Configurable
 public class Turret {
-    public static double Voltage = 0;
 
     public double targetAngle = 0;
-    GoBildaPinpointDriver pp;
     public double maxAngle = normalizeRadians(360);
+    Odo odo = new Odo();
     public enum AllienceState {
         RED,
         BLUE,
     }
-    AllienceState state = AllienceState.BLUE;
+    public AllienceState state;
     public static double goalPositionX = 840, goalPositionY = 0;
     public Turret() {
         servo1.setPwmRange(new PwmControl.PwmRange(500 , 2500));
@@ -36,7 +36,6 @@ public class Turret {
         servo2.setDirection(Servo.Direction.REVERSE);
 
     }
-    Odo odo = new Odo();
 
     private void updateServosPosition() {
 
@@ -73,7 +72,6 @@ public class Turret {
     public void update() {
         TurretUpdate();
         AllienceUpdate();
-
     }
     public void AllienceUpdate(){
         switch (state){
@@ -90,13 +88,12 @@ public class Turret {
         }
     }
     public void TurretUpdate(){
-
         odo.update();
         SparkFunOTOS.Pose2D pos = Odo.getCurrentPosition();
         updateAngle(pos);
         updateServosPosition();
         odo.setPosition(new SparkFunOTOS.Pose2D(Odo.getCurrentPosition().x, Odo.getCurrentPosition().y, pos.h));
-        if (gm1.options && gm1.options!=prevgm1.options){
+        if (gm1.ps && gm1.ps!=prevgm1.ps){
             pp.setPosition(new Pose2D(DistanceUnit.MM , 0 , 0 , AngleUnit.RADIANS , 0));
         }
     }

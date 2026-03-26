@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.Components;
+package org.firstinspires.ftc.teamcode.Components.Intake;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.transfer;
 public class Latch {
-    enum State {
+    public enum State {
         IDLE,
         TRANSFER,
     };
-    State state;
+    public static State state;
     public static double transPos = 0;
     public static double idlePos = 0;
     public Latch(){

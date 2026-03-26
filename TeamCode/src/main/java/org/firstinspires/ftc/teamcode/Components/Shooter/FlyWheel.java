@@ -1,6 +1,6 @@
-package org.firstinspires.ftc.teamcode.Components;
+package org.firstinspires.ftc.teamcode.Components.Shooter;
 
-import static org.firstinspires.ftc.teamcode.Components.Turret.Voltage;
+import static org.firstinspires.ftc.teamcode.OpModes.Teleop.Voltage;
 
 import static org.firstinspires.ftc.teamcode.OpModes.Teleop.telemetryM;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.shoot1;
@@ -14,13 +14,12 @@ import static org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants.Kv;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
 @Configurable
 public class FlyWheel {
     PIDController controller = new PIDController(Kp,Ki,Kd);
     double vel1 = 0;
     public static double rpm = 800;
-    Vision vision = new Vision();
     public FlyWheel(){
         shoot1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         shoot2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

@@ -3,7 +3,10 @@ package org.firstinspires.ftc.teamcode.Wrappers;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
@@ -26,7 +29,15 @@ public class Initializer {
     public static DcMotorEx spin;
     public static GoBildaPinpointDriver pp;
     public static AnalogInput encoder;
+    public static ColorSensor color;
+    public static DigitalChannel proximitysensor;
+    public static Gamepad prevgm1,prevgm2;
+    public static Gamepad gm1,gm2;
     public static void start(HardwareMap hwMap){
+        prevgm1 = new Gamepad();
+        prevgm2 = new Gamepad();
+        gm1 = new Gamepad();
+        gm2 = new Gamepad();
         pp = hwMap.get(GoBildaPinpointDriver.class,"pinpoint");
         intakeMotor = hwMap.get(DcMotorEx.class,"intake");
         transfer = hwMap.get(Servo.class,"transfer");
@@ -41,7 +52,10 @@ public class Initializer {
         servo2 = hwMap.get(ServoImplEx.class,"servo2");
         webcam = hwMap.get(WebcamName.class,"Webcam 1");
         encoder = hwMap.get(AnalogInput.class,"encoder");
+        color = hwMap.get(ColorSensor.class,"color");
+        proximitysensor =hwMap.get(DigitalChannel.class,"proximitysensor");
         pp.resetPosAndIMU();
         pp.recalibrateIMU();
+
     }
 }
