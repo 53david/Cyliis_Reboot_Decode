@@ -30,14 +30,15 @@ public class CloseBlue {
         Spike2Shoot,
         ShootGate,
         GateShoot,
-        IDLE,
+        TRANSITION,
 
     };
-    State state = State.StartShoot;
+    State state ;
     State nextState = State.StartShoot;
     public CloseBlue(){
         follower.setStartingPose(start);
         follower.activateAllPIDFs(); /// nu e necesar
+        state = State.StartShoot;
         builder();
 
     }
@@ -74,7 +75,7 @@ public class CloseBlue {
     public void update(){
         telemetryM.addData("time",timer.seconds());
         switch (state){
-                case IDLE:
+            case TRANSITION:
                 telemetryM.addLine("Path finished");
                 if (follower.isBusy()){
                     timer.reset();
@@ -90,7 +91,7 @@ public class CloseBlue {
                 nextState = State.ShootSpike2;
                 follower.followPath(startShoot);
                 isShootReady = true;
-                state = State.IDLE;
+                state = State.TRANSITION;
                 break;
             case ShootSpike2:
                 isShootReady = false;
@@ -99,19 +100,19 @@ public class CloseBlue {
                 nextState = State.ShootGate;
                 follower.followPath(spike2Shoot);
                 isShootReady = true;
-                state = State.IDLE;
+                state = State.TRANSITION;
                 break;
             case ShootGate:
                 nextState = State.GateShoot;
                 follower.followPath(shootGate);
                 isShootReady =  false;
-                state = State.IDLE;
+                state = State.TRANSITION;
                 break;
                 case GateShoot:
                 nextState = State.ShootGate;
                 follower.followPath(gateShoot);
                 isShootReady = true;
-                state = State.IDLE;
+                state = State.TRANSITION;
                 break;
         }
     }
