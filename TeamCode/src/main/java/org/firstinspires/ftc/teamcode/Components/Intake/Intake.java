@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Components.Intake;
 
-import com.qualcomm.robotcore.hardware.ColorSensor;
-
 public class Intake {
     ActiveIntake activeIntake = new ActiveIntake();
     Spindexer spindexer = new Spindexer();
