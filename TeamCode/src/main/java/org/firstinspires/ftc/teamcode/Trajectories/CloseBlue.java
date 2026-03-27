@@ -1,12 +1,17 @@
-package org.firstinspires.ftc.teamcode.Trajectories.Close;
+package org.firstinspires.ftc.teamcode.Trajectories;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import static org.firstinspires.ftc.teamcode.OpModes.Autonomous.BlueClose.telemetryM;
 
-public class Blue {
+import org.firstinspires.ftc.teamcode.Components.Intake.Spindexer;
+
+public class CloseBlue {
+    ElapsedTime timer = new ElapsedTime();
     public Follower follower;
     public Pose start = new Pose(32,134,Math.toRadians(270));
     public Pose spike1 = new Pose(24,85,Math.toRadians(180));
@@ -15,6 +20,7 @@ public class Blue {
     public Pose shoot = new Pose(60,70,Math.toRadians(180));
     public Pose ctrlPt1 = new Pose(45,55);
     public Pose ctrlPt2 = new Pose(45,85);
+    boolean isShootReady = false;
     public PathChain startShoot,shootSpike1,spike1Shoot,shootSpike2,spike2Shoot,shootGate,gateShoot;
     public enum State{
         StartShoot,
@@ -29,7 +35,7 @@ public class Blue {
     };
     State state = State.StartShoot;
     State nextState = State.StartShoot;
-    public Blue(){
+    public CloseBlue(){
         follower.setStartingPose(start);
         follower.activateAllPIDFs(); /// nu e necesar
         builder();
@@ -65,5 +71,48 @@ public class Blue {
                 .setLinearHeadingInterpolation(gate.getHeading(),shoot.getHeading())
                 .build();
     }
-
+    public void update(){
+        telemetryM.addData("time",timer.seconds());
+        switch (state){
+                case IDLE:
+                telemetryM.addLine("Path finished");
+                if (follower.isBusy()){
+                    timer.reset();
+                }
+                if (isShootReady){
+                    Spindexer.state = Spindexer.State.SHOOT;
+                }
+                else if (timer.seconds()>1.5){
+                    state = nextState;
+                }
+                break;
+                case StartShoot:
+                nextState = State.ShootSpike2;
+                follower.followPath(startShoot);
+                isShootReady = true;
+                state = State.IDLE;
+                break;
+            case ShootSpike2:
+                isShootReady = false;
+                break;
+            case Spike2Shoot:
+                nextState = State.ShootGate;
+                follower.followPath(spike2Shoot);
+                isShootReady = true;
+                state = State.IDLE;
+                break;
+            case ShootGate:
+                nextState = State.GateShoot;
+                follower.followPath(shootGate);
+                isShootReady =  false;
+                state = State.IDLE;
+                break;
+                case GateShoot:
+                nextState = State.ShootGate;
+                follower.followPath(gateShoot);
+                isShootReady = true;
+                state = State.IDLE;
+                break;
+        }
+    }
 }

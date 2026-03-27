@@ -75,7 +75,7 @@ public class Drive{
         double denominator = Math.max(Math.abs(frontLeftPower), Math.abs(backLeftPower));
         denominator = Math.max(denominator, Math.abs(frontRightPower));
         denominator = Math.max(denominator, Math.abs(backRightPower));
-        denominator = Math.max(denominator, 1.0);
+        denominator = Math. max(denominator, 1.0);
 
         leftFront.setPower(frontLeftPower/denominator*12/Voltage);
         rightFront.setPower(frontRightPower/denominator*12/Voltage);

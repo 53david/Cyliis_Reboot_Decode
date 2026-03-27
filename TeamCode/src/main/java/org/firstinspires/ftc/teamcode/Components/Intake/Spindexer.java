@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.Components.Intake;
+import static org.firstinspires.ftc.teamcode.OpModes.Autonomous.BlueClose.isAutonomousActive;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.encoder;
@@ -15,9 +16,7 @@ import org.firstinspires.ftc.teamcode.Wrappers.PIDController;
 @Configurable
 public class Spindexer {
     ElapsedTime timer = new ElapsedTime();
-    DigitalChannel proximitysensor;
     double target = 0;
-    double angle = 0;
     double nrBalls = 0;
     boolean isReady = false;
     public static double Kp = 0;
@@ -29,7 +28,7 @@ public class Spindexer {
         IDLE,
         SHOOT,
     }
-    State state;
+    public static State state;
     PIDController pid = new PIDController(Kp,0,Kd);
     PIDCoefficients coef = new PIDCoefficients(Kp,0,Kd);
 
@@ -61,7 +60,7 @@ public class Spindexer {
                        turn60();
                     isReady = true;
                 }
-                if (gm1.cross && prevgm1.cross!=gm1.cross){
+                if (!isAutonomousActive && gm1.cross && prevgm1.cross!=gm1.cross){
                     state = State.SHOOT;
                     nrBalls = 0;
                     timer.startTime();
@@ -69,8 +68,8 @@ public class Spindexer {
                 }
                 break;
             case SHOOT:
-                spin.setPower(pid.calculatePower(rpm));
-                if (timer.seconds()>1){state = State.IDLE; spin.setPower(0);}
+                turn120();
+                if (timer.seconds()>1){state = State.IDLE; spin.setPower(0); timer.reset(); isReady=false; turn60();}
                 break;
         }
     }
