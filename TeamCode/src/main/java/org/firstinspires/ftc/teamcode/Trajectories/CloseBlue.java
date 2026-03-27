@@ -74,6 +74,7 @@ public class CloseBlue {
     }
     public void update(){
         telemetryM.addData("time",timer.seconds());
+        telemetryM.update();
         switch (state){
             case TRANSITION:
                 telemetryM.addLine("Path finished");

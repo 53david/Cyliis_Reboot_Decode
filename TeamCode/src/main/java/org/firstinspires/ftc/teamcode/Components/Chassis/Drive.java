@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.Components.Chassis;
 
-import static org.firstinspires.ftc.teamcode.OpModes.Teleop.Voltage;
 
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.Voltage;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 

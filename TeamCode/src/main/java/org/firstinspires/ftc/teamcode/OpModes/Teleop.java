@@ -32,7 +32,6 @@ public class Teleop extends LinearOpMode {
     Chassis chassis;
     Shooter shooter;
     public static TelemetryManager telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
-    public static double Voltage = 0;
     @Override
     public void runOpMode() throws InterruptedException {
         initializeHardware();
@@ -50,11 +49,9 @@ public class Teleop extends LinearOpMode {
 
     }
     private void initializeHardware() {
-        Voltage = 12.0/hardwareMap.getAll(VoltageSensor.class).get(0).getVoltage();
         Initializer.start(hardwareMap);
         intake =new Intake();
         chassis =new Chassis();
         shooter =new Shooter();
-
     }
 }

@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.Components.Shooter;
 
-import static org.firstinspires.ftc.teamcode.OpModes.Teleop.Voltage;
 
 import static org.firstinspires.ftc.teamcode.OpModes.Teleop.telemetryM;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.Voltage;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.shoot1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.shoot2;
 import static org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants.Kd;

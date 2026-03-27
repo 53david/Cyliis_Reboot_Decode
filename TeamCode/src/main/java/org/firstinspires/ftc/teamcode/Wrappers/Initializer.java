@@ -10,11 +10,12 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
 public class Initializer {
-
+    public static double Voltage = 0;
     public static DcMotorEx intakeMotor;
     public static DcMotorEx leftFront;
     public static DcMotorEx rightFront;
@@ -34,6 +35,7 @@ public class Initializer {
     public static Gamepad prevgm1,prevgm2;
     public static Gamepad gm1,gm2;
     public static void start(HardwareMap hwMap){
+        Voltage = 12.0/hwMap.getAll(VoltageSensor .class).get(0).getVoltage();
         prevgm1 = new Gamepad();
         prevgm2 = new Gamepad();
         gm1 = new Gamepad();

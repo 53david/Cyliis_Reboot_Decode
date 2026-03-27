@@ -19,9 +19,10 @@ public class Spindexer {
     double target = 0;
     double nrBalls = 0;
     boolean isReady = false;
+    public static int vibrationValue =1000;
     public static double Kp = 0;
     public static double Kd = 0;
-    public static double rpm = 0;
+
     public enum State{
         BALL,
         TRANSFER,
@@ -47,6 +48,7 @@ public class Spindexer {
                 }
                 if (ColorDetection.isBallInStorage() && !IsStorageSpinning() && nrBalls == 3){
                     state = State.TRANSFER;
+                    gm1.rumble(vibrationValue);
                 }
                 break;
             case BALL:
@@ -83,11 +85,11 @@ public class Spindexer {
             return (encoder.getVoltage() / 3.3) * 2.0 * Math.PI;
     }
     public void turn60(){
-        target+= Math.PI /3 % 360;
+        target+= Math.PI /3 % (Math.PI*2);
         pid.setTargetPosition(target);
     }
     public void turn120(){
-        target+= Math.PI * 2/3 % 360;
+        target+= Math.PI * 2/3 % (Math.PI*2);
         pid.setTargetPosition(target);
     }
     public boolean IsStorageSpinning(){
