@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.Components.Chassis;
 
+import org.firstinspires.ftc.teamcode.Wrappers.Odo;
+
 public class Chassis {
-    public Odo odo =new Odo();
     public Drive drive =new Drive();
     public void update(){
-        odo.update();
         drive.update();
     }
 }

@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Components.Chassis;
 
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.Voltage;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
-import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.leftBack;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.leftFront;
@@ -16,6 +15,8 @@ import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
+
+import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 
 @Configurable
 public class Drive{

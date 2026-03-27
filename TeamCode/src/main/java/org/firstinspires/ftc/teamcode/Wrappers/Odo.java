@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Components.Chassis;
+package org.firstinspires.ftc.teamcode.Wrappers;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADIANS;
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.normalizeRadians;
@@ -14,10 +14,9 @@ import org.firstinspires.ftc.teamcode.Components.Shooter.Turret;
 public class Odo {
 
     public Odo(){
-
-        pp.setOffsets(48.366 * 0.0394,48.366 * 0.0394, DistanceUnit.INCH);
+        pp.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED , GoBildaPinpointDriver.EncoderDirection.FORWARD);
         pp.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        pp.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
+        pp.setOffsets(129.503 , -78.001, DistanceUnit.MM);
     }
     public void update(){
         pp.update();

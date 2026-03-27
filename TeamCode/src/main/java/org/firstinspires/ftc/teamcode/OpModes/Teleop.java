@@ -25,12 +25,14 @@ import org.firstinspires.ftc.teamcode.Components.Intake.Intake;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Shooter;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Turret;
 import org.firstinspires.ftc.teamcode.Wrappers.Initializer;
+import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 
 @TeleOp
 public class Teleop extends LinearOpMode {
     Intake intake;
     Chassis chassis;
     Shooter shooter;
+    Odo odo;
     public static TelemetryManager telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
     @Override
     public void runOpMode() throws InterruptedException {
@@ -42,6 +44,7 @@ public class Teleop extends LinearOpMode {
             intake.update();
             chassis.update();
             shooter.update();
+            odo.update();
             telemetryM.update();
             prevgm1.copy(gm1);
             prevgm2.copy(gm2);
@@ -50,6 +53,7 @@ public class Teleop extends LinearOpMode {
     }
     private void initializeHardware() {
         Initializer.start(hardwareMap);
+        odo = new Odo();
         intake =new Intake();
         chassis =new Chassis();
         shooter =new Shooter();

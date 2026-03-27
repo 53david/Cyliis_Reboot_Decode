@@ -48,4 +48,10 @@ public class FarBlue {
         buildPaths();
         state = State.START;
     }
+    public void update(){
+        switch (state){
+            case START:
+                break;
+        }
+    }
 }
