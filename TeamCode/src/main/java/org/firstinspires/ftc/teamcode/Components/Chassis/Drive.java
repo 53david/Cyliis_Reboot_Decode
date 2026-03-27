@@ -20,30 +20,26 @@ import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigu
 @Configurable
 public class Drive{
     public static double target = 0;
+    public static double maxRPM = 1;
     private static double multiplier = 0.01;
     public Drive() {
 
         rightFront.setDirection(DcMotorEx.Direction.REVERSE);
         rightBack.setDirection(DcMotorEx.Direction.REVERSE);
-
         leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
         leftFront.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-
-        MotorConfigurationType m= leftFront.getMotorType();
-
-        m.setAchieveableMaxRPMFraction(1);
-
-        leftFront.setMotorType(m);
-        rightFront.setMotorType(m);
-        leftBack.setMotorType(m);
-        rightBack.setMotorType(m);
+        MotorConfigurationType unlock= leftFront.getMotorType();
+        unlock.setAchieveableMaxRPMFraction(maxRPM);
+        leftFront.setMotorType(unlock);
+        rightFront.setMotorType(unlock);
+        leftBack.setMotorType(unlock);
+        rightBack.setMotorType(unlock);
 
     }
     public void update(){
