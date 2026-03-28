@@ -5,9 +5,9 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.color;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.proximitysensor;
 
 public class ColorDetection {
-    public float red;
-    public float green;
-    public float blue;
+    public float red = 0;
+    public float green = 0;
+    public float blue = 0;
     public static int cup1 = 0, cup2 = 0, cup3 = 0;
     public double greenBall,purpleBall;
     public ColorDetection(){
