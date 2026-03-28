@@ -8,8 +8,8 @@ public class ColorDetection {
     public float red = 0;
     public float green = 0;
     public float blue = 0;
-    public static int cup1 = 0, cup2 = 0, cup3 = 0;
-    public double greenBall,purpleBall;
+    public int ball1 = 0, ball2 = 0, ball3 = 0;
+    public double greenBall = 0,purpleBall = 0;
     public ColorDetection(){
         color.enableLed(true);
     }
@@ -26,15 +26,17 @@ public class ColorDetection {
         green = color.green();
         greenBall = distance(red,green,blue,0,255,0);
         purpleBall = distance(red,green,blue,175,0,175);
-        if (purpleBall<=greenBall){ cup1 = 2;}
-        else { cup1 = 1; }
-        if (isBallInStorage() && Spindexer.nrBalls<3){
-            cup3 = cup2;
-            cup2 = cup1;
+        if (purpleBall<=greenBall){ ball1 = 2;}
+        else { ball1 = 1; }
+        if (isBallInStorage() && Spindexer.state == Spindexer.State.BALL){
+            ball3 = ball2; ball2 = ball1;
         }
-        telemetryM.addData("Ball1",cup1);
-        telemetryM.addData("Ball2",cup2);
-        telemetryM.addData("Ball3",cup3);
+        if (Spindexer.state == Spindexer.State.SHOOT){
+            ball1 = 0; ball2 = 0; ball3 = 0;
+        }
+        telemetryM.addData("Ball1",ball1);
+        telemetryM.addData("Ball2",ball2);
+        telemetryM.addData("Ball3",ball3);
         telemetryM.update();
     }
 }

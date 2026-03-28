@@ -19,7 +19,7 @@ public class Spindexer {
     double target = 0;
     public static double nrBalls = 0;
     boolean isReady = false;
-    public static int vibrationValue =1000;
+    public static int tValue =1000;
     public static double Kp = 0;
     public static double Kd = 0;
 
@@ -48,7 +48,7 @@ public class Spindexer {
                 }
                 if (ColorDetection.isBallInStorage() && !IsStorageSpinning() && nrBalls == 3){
                     state = State.TRANSFER;
-                    gm1.rumble(vibrationValue);
+                    gm1.rumble(tValue);
                 }
                 break;
             case BALL:
@@ -75,7 +75,7 @@ public class Spindexer {
                 break;
         }
     }
-    public void test(){
+    public void tune(){coef = new PIDCoefficients(Kp,0,Kd);
         pid.setPidCoefficients(coef);
     }
     public void spinUpdate(){
