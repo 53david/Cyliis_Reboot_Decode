@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.Wrappers.PIDController;
 public class Spindexer {
     ElapsedTime timer = new ElapsedTime();
     double target = 0;
-    double nrBalls = 0;
+    public static double nrBalls = 0;
     boolean isReady = false;
     public static int vibrationValue =1000;
     public static double Kp = 0;
