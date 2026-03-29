@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode.OpModes.TestOpModes;
 
-import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
-import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm2;
-import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -18,11 +15,9 @@ public class StorageTuning extends LinearOpMode {
     public void runOpMode() throws InterruptedException{
         waitForStart();
         while (opModeIsActive()) {
-            gm1.copy(gamepad1);
             spindexer.tune();
             if (Turn120){ spindexer.turn120(); Turn120 = false;}
             if (Turn60){ spindexer.turn60(); Turn60 = false; }
-            prevgm1.copy(gm1);
         }
         }
 }
