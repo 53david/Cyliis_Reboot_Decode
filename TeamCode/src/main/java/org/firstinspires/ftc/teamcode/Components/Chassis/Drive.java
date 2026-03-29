@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 public class Drive{
     public static double target = 0;
     public static double maxRPM = 1;
-    private static double multiplier = 0.01;
+    public static double multiplier = 0.01;
     public Drive() {
 
         rightFront.setDirection(DcMotorEx.Direction.REVERSE);
