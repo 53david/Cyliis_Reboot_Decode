@@ -21,13 +21,14 @@ public class Initializer {
     public static DcMotorEx rightFront;
     public static DcMotorEx leftBack;
     public static DcMotorEx rightBack;
-    public static ServoImplEx servo1;
-    public static ServoImplEx servo2;
     public static DcMotorEx shoot1;
     public static DcMotorEx shoot2;
-    public static WebcamName webcam;
-    public static Servo transfer;
     public static DcMotorEx spin;
+    public static ServoImplEx servo1;
+    public static ServoImplEx servo2;
+    public static Servo transfer;
+    public static Servo hood;
+    public static WebcamName webcam;
     public static GoBildaPinpointDriver pp;
     public static AnalogInput encoder;
     public static ColorSensor color;
