@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Components.Intake;
 
-import static org.firstinspires.ftc.teamcode.OpModes.Teleop.telemetryM;
+import static org.firstinspires.ftc.teamcode.OpModes.TeleopBlue.telemetryM;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.color;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.proximitysensor;
 

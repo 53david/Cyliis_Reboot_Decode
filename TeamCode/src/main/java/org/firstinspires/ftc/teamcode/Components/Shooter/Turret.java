@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Components.Shooter;
 
-import static org.firstinspires.ftc.teamcode.OpModes.Teleop.telemetryM;
+import static org.firstinspires.ftc.teamcode.OpModes.TeleopBlue.telemetryM;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.pp;
@@ -27,7 +27,7 @@ public class Turret {
         RED,
         BLUE,
     }
-    public AllienceState state;
+    public static AllienceState state;
     public static double goalPositionX = 840, goalPositionY = 0;
     public Turret() {
         servo1.setPwmRange(new PwmControl.PwmRange(500 , 2500));
@@ -59,7 +59,6 @@ public class Turret {
     public void updateAngle(SparkFunOTOS.Pose2D robotPose) {
 
         robotPose = new SparkFunOTOS.Pose2D(-robotPose.y, robotPose.x, robotPose.h);
-        double robotHeading = robotPose.h;
         double dx = goalPositionX - robotPose.x;
         double dy = goalPositionY - robotPose.y;
 
@@ -77,13 +76,9 @@ public class Turret {
         switch (state){
             case BLUE:
                 goalPositionX = 840;goalPositionY = 0;
-                if (gm1.square && gm1.square!=prevgm1.square)
-                    state = AllienceState.RED;
                 break;
             case RED:
                 goalPositionX = -840; goalPositionY = 20;
-                if (gm1.square && gm1.square!=prevgm1.square)
-                    state = AllienceState.BLUE;
                 break;
         }
     }

@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.Components.Shooter;
 
 
-import static org.firstinspires.ftc.teamcode.OpModes.Teleop.telemetryM;
+import static org.firstinspires.ftc.teamcode.OpModes.TeleopBlue.telemetryM;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.Voltage;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.shoot1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.shoot2;
@@ -19,7 +19,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class FlyWheel {
     PIDController controller = new PIDController(Kp,Ki,Kd);
     double vel1 = 0;
-    public static double rpm = 800;
+    public static double rpm = 0;
     public FlyWheel(){
         shoot1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         shoot2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -27,7 +27,6 @@ public class FlyWheel {
         shoot2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
     public void update(){
-
         controller = new PIDController(Kp,Ki,Kd);
         vel1 = controller.calculate(shoot2.getVelocity(),rpm);
         vel1 += Kv * rpm + Ks;

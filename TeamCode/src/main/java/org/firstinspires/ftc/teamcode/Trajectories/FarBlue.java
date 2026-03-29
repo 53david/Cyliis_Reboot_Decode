@@ -7,6 +7,7 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 
 public class FarBlue {
+    /// TODO: Continua auto :P
     public Follower follower;
     public Pose start = new Pose(56,12,Math.toRadians(90));
     public Pose spike = new Pose(24,36,Math.toRadians(180));
