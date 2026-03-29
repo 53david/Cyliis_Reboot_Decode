@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Components.Intake;
 import static org.firstinspires.ftc.teamcode.OpModes.Autonomous.BlueClose.isAutonomousActive;
+import static org.firstinspires.ftc.teamcode.OpModes.Autonomous.BlueClose.telemetryM;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.encoder;
@@ -39,6 +40,8 @@ public class Spindexer {
         state = State.IDLE;
     }
     public void update(){
+        telemetryM.addData("Artifacts in storage",nrBalls);
+        telemetryM.update();
         spinUpdate();
         switch (state){
             case IDLE:

@@ -12,7 +12,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Turret;
 
 public class Odo {
-
     public Odo(){
         pp.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED , GoBildaPinpointDriver.EncoderDirection.FORWARD);
         pp.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
@@ -21,7 +20,6 @@ public class Odo {
     public void update(){
         pp.update();
     }
-
     public void setPosition(SparkFunOTOS.Pose2D pose){
         pp.setPosition(new Pose2D(DistanceUnit.MM,pose.x,pose.y, RADIANS, pose.h));
     }
