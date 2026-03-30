@@ -19,22 +19,16 @@ public class BlueClose extends LinearOpMode {
     Follower follower;
     CloseBlue closeBlue;
     Robot robot;
-    Intake intake;
-    Shooter shooter;
     public static boolean isAutonomousActive;
     public static TelemetryManager telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
     public void runOpMode() throws InterruptedException{
         follower = Constants.createFollower(hardwareMap);
         closeBlue = new CloseBlue();
-        intake = new Intake();
-        shooter = new Shooter();
         Initializer.start(hardwareMap);
         waitForStart();
         while (opModeIsActive()){
             isAutonomousActive = true;
             follower.update();
-            intake.update();
-            shooter.update();
             robot.update();
             telemetryM.update();
         }

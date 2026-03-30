@@ -22,7 +22,7 @@ public class TeleopRed extends LinearOpMode {
     Intake intake;
     Odo odo;
     @Override
-    public void runOpMode(){
+    public void runOpMode() throws InterruptedException{
         Initializer.start(hardwareMap);
         drive = new Drive();
         shooter = new Shooter();
@@ -35,6 +35,7 @@ public class TeleopRed extends LinearOpMode {
             drive.update();
             shooter.update();
             intake.update();
+            odo.update();
             prevgm1.copy(gm1);
             prevgm2.copy(gm2);
         }

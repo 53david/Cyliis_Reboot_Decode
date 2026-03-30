@@ -56,6 +56,7 @@ public class Initializer {
         webcam = hwMap.get(WebcamName.class,"Webcam 1");
         encoder = hwMap.get(AnalogInput.class,"encoder");
         color = hwMap.get(ColorSensor.class,"color");
+        hood = hwMap.get(Servo.class,"hood");
         proximitysensor =hwMap.get(DigitalChannel.class,"proximitysensor");
         pp.resetPosAndIMU();
         pp.recalibrateIMU();

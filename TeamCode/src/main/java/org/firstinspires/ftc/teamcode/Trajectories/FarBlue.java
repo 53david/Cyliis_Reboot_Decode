@@ -46,12 +46,13 @@ public class FarBlue {
     public FarBlue(){
         follower.setStartingPose(start);
         follower.activateAllPIDFs();
-        buildPaths();
         state = State.START;
+        buildPaths();
     }
     public void update(){
         switch (state){
             case START:
+
                 break;
         }
     }

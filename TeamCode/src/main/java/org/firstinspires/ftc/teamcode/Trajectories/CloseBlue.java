@@ -39,10 +39,10 @@ public class CloseBlue {
         follower.setStartingPose(start);
         follower.activateAllPIDFs(); /// nu e necesar
         state = State.StartShoot;
-        builder();
+        buildPaths();
 
     }
-    public void builder(){
+    public void buildPaths(){
         startShoot = follower.pathBuilder()
                 .addPath(new BezierLine(start,shoot))
                 .setLinearHeadingInterpolation(start.getHeading(),shoot.getHeading())
