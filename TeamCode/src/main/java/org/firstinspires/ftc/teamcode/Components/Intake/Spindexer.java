@@ -40,7 +40,10 @@ public class Spindexer {
         state = State.IDLE;
     }
     public void update(){
-        telemetryM.addData("Artifacts in storage",nrBalls);
+        if (nrBalls!=0) {
+            telemetryM.addData("Artifacts in storage", nrBalls);
+        }
+        else {telemetryM.addLine("Waiting for arifacts");}
         telemetryM.update();
         spinUpdate();
         switch (state){

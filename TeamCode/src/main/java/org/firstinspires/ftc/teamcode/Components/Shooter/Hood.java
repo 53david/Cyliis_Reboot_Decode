@@ -2,11 +2,13 @@ package org.firstinspires.ftc.teamcode.Components.Shooter;
 import static org.firstinspires.ftc.teamcode.OpModes.TeleopBlue.telemetryM;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.hood;
 
+import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 import org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants;
 
+@Configurable
 public class Hood {
     public static double pos = 0.5;
     public Hood(){

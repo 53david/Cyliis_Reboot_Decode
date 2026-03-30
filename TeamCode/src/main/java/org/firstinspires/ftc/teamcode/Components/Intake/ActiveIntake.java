@@ -13,13 +13,6 @@ import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigu
 
 @Configurable
 public class ActiveIntake {
-    public static double rpm = 0;
-    public static double Kp = 0;
-    public static double Ki = 0;
-    public static double Kd = 0;
-    public static double Ks = 0;
-    public static double Kv = 0;
-    public PIDController pid = new PIDController(Kp,Ki,Kd);
     public static double maxRPM = 1;
     public static double maxPower = 1;
     public static double zeroPower =0;
@@ -65,11 +58,5 @@ public class ActiveIntake {
         }
 
 
-    }
-    public void test(){
-        pid = new PIDController(Kp,Ki,Kd);
-        double vel1 = pid.calculate(intakeMotor.getVelocity(),rpm);
-        vel1 += Kv * rpm + Ks;
-        intakeMotor.setPower(vel1);
     }
 }

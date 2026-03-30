@@ -24,8 +24,10 @@ public class ColorDetection {
         red = color.red();
         blue = color.blue();
         green = color.green();
+
         greenBall = distance(red,green,blue,0,255,0);
         purpleBall = distance(red,green,blue,175,0,175);
+
         if (purpleBall<=greenBall){ ball1 = 2;}
         else { ball1 = 1; }
         if (isBallInStorage() && Spindexer.state == Spindexer.State.BALL){

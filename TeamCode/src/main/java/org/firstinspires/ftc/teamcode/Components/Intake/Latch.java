@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.Components.Intake;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.transfer;
+
+import com.bylazar.configurables.annotations.Configurable;
+
+@Configurable
 public class Latch {
     public enum State {
         IDLE,

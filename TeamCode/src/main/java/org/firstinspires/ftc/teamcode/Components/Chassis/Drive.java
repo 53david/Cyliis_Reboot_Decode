@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 
 @Configurable
 public class Drive{
-    public static double target = 0;
+
     public static double maxRPM = 1;
     public static double multiplier = 0.01;
     public Drive() {
@@ -49,18 +49,6 @@ public class Drive{
         double rx = gm1.left_trigger - gm1.right_trigger;
         double yaw = Odo.getCurrentPosition().h;
 
-        if (gm1.triangle){
-            target = 45;
-            double error = target-yaw;
-            if (error>180){
-                error-=360;
-            }
-            else if (error<-180){
-                error+=360;
-            }
-            rx =  multiplier * error;
-            rx = Math.min(Math.max(rx, -0.4),0.4);
-        }
         double dx = y * Math.cos(yaw) - x * Math.sin(yaw);
         double dy = y * Math.sin(yaw) + x * Math.cos(yaw);
 
