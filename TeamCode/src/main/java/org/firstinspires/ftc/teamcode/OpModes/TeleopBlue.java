@@ -14,8 +14,7 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm2;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm2;
 
 
-import org.firstinspires.ftc.teamcode.Components.Chassis.Chassis;
-
+import org.firstinspires.ftc.teamcode.Components.Chassis.Drive;
 import org.firstinspires.ftc.teamcode.Components.Intake.Intake;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Shooter;
 
@@ -26,7 +25,7 @@ import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 @TeleOp
 public class TeleopBlue extends LinearOpMode {
     Intake intake;
-    Chassis chassis;
+    Drive drive;
     Shooter shooter;
     Odo odo;
 
@@ -36,7 +35,7 @@ public class TeleopBlue extends LinearOpMode {
         Initializer.start(hardwareMap);
         odo = new Odo();
         intake =new Intake();
-        chassis =new Chassis();
+        drive =new Drive();
         shooter =new Shooter();
         Turret.state = Turret.AllienceState.BLUE;
         waitForStart();
@@ -44,7 +43,7 @@ public class TeleopBlue extends LinearOpMode {
             gm1.copy(gamepad1);
             gm2.copy(gamepad2);
             intake.update();
-            chassis.update();
+            drive.update();
             shooter.update();
             odo.update();
             telemetryM.update();
