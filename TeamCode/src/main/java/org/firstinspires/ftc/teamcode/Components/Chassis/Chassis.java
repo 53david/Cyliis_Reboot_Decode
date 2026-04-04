@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Components.Chassis;
 
 
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.Voltage;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.pp;
 
@@ -71,10 +72,10 @@ public class Chassis{
         x*=lateralMultiplier;
 
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx) , 1);
-        double frontLeftPower = (y + x + rx) / denominator;
-        double backLeftPower = (y - x + rx) / denominator;
-        double frontRightPower = (y - x - rx) / denominator;
-        double backRightPower = (y + x - rx) / denominator;
+        double frontLeftPower = (y + x + rx) / denominator * 12 /Voltage;
+        double backLeftPower = (y - x + rx) / denominator * 12 /Voltage;
+        double frontRightPower = (y - x - rx) / denominator * 12 /Voltage;
+        double backRightPower = (y + x - rx) / denominator * 12 /Voltage;
 
         frontLeft.setPower(frontLeftPower);
         backLeft.setPower(backLeftPower);

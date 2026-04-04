@@ -22,7 +22,7 @@ public class TeleopRed extends LinearOpMode {
     Intake intake;
     Odo odo;
     @Override
-    public void runOpMode() throws InterruptedException{
+    public void runOpMode(){
         Initializer.start(hardwareMap);
         drive = new Chassis(Chassis.State.DRIVE);
         shooter = new Shooter();

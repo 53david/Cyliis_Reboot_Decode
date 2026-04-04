@@ -31,7 +31,7 @@ public class TeleopBlue extends LinearOpMode {
 
     public static TelemetryManager telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         Initializer.start(hardwareMap);
         odo = new Odo();
         intake =new Intake();

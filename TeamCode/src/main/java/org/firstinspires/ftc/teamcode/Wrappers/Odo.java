@@ -5,19 +5,12 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.norm
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.pp;
 
 import com.bylazar.configurables.annotations.Configurable;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Turret;
 import org.firstinspires.ftc.teamcode.Wrappers.LowPassFilter;
-import org.opencv.core.Mat;
 
 import java.lang.Math;
 
@@ -25,8 +18,6 @@ import java.lang.Math;
 public class Odo {
 
     public  static double heading,x ,y, xVelocity, yVelocity, predictedX, predictedY;
-    public static boolean INIT=false;
-    public static Telemetry telemetry;
     public Odo(){
         pp.setPosition(new Pose2D(DistanceUnit.MM,0,0,RADIANS,0));
         pp.setEncoderDirections(org.firstinspires.ftc.teamcode.Wrappers.GoBildaPinpointDriver.EncoderDirection.REVERSED , org.firstinspires.ftc.teamcode.Wrappers.GoBildaPinpointDriver.EncoderDirection.FORWARD);
@@ -36,10 +27,6 @@ public class Odo {
     }
 
 
-    public static void calibrate()
-    {
-        pp.resetPosAndIMU();
-    }
 
     public static double getHeading()
     {
@@ -53,7 +40,7 @@ public class Odo {
 
     public static double getY() {return predictedY;}
 
-    public static void reset()
+    public void reset()
     {
         pp.setPosition(new Pose2D(DistanceUnit.MM , 0 , 0 , RADIANS , 0));
     }
@@ -87,10 +74,10 @@ public class Odo {
         return new SparkFunOTOS.Pose2D(pp.getPosX(DistanceUnit.MM),pp.getPosY(DistanceUnit.MM), h);
     }
     public static double distance(){
-        getCurrentPosition();
+
         return Math.sqrt(
-                (getCurrentPosition().x - Turret.goalPositionX) * (getCurrentPosition().x - Turret.goalPositionX) +
-                        (getCurrentPosition().y - Turret.goalPositionY) * (getCurrentPosition().y - Turret.goalPositionY)
+                (predictedX - Turret.goalPositionX) * (predictedX - Turret.goalPositionX) +
+                        (predictedY - Turret.goalPositionY) * (predictedY - Turret.goalPositionY)
         );
 
     }

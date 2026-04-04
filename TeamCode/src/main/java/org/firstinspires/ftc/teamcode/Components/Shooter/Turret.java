@@ -88,7 +88,7 @@ public class Turret {
         updateAngle(pos);
         updateServosPosition();
         if (gm1.ps && gm1.ps!=prevgm1.ps){
-            pp.setPosition(new Pose2D(DistanceUnit.MM , 0 , 0 , AngleUnit.RADIANS , 0));
+            odo.reset();
         }
     }
     public double normalizeRadians(double angle){

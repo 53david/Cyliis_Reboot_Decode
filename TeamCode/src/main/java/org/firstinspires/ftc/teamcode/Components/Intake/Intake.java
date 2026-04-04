@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Components.Intake;
 
+import static org.firstinspires.ftc.teamcode.OpModes.TeleopBlue.telemetryM;
+
 public class Intake {
     ActiveIntake activeIntake = new ActiveIntake();
     Spindexer spindexer = new Spindexer();
