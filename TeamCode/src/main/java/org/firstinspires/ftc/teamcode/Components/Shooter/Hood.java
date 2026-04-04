@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Components.Shooter;
-import static org.firstinspires.ftc.teamcode.OpModes.TeleopBlue.telemetryM;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.hood;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.Servo;

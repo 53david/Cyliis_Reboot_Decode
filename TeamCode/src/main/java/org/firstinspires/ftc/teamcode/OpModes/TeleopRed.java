@@ -21,13 +21,15 @@ public class TeleopRed extends LinearOpMode {
     Shooter shooter;
     Intake intake;
     Odo odo;
+
     @Override
     public void runOpMode(){
         Initializer.start(hardwareMap);
-        drive = new Chassis(Chassis.State.DRIVE);
+        drive = new Chassis();
         shooter = new Shooter();
         intake = new Intake();
         Turret.state = Turret.AllienceState.RED;
+        Chassis.state = Chassis.State.DRIVE;
         waitForStart();
         while (opModeIsActive()){
             gm1.copy(gamepad1);

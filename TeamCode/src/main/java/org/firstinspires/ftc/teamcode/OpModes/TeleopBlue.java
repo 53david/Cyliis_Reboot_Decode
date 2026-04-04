@@ -12,6 +12,7 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm2;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm2;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 
 
 import org.firstinspires.ftc.teamcode.Components.Chassis.Chassis;
@@ -29,14 +30,14 @@ public class TeleopBlue extends LinearOpMode {
     Shooter shooter;
     Odo odo;
 
-    public static TelemetryManager telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
     @Override
     public void runOpMode() {
         Initializer.start(hardwareMap);
         odo = new Odo();
         intake =new Intake();
-        drive =new Chassis(Chassis.State.DRIVE);
+        drive =new Chassis();
         shooter =new Shooter();
+        Chassis.state = Chassis.State.DRIVE;
         Turret.state = Turret.AllienceState.BLUE;
         waitForStart();
         while (opModeIsActive()) {

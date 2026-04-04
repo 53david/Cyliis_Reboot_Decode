@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.Wrappers;
 
 
+import com.bylazar.telemetry.PanelsTelemetry;
+import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -15,6 +17,8 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
 public class Initializer {
     public static double Voltage = 0;
+    public static boolean isAutonomousActive = false;
+    public static TelemetryManager telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
     public static DcMotorEx intakeMotor;
     public static DcMotorEx frontLeft;
     public static DcMotorEx frontRight;

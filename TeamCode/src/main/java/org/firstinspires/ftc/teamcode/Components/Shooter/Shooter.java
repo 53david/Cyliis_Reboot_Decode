@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Components.Shooter;
 
+import org.firstinspires.ftc.teamcode.Components.Intake.Intake;
+
 public class Shooter {
     FlyWheel flyWheel;
     Turret turret;

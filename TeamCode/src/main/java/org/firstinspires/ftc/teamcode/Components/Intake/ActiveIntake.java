@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.Components.Intake;
 
-import static org.firstinspires.ftc.teamcode.OpModes.Autonomous.BlueClosePedro.isAutonomousActive;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.intakeMotor;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.isAutonomousActive;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 
 import com.bylazar.configurables.annotations.Configurable;
@@ -30,20 +30,8 @@ public class ActiveIntake {
         unlocked.setAchieveableMaxRPMFraction(maxRPM);
         intakeMotor.setMotorType(unlocked);
         state = State.IDLE;
-
-
     }
-
-    public void update() {
-        if (!isAutonomousActive) {
-            if (gm1.right_bumper && gm1.right_bumper == prevgm1.right_bumper) {
-                state = State.INTAKE;
-            } else if (gm1.left_bumper && gm1.left_bumper == prevgm1.left_bumper) {
-                state = State.REVERSE;
-            } else {
-                state = State.IDLE;
-            }
-        }
+    public void stateUpdate() {
         switch (state){
             case INTAKE:
                 intakeMotor.setPower(maxPower);
@@ -55,7 +43,18 @@ public class ActiveIntake {
                 intakeMotor.setPower(reversePower);
                 break;
         }
-
-
+    }
+    public void update(){
+        stateUpdate();
+        if (!isAutonomousActive) {
+            if (gm1.left_bumper && gm1.left_bumper == prevgm1.left_bumper) {
+                state = State.REVERSE;
+            } else if (gm1.right_bumper && gm1.right_bumper == prevgm1.right_bumper) {
+                state = State.INTAKE;
+            }
+            else {
+                state = State.IDLE;
+            }
+        }
     }
 }

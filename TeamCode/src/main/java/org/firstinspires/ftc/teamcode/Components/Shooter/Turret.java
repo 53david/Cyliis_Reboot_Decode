@@ -1,11 +1,11 @@
 package org.firstinspires.ftc.teamcode.Components.Shooter;
 
-import static org.firstinspires.ftc.teamcode.OpModes.TeleopBlue.telemetryM;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.pp;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.servo1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.servo2;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;

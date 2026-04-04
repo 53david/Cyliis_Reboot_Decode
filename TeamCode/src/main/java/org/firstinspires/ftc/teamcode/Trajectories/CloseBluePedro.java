@@ -6,7 +6,7 @@ import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import static org.firstinspires.ftc.teamcode.OpModes.Autonomous.BlueClosePedro.telemetryM;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 
 import org.firstinspires.ftc.teamcode.Components.Intake.Spindexer;
 

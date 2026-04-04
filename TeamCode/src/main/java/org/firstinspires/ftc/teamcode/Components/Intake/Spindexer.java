@@ -1,6 +1,4 @@
 package org.firstinspires.ftc.teamcode.Components.Intake;
-import static org.firstinspires.ftc.teamcode.OpModes.Autonomous.BlueClosePedro.isAutonomousActive;
-import static org.firstinspires.ftc.teamcode.OpModes.Autonomous.BlueClosePedro.telemetryM;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.encoder;

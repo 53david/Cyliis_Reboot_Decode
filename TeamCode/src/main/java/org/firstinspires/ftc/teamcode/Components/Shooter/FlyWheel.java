@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.Components.Shooter;
 
 
-import static org.firstinspires.ftc.teamcode.OpModes.TeleopBlue.telemetryM;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.Voltage;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.shoot1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.shoot2;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 import static org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants.Kd;
 import static org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants.Ki;
 import static org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants.Kp;

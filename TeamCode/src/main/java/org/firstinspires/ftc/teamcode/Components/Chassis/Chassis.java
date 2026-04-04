@@ -25,7 +25,7 @@ public class Chassis{
     public enum State{
         DRIVE , PID;
     }
-    State state;
+    public static State state;
 
     public  double targetX , targetY ,x=0 ,y=0;
     public static double targetHeading;
@@ -42,9 +42,9 @@ public class Chassis{
     public PIDController controllerY=new PIDController(kp, ki, kd);
     public PIDController controllerHeading=new PIDController(KP, KI, KD);
 
-    public Chassis(State initialState)
+    public Chassis()
     {
-        state=initialState;
+
         backRight.setDirection(DcMotorEx.Direction.REVERSE);
         frontRight.setDirection(DcMotorEx.Direction.REVERSE);
         frontLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);

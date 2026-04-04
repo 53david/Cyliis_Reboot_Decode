@@ -71,27 +71,21 @@ public class Odo {
     public static SparkFunOTOS.Pose2D getCurrentPosition(){
         double h = pp.getHeading(RADIANS);
         h = normalizeRadians(h);
-        return new SparkFunOTOS.Pose2D(pp.getPosX(DistanceUnit.MM),pp.getPosY(DistanceUnit.MM), h);
+        return new SparkFunOTOS.Pose2D(getX(),getY(), h);
     }
     public static double distance(){
-
         return Math.sqrt(
                 (predictedX - Turret.goalPositionX) * (predictedX - Turret.goalPositionX) +
                         (predictedY - Turret.goalPositionY) * (predictedY - Turret.goalPositionY)
         );
-
     }
 
-    public void update()
-    {
+    public void update() {
         pp.update();
 
         heading=pp.getHeading(RADIANS);
-
         x=pp.getPosX(DistanceUnit.MM);
-
         y=pp.getPosY(DistanceUnit.MM);
-
         xVelocity = xVelocityFilter.getValue(pp.getVelocity().getX(DistanceUnit.MM));
         yVelocity = yVelocityFilter.getValue(pp.getVelocity().getY(DistanceUnit.MM));
         updateGlide();
