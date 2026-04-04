@@ -135,7 +135,6 @@ public class Chassis{
                 return;
             }
             x = controllerX.calculate(targetX, Odo.predictedX);
-
             y = -controllerY.calculate(targetY, Odo.predictedY);
 
             double heading = Odo.getHeading();

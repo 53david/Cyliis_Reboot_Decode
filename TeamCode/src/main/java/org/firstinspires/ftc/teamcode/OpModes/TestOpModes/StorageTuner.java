@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Components.Intake.Spindexer;
 @TeleOp
-public class StorageTuning extends LinearOpMode {
+public class StorageTuner extends LinearOpMode {
     public static double power = 0;
     public static boolean Turn120 = false;
     public static boolean Turn60 = false;

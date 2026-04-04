@@ -2,9 +2,10 @@ package org.firstinspires.ftc.teamcode.Components.Intake;
 
 
 public class Intake {
-    ActiveIntake activeIntake = new ActiveIntake();
-    Spindexer spindexer = new Spindexer();
-    Latch latch = new Latch();
+    ActiveIntake activeIntake;
+    Spindexer spindexer;
+
+    Latch latch;
     public enum State{
         IDLE,
         SHOOT,
@@ -12,8 +13,14 @@ public class Intake {
         INTAKE,
         TRANSFER,
     };
-    State state = State.IDLE;
+    public static State state;
     ColorDetection colorDetection = new ColorDetection();
+    public Intake(){
+        state = State.IDLE;
+        activeIntake = new ActiveIntake();
+        spindexer = new Spindexer();
+        latch = new Latch();
+    }
     public void update(){
         stateUpdate();
         latch.update();

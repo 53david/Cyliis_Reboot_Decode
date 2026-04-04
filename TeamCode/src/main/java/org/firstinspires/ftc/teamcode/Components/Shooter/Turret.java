@@ -56,11 +56,10 @@ public class Turret {
         servo2.setPosition(right);
 
     }
-    public void updateAngle(SparkFunOTOS.Pose2D robotPose) {
+    public void updateAngle() {
 
-        robotPose = new SparkFunOTOS.Pose2D(-robotPose.y, robotPose.x, robotPose.h);
-        double dx = goalPositionX - robotPose.x;
-        double dy = goalPositionY - robotPose.y;
+        double dx = goalPositionX - Odo.getX();
+        double dy = goalPositionY - Odo.getY();
 
         targetAngle = Math.atan2( ((goalPositionY)-dy),((goalPositionX)-dx ));
         telemetryM.addData("X", pp.getPosX(DistanceUnit.MM));
@@ -75,7 +74,7 @@ public class Turret {
     public void AllienceUpdate(){
         switch (state){
             case BLUE:
-                goalPositionX = 840;goalPositionY = 0;
+                goalPositionX = 840; goalPositionY = 0;
                 break;
             case RED:
                 goalPositionX = -840; goalPositionY = 20;
@@ -84,8 +83,7 @@ public class Turret {
     }
     public void TurretUpdate(){
         odo.update();
-        SparkFunOTOS.Pose2D pos = Odo.getCurrentPosition();
-        updateAngle(pos);
+        updateAngle();
         updateServosPosition();
         if (gm1.ps && gm1.ps!=prevgm1.ps){
             odo.reset();
