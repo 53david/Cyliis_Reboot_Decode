@@ -87,7 +87,6 @@ public class Turret {
         SparkFunOTOS.Pose2D pos = Odo.getCurrentPosition();
         updateAngle(pos);
         updateServosPosition();
-        odo.setPosition(new SparkFunOTOS.Pose2D(Odo.getCurrentPosition().x, Odo.getCurrentPosition().y, pos.h));
         if (gm1.ps && gm1.ps!=prevgm1.ps){
             pp.setPosition(new Pose2D(DistanceUnit.MM , 0 , 0 , AngleUnit.RADIANS , 0));
         }

@@ -4,33 +4,83 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADI
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.normalizeRadians;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.pp;
 
-import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
+import com.bylazar.configurables.annotations.Configurable;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Turret;
+import org.firstinspires.ftc.teamcode.Math.LowPassFilter;
+import org.opencv.core.Mat;
 
+import java.lang.Math;
+
+@Configurable
 public class Odo {
+
+    public  static double heading,x ,y, xVelocity, yVelocity, predictedX, predictedY;
+    public static boolean INIT=false;
+    public static Telemetry telemetry;
     public Odo(){
-        pp.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED , GoBildaPinpointDriver.EncoderDirection.FORWARD);
+        pp.setPosition(new Pose2D(DistanceUnit.MM,0,0,RADIANS,0));
+        pp.setEncoderDirections(org.firstinspires.ftc.teamcode.Wrappers.GoBildaPinpointDriver.EncoderDirection.REVERSED , org.firstinspires.ftc.teamcode.Wrappers.GoBildaPinpointDriver.EncoderDirection.FORWARD);
         pp.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         pp.setOffsets(129.503 , -78.001, DistanceUnit.MM);
+        pp.resetPosAndIMU();
     }
-    public void update(){
-        pp.update();
-    }
-    public void setPosition(SparkFunOTOS.Pose2D pose){
-        pp.setPosition(new Pose2D(DistanceUnit.MM,pose.x,pose.y, RADIANS, pose.h));
-    }
-    public static double cwDistance(double from, double to) {
-        from = normalizeRadians(from);
-        to = normalizeRadians(to);
 
-        double dist = to - from;
-        if (dist < 0) dist += 2 * Math.PI;
-        return dist;
+
+    public static void calibrate()
+    {
+        pp.resetPosAndIMU();
     }
+
+    public static double getHeading()
+    {
+        return heading;
+    }
+
+    public static double getX()
+    {
+        return predictedX;
+    }
+
+    public static double getY() {return predictedY;}
+
+    public static void reset()
+    {
+        pp.setPosition(new Pose2D(DistanceUnit.MM , 0 , 0 , RADIANS , 0));
+    }
+
+    public static double filterParameter = 0.8;
+    private static final LowPassFilter xVelocityFilter = new LowPassFilter(filterParameter, 0);
+    private static final LowPassFilter yVelocityFilter = new LowPassFilter(filterParameter, 0);
+
+
+    public static double xDeceleration = 100 * 20 , yDeceleration = 150 * 20;
+    public static double xRobotVelocity, yRobotVelocity;
+    public static double forwardGlide, lateralGlide;
+    public static double xGlide, yGlide;
+
+
+    private static void updateGlide(){
+
+        xRobotVelocity = xVelocity * Math.cos(-heading) - yVelocity * Math.sin(-heading);
+        yRobotVelocity = xVelocity * Math.sin(-heading) + yVelocity * Math.cos(-heading);
+
+        forwardGlide = Math.signum(xRobotVelocity) * xRobotVelocity * xRobotVelocity / (2.0 * xDeceleration);
+        lateralGlide = Math.signum(yRobotVelocity) * yRobotVelocity * yRobotVelocity / (2.0 * yDeceleration);
+
+        xGlide = forwardGlide * Math.cos(heading) - lateralGlide * Math.sin(heading);
+        yGlide = forwardGlide * Math.sin(heading) + lateralGlide * Math.cos(heading);
+    }
+
     public static SparkFunOTOS.Pose2D getCurrentPosition(){
         double h = pp.getHeading(RADIANS);
         h = normalizeRadians(h);
@@ -45,5 +95,20 @@ public class Odo {
 
     }
 
+    public void update()
+    {
+        pp.update();
 
+        heading=pp.getHeading(RADIANS);
+
+        x=pp.getPosX(DistanceUnit.MM);
+
+        y=pp.getPosY(DistanceUnit.MM);
+
+        xVelocity = xVelocityFilter.getValue(pp.getVelocity().getX(DistanceUnit.MM));
+        yVelocity = yVelocityFilter.getValue(pp.getVelocity().getY(DistanceUnit.MM));
+        updateGlide();
+        predictedX = x + xGlide;
+        predictedY = y + yGlide;
+    }
 }

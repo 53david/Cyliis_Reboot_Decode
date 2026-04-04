@@ -5,10 +5,8 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.encoder;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.spin;
-
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 

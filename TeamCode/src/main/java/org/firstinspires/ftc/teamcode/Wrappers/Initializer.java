@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Wrappers;
 
 
-import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -29,7 +28,7 @@ public class Initializer {
     public static Servo transfer;
     public static Servo hood;
     public static WebcamName webcam;
-    public static GoBildaPinpointDriver pp;
+    public  static org.firstinspires.ftc.teamcode.Wrappers.GoBildaPinpointDriver pp;
     public static AnalogInput encoder;
     public static ColorSensor color;
     public static DigitalChannel proximitysensor;
