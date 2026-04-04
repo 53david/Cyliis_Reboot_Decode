@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Turret;
-import org.firstinspires.ftc.teamcode.Math.LowPassFilter;
+import org.firstinspires.ftc.teamcode.Wrappers.LowPassFilter;
 import org.opencv.core.Mat;
 
 import java.lang.Math;
