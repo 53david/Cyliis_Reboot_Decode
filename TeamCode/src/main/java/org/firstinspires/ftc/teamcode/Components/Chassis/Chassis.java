@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Components.Chassis;
 
 
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.pp;
 
 import com.arcrobotics.ftclib.controller.PIDController;
@@ -18,7 +19,7 @@ import org.firstinspires.ftc.teamcode.Wrappers.Pose2D;
 public class Chassis{
 
     public enum State{
-        DRIVE , PID , CLIMB;
+        DRIVE , PID;
     }
     State state;
 
@@ -111,29 +112,36 @@ public class Chassis{
         usingTargetHeading=true;
     }
 
-    public void update()
-    {
-        if (state !=State.PID) {return;
+    public void update() {
+        if (state == State.DRIVE) {
+            double X = gm1.left_stick_x;
+            double Y = -gm1.left_stick_y;
+            double rx = (gm1.right_trigger - gm1.left_trigger);
+            double heading = -Odo.getHeading() + Math.PI / 2;
+            double x = X * Math.cos(heading) - Y * Math.sin(heading);
+            double y = X * Math.sin(heading) + Y * Math.cos(heading);
+            setTargetVector(x, y, rx);
         }
+        else if (state == State.PID){
+            if (Double.isNaN(Odo.x) || Double.isNaN(Odo.y) || Double.isNaN(Odo.heading)) {
+                return;
+            }
+            x = controllerX.calculate(targetX, Odo.predictedX);
 
-        if(Double.isNaN(Odo.x) || Double.isNaN(Odo.y) || Double.isNaN(Odo.heading))
-        {
-            return;
+            y = -controllerY.calculate(targetY, Odo.predictedY);
+
+            double heading = Odo.getHeading();
+            if (heading < 0) realHeading = Math.abs(heading);
+            else realHeading = 2 * Math.PI - heading;
+
+            error = targetHeading - realHeading;
+            if (Math.abs(error) > Math.PI)
+                error = -Math.signum(error) * (2 * Math.PI - Math.abs(error));
+            rotation = controllerHeading.calculate(error, 0);
+
+            setTargetVector(y * Math.cos(-heading) - x * Math.sin(-heading), y * Math.sin(-heading) + x * Math.cos(-heading), rotation);
+
         }
-        x =controllerX.calculate(targetX, Odo.predictedX);
-
-        y=-controllerY.calculate(targetY , Odo.predictedY);
-
-        double heading= Odo.getHeading();
-        if(heading<0)realHeading=Math.abs(heading);
-        else realHeading=2*Math.PI-heading;
-
-        error=targetHeading-realHeading;
-        if(Math.abs(error)>Math.PI)error=-Math.signum(error)*(2*Math.PI-Math.abs(error));
-        rotation= controllerHeading.calculate(error , 0);
-
-        setTargetVector(y*Math.cos(-heading) - x*Math.sin(-heading), y*Math.sin(-heading)+x*Math.cos(-heading) , rotation);
-
     }
 
 }
