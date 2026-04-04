@@ -1,11 +1,10 @@
 package org.firstinspires.ftc.teamcode.Components.Intake;
 
-import static org.firstinspires.ftc.teamcode.OpModes.Autonomous.BlueClose.isAutonomousActive;
+import static org.firstinspires.ftc.teamcode.OpModes.Autonomous.BlueClosePedro.isAutonomousActive;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.intakeMotor;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 
-import com.arcrobotics.ftclib.controller.PIDController;
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
@@ -20,7 +19,7 @@ public class ActiveIntake {
     public enum State{
         IDLE,
         INTAKE,
-        OUTAKE,
+        REVERSE,
     };
     public static State state;
     public ActiveIntake() {
@@ -40,7 +39,7 @@ public class ActiveIntake {
             if (gm1.right_bumper && gm1.right_bumper == prevgm1.right_bumper) {
                 state = State.INTAKE;
             } else if (gm1.left_bumper && gm1.left_bumper == prevgm1.left_bumper) {
-                state = State.OUTAKE;
+                state = State.REVERSE;
             } else {
                 state = State.IDLE;
             }
@@ -52,7 +51,7 @@ public class ActiveIntake {
             case IDLE:
                 intakeMotor.setPower(zeroPower);
                 break;
-            case OUTAKE:
+            case REVERSE:
                 intakeMotor.setPower(reversePower);
                 break;
         }

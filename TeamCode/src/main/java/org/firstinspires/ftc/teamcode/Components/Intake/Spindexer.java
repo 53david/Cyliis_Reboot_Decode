@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Components.Intake;
-import static org.firstinspires.ftc.teamcode.OpModes.Autonomous.BlueClose.isAutonomousActive;
-import static org.firstinspires.ftc.teamcode.OpModes.Autonomous.BlueClose.telemetryM;
+import static org.firstinspires.ftc.teamcode.OpModes.Autonomous.BlueClosePedro.isAutonomousActive;
+import static org.firstinspires.ftc.teamcode.OpModes.Autonomous.BlueClosePedro.telemetryM;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.encoder;
@@ -17,7 +17,8 @@ public class Spindexer {
     ElapsedTime timer = new ElapsedTime();
     double target = 0;
     public static double nrBalls = 0;
-    boolean isReady = false;
+    public static double specialPos = Math.PI - 0.26;
+    public double power = 400;
     public static int tValue =1000;
     public static double Kp = 0;
     public static double Kd = 0;
@@ -37,16 +38,10 @@ public class Spindexer {
         spin.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         state = State.IDLE;
     }
-    public void update(){
-        if (nrBalls!=0) {
-            telemetryM.addData("Artifacts in storage", nrBalls);
-        }
-        else {telemetryM.addLine("Waiting for arifacts");}
-        telemetryM.update();
-        spinUpdate();
+    public void stateUpdate(){
+
         switch (state){
             case IDLE:
-                Latch.state = Latch.State.IDLE;
                 if (ColorDetection.isBallInStorage() && !IsStorageSpinning() && nrBalls<3){
                     state = State.BALL;
                 }
@@ -61,22 +56,19 @@ public class Spindexer {
                 state = State.IDLE;
                 break;
             case TRANSFER:
-                Latch.state = Latch.State.TRANSFER;
-                if (!isReady) {
-                       turn60();
-                    isReady = true;
-                }
-                if (!isAutonomousActive && gm1.cross && prevgm1.cross!=gm1.cross){
-                    state = State.SHOOT;
-                    nrBalls = 0;
-                    timer.startTime();
-                    timer.reset();
-                }
+                spin.setPower(pid.calculatePower(specialPos));
+                nrBalls = 0;
                 break;
             case SHOOT:
-                turn120();
-                if (timer.seconds()>1){state = State.IDLE; spin.setPower(0); timer.reset(); isReady=false; turn60();}
+                spin.setPower(pid.calculatePower(power));
                 break;
+        }
+    }
+    public void update(){
+        stateUpdate();
+        spinUpdate();
+        if (state == State.TRANSFER && gm1.cross && prevgm1.cross != gm1.cross){
+            state = State.SHOOT;
         }
     }
     public void tune(){coef = new PIDCoefficients(Kp,0,Kd);

@@ -7,23 +7,21 @@ import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Components.Intake.Intake;
-import org.firstinspires.ftc.teamcode.Components.Shooter.Shooter;
 import org.firstinspires.ftc.teamcode.Pedro.Constants;
-import org.firstinspires.ftc.teamcode.Trajectories.CloseBlue;
+import org.firstinspires.ftc.teamcode.Trajectories.CloseBluePedro;
 import org.firstinspires.ftc.teamcode.Wrappers.Initializer;
 import org.firstinspires.ftc.teamcode.Wrappers.Robot;
 
 @Autonomous
-public class BlueClose extends LinearOpMode {
+public class BlueClosePedro extends LinearOpMode {
     Follower follower;
-    CloseBlue closeBlue;
+    CloseBluePedro closeBlue;
     Robot robot;
     public static boolean isAutonomousActive;
     public static TelemetryManager telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
     public void runOpMode() throws InterruptedException{
         follower = Constants.createFollower(hardwareMap);
-        closeBlue = new CloseBlue();
+        closeBlue = new CloseBluePedro();
         Initializer.start(hardwareMap);
         waitForStart();
         while (opModeIsActive()){
