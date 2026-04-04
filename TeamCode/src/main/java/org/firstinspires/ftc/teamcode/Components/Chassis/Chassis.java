@@ -1,7 +1,11 @@
 package org.firstinspires.ftc.teamcode.Components.Chassis;
 
-
+import static org.firstinspires.ftc.teamcode.Components.Intake.ActiveIntake.maxRPM;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.Voltage;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.backLeft;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.backRight;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.frontLeft;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.frontRight;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.pp;
 
@@ -10,6 +14,7 @@ import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.hardware.rev.RevSPARKMini;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
@@ -24,10 +29,7 @@ public class Chassis{
     }
     State state;
 
-    DcMotorEx frontLeft , frontRight;
-    DcMotorEx backLeft , backRight;
-
-    public  double targetX , targetY ,x=0 ,y=0 ;
+    public  double targetX , targetY ,x=0 ,y=0;
     public static double targetHeading;
     public static double error;
     double rotation;
@@ -45,13 +47,20 @@ public class Chassis{
     public Chassis(State initialState)
     {
         state=initialState;
-        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRight.setDirection(DcMotorEx.Direction.REVERSE);
+        frontRight.setDirection(DcMotorEx.Direction.REVERSE);
         frontLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         frontRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         backLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-
+        if (state == State.DRIVE){
+            MotorConfigurationType unlock= frontLeft.getMotorType();
+            unlock.setAchieveableMaxRPMFraction(maxRPM);
+            frontRight.setMotorType(unlock);
+            frontLeft.setMotorType(unlock);
+            backLeft.setMotorType(unlock);
+            backRight.setMotorType(unlock);
+        }
     }
 
     public boolean inPosition( double x , double y , double Error)
