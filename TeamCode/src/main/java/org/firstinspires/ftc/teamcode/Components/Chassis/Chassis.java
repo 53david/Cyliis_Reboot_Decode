@@ -42,9 +42,9 @@ public class Chassis{
     public PIDController controllerY=new PIDController(kp, ki, kd);
     public PIDController controllerHeading=new PIDController(KP, KI, KD);
 
-    public Chassis()
+    public Chassis(State initialState)
     {
-
+        state=initialState;
         backRight.setDirection(DcMotorEx.Direction.REVERSE);
         frontRight.setDirection(DcMotorEx.Direction.REVERSE);
         frontLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);

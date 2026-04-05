@@ -24,21 +24,21 @@ public class CloseBlue {
             new Pose2D(-2450, -100, Math.PI/2)
     };
 
-    public static Pose2D[] Spike2Position = {
+    public static Pose2D[] spike2Pos = {
             new Pose2D(-1910, 765, Math.PI/2),
             new Pose2D(-2450, 765, Math.PI/2)
     };
 
-    public static Pose2D beforeShootAfterCollectingPos = new Pose2D(-1930, 600, Math.PI/2-0.3);
-    public static Pose2D beforeIntakeWhileOpenGatePos = new Pose2D(-1845, 620, Math.PI/2);
-    public static Pose2D intakeWhileOpenGatePos = new Pose2D(-1875, 700, Math.PI/2+0.4);
+    public static Pose2D beforeShootPos = new Pose2D(-1930, 600, Math.PI/2-0.3);
+    public static Pose2D beforeGatePos = new Pose2D(-1845, 620, Math.PI/2);
+    public static Pose2D gatePos = new Pose2D(-1875, 700, Math.PI/2+0.4);
 
     public Pose2D beforeSpike1Pos = new Pose2D(-1270 , -450 , Math.PI/2);
-    public Pose2D Spike1Pos = new Pose2D(-1270 , 620 , Math.PI/2);
-    Node shoot,beforeSpike2,beforeOpenGate,beforeSpike1,openGate,spike1,spike2;
+    public Pose2D spike1Pos = new Pose2D(-1270 , 620 , Math.PI/2);
+    Node shoot,beforeSpike2,beforeOpenGate,beforeSpike1,openGate,spike1,spike2,afterCollecting,beforeGate,gate;
     public Node currentNode;
     public CloseBlue(HardwareMap hardwareMap){
-         chassis = new Chassis();
+         chassis = new Chassis(Chassis.State.PID);
          intake = new Intake();
          shooter = new Shooter();
          odo = new Odo();
@@ -53,6 +53,9 @@ public class CloseBlue {
         openGate = new Node("openGate");
         spike1 = new Node("spike1");
         spike2 = new Node("spike2");
+        afterCollecting = new Node("afterCollecting");
+        beforeGate = new Node("beforeGate");
+        gate = new Node("gate");
         currentNode = shoot;
         shoot.addConditions(
                 ()->{
@@ -80,13 +83,79 @@ public class CloseBlue {
                 },
                 new Node[]{spike2}
         );
-
+        spike2.addConditions(
+                ()->{
+                    Intake.state = Intake.State.INTAKE;
+                    chassis.setTargetPosition(spike2Pos[Math.min(spike2.index, spike2Pos.length-1)]);
+                },
+                ()->{
+                    return chassis.inPosition(35,35,0.1);
+                },
+                new Node[]{afterCollecting}
+        );
+        afterCollecting.addConditions(
+                ()->{
+                    chassis.setTargetPosition(beforeShootPos);
+                    Shooter.state = Shooter.State.SHOOT;
+                    if (Spindexer.state == Spindexer.State.TRANSFER){
+                        Intake.state = Intake.State.REVERSE;
+                    }
+                },
+                ()->{
+                    return chassis.inPosition(35,35,0.1);
+                },
+                new Node[]{shoot}
+        );
+        beforeGate.addConditions(
+                ()->{
+                    chassis.setTargetPosition(beforeGatePos);
+                    Shooter.state = Shooter.State.IDLE;
+                },
+                ()->{
+                    return chassis.inPosition(60, 60, 0.15);
+                },
+                new Node[]{gate}
+        );
+        gate.addConditions(
+                ()->{
+                    chassis.setTargetPosition(gatePos);
+                    Intake.state = Intake.State.INTAKE;
+                    Shooter.state = Shooter.State.IDLE;
+                },
+                ()->{
+                    return Intake.state == Intake.State.TRANSFER;
+                },
+                new Node[]{afterCollecting}
+        );
+        beforeSpike1.addConditions(
+                ()->{
+                    chassis.setTargetPosition(beforeSpike1Pos);
+                    Shooter.state = Shooter.State.IDLE;
+                },
+                ()->{
+                    return chassis.inPosition(40,40,0.1) && Intake.state == Intake.State.IDLE;
+                },
+                new Node[]{spike1}
+        );
+        spike1.addConditions(
+                ()->{
+                    chassis.setTargetPosition(spike1Pos);
+                    Intake.state = Intake.State.INTAKE;
+                    Shooter.state = Shooter.State.IDLE;
+                },
+                ()->{
+                    return chassis.inPosition(100,100,0.1);
+                },
+                new Node[]{shoot}
+        );
     }
     public void update(){
+        currentNode.run();
         odo.update();
         chassis.update();
         intake.update();
         shooter.update();
+        if(currentNode.transition())currentNode=currentNode.next[Math.min(currentNode.index++ , currentNode.next.length-1)];
     }
 
 }

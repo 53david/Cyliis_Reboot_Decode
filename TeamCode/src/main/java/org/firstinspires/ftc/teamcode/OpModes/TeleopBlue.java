@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.isAutonomousActive;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm2;
@@ -32,10 +33,11 @@ public class TeleopBlue extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        isAutonomousActive = false;
         Initializer.start(hardwareMap);
         odo = new Odo();
         intake =new Intake();
-        drive =new Chassis();
+        drive =new Chassis(Chassis.State.DRIVE);
         shooter =new Shooter();
         Chassis.state = Chassis.State.DRIVE;
         Turret.state = Turret.AllienceState.BLUE;

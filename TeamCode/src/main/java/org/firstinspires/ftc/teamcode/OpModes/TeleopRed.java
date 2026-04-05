@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.OpModes;
 
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm2;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.isAutonomousActive;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm2;
 
@@ -24,8 +25,9 @@ public class TeleopRed extends LinearOpMode {
 
     @Override
     public void runOpMode(){
+        isAutonomousActive = false;
         Initializer.start(hardwareMap);
-        drive = new Chassis();
+        drive = new Chassis(Chassis.State.DRIVE);
         shooter = new Shooter();
         intake = new Intake();
         Turret.state = Turret.AllienceState.RED;
