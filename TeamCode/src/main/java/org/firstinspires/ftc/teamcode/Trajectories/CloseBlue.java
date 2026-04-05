@@ -68,8 +68,10 @@ public class CloseBlue {
                     }
                 },
                 ()->{
-                    if (Spindexer.state == Spindexer.State.RESET) return true;
-                    else return  false;
+                    if (Spindexer.state == Spindexer.State.RESET) {
+                        return true;
+                    }
+                    return  false;
                 },
                 new Node[]{beforeSpike2, beforeOpenGate, beforeOpenGate, beforeSpike1}
         );
@@ -79,7 +81,10 @@ public class CloseBlue {
                     chassis.setTargetPosition(beforeSpike2Pos[Math.min(beforeSpike2.index , beforeSpike2Pos.length-1) ] );
                 },
                 ()->{
-                    return chassis.inPosition(35,35,0.1) && Intake.state== Intake.State.IDLE;
+                    if (chassis.inPosition(35,35,0.1) && Intake.state== Intake.State.IDLE){
+                        return true;
+                    }
+                    return false;
                 },
                 new Node[]{spike2}
         );
@@ -89,7 +94,10 @@ public class CloseBlue {
                     chassis.setTargetPosition(spike2Pos[Math.min(spike2.index, spike2Pos.length-1)]);
                 },
                 ()->{
-                    return chassis.inPosition(35,35,0.1);
+                    if (chassis.inPosition(35,35,0.1)){
+                        return true;
+                    }
+                    return false;
                 },
                 new Node[]{afterCollecting}
         );
@@ -102,7 +110,10 @@ public class CloseBlue {
                     }
                 },
                 ()->{
-                    return chassis.inPosition(35,35,0.1);
+                    if (chassis.inPosition(35,35,0.1)){
+                        return true;
+                    }
+                    return false;
                 },
                 new Node[]{shoot}
         );
@@ -112,7 +123,10 @@ public class CloseBlue {
                     Shooter.state = Shooter.State.IDLE;
                 },
                 ()->{
-                    return chassis.inPosition(60, 60, 0.15);
+                    if (chassis.inPosition(60, 60, 0.15)){
+                        return true;
+                    }
+                    return false;
                 },
                 new Node[]{gate}
         );
@@ -123,7 +137,10 @@ public class CloseBlue {
                     Shooter.state = Shooter.State.IDLE;
                 },
                 ()->{
-                    return Intake.state == Intake.State.TRANSFER;
+                    if (Intake.state == Intake.State.TRANSFER){
+                        return true;
+                    }
+                    return false;
                 },
                 new Node[]{afterCollecting}
         );
@@ -133,7 +150,10 @@ public class CloseBlue {
                     Shooter.state = Shooter.State.IDLE;
                 },
                 ()->{
-                    return chassis.inPosition(40,40,0.1) && Intake.state == Intake.State.IDLE;
+                    if (chassis.inPosition(40,40,0.1) && Intake.state == Intake.State.IDLE){
+                        return true;
+                    }
+                    return false;
                 },
                 new Node[]{spike1}
         );
@@ -144,7 +164,10 @@ public class CloseBlue {
                     Shooter.state = Shooter.State.IDLE;
                 },
                 ()->{
-                    return chassis.inPosition(100,100,0.1);
+                    if (chassis.inPosition(100,100,0.1)){
+                        return true;
+                    }
+                    return false;
                 },
                 new Node[]{shoot}
         );
