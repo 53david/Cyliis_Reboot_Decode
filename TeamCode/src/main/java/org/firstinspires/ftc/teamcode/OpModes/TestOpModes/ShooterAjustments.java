@@ -5,6 +5,7 @@ import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.Components.Chassis.Chassis;
 import org.firstinspires.ftc.teamcode.Components.Shooter.FlyWheel;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Hood;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Turret;
@@ -15,17 +16,18 @@ public class ShooterAjustments extends LinearOpMode {
     FlyWheel flyWheel;
     Hood hood;
     Odo odo;
-    TelemetryManager telemetry = PanelsTelemetry.INSTANCE.getTelemetry();
+    Chassis chassis;
     @Override
     public void runOpMode() throws InterruptedException{
            flyWheel = new FlyWheel();
            hood = new Hood();
            odo = new Odo();
+           chassis = new Chassis(Chassis.State.DRIVE);
            Turret.state= Turret.AllienceState.BLUE;
            waitForStart();
            while (opModeIsActive()){
-               flyWheel.update();
-               hood.tuning();
+               flyWheel.tune();
+               hood.tune();
                odo.update();
                telemetry.addData("Delta",Odo.distance());
                telemetry.update();
