@@ -19,6 +19,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class FlyWheel {
     PIDController controller = new PIDController(Kp,Ki,Kd);
     double vel1 = 0;
+    public enum State{
+        IDLE,
+        SHOOT,
+    };
+    public static State state = State.IDLE;
     public static double rpm = 0;
     public FlyWheel(){
         shoot1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -26,7 +31,18 @@ public class FlyWheel {
         shoot1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         shoot2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
+    public void updateState(){
+        switch (state){
+            case IDLE :
+                rpm = 800;
+                break;
+            case SHOOT:
+                rpm = 1200;
+                break;
+        }
+    }
     public void update(){
+        updateState();
         controller = new PIDController(Kp,Ki,Kd);
         vel1 = controller.calculate(shoot2.getVelocity(),rpm);
         vel1 += Kv * rpm + Ks;

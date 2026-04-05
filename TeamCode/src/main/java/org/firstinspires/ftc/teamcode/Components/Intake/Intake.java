@@ -2,10 +2,10 @@ package org.firstinspires.ftc.teamcode.Components.Intake;
 
 
 public class Intake {
-    ActiveIntake activeIntake;
-    Spindexer spindexer;
+    public ActiveIntake activeIntake;
+    public Spindexer spindexer;
 
-    Latch latch;
+    public Latch latch;
     public enum State{
         IDLE,
         SHOOT,

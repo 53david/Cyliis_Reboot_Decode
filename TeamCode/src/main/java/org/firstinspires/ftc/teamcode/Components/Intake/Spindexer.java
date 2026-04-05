@@ -14,7 +14,9 @@ import org.firstinspires.ftc.teamcode.Wrappers.PIDController;
 public class Spindexer {
     ElapsedTime timer = new ElapsedTime();
     double target = 0;
+    double timerTreshold = 1.5;
     public static double nrBalls = 0;
+    public static double resetPos = Math.PI*2/3;
     public static double specialPos = Math.PI - 0.26;
     public double power = 400;
     public static int tValue =1000;
@@ -26,7 +28,8 @@ public class Spindexer {
         TRANSFER,
         IDLE,
         SHOOT,
-    }
+        RESET,
+    };
     public static State state;
     PIDController pid = new PIDController(Kp,0,Kd);
     PIDCoefficients coef = new PIDCoefficients(Kp,0,Kd);
@@ -43,10 +46,6 @@ public class Spindexer {
                 if (ColorDetection.isBallInStorage() && !IsStorageSpinning() && nrBalls<3){
                     state = State.BALL;
                 }
-                if (ColorDetection.isBallInStorage() && !IsStorageSpinning() && nrBalls == 3){
-                    state = State.TRANSFER;
-                    gm1.rumble(tValue);
-                }
                 break;
             case BALL:
                 turn120();
@@ -55,10 +54,18 @@ public class Spindexer {
                 break;
             case TRANSFER:
                 spin.setPower(pid.calculatePower(specialPos));
-                nrBalls = 0;
+                timer.startTime();
+                timer.reset();
                 break;
             case SHOOT:
-                spin.setPower(pid.calculatePower(power));
+                turn120();
+                if (timer.seconds()>timerTreshold){
+                    state = State.RESET;
+                }
+            case RESET:
+                nrBalls = 0;
+                spin.setPower(pid.calculatePower(resetPos));
+                state = State.IDLE;
                 break;
         }
     }
@@ -67,6 +74,10 @@ public class Spindexer {
         spinUpdate();
         if (state == State.TRANSFER && gm1.cross && prevgm1.cross != gm1.cross){
             state = State.SHOOT;
+        }
+        if (ColorDetection.isBallInStorage() && !IsStorageSpinning() && nrBalls == 3){
+            state = State.TRANSFER;
+            gm1.rumble(tValue);
         }
     }
     public void tune(){coef = new PIDCoefficients(Kp,0,Kd);
