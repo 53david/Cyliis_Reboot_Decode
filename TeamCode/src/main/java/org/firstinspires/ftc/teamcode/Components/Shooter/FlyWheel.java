@@ -34,7 +34,7 @@ public class FlyWheel {
     public void updateState(){
         switch (state){
             case IDLE :
-                rpm = 800;
+                rpm = 600;
                 break;
             case SHOOT:
                 rpm = 1200;

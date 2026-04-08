@@ -41,6 +41,7 @@ public class TeleopBlue extends LinearOpMode {
         shooter =new Shooter();
         Chassis.state = Chassis.State.DRIVE;
         Turret.state = Turret.AllienceState.BLUE;
+        Shooter.state = Shooter.State.SHOOT;
         waitForStart();
         while (opModeIsActive()) {
             gm1.copy(gamepad1);
