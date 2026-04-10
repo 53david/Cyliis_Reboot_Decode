@@ -8,7 +8,6 @@ public class Node {
     public int index=0;
     private Supplier<Boolean> condition;
     public  String name;
-
     public Node(String name) {
         this.name=name;
     }
@@ -21,7 +20,6 @@ public class Node {
     public void run()
     {
         operation.run();
-
     }
     public boolean transition()
     {

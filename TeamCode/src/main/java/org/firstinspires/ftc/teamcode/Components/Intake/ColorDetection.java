@@ -21,13 +21,13 @@ public class ColorDetection {
         return (float)Math.sqrt( (r1-r2)*(r1-r2) + (b1-b2)*(b1-b2) + (g1-g2)*(g1-g2));
     }
     public void update(){
-        red = color.red();
-        blue = color.blue();
-        green = color.green();
-
-        greenBall = distance(red,green,blue,0,255,0);
-        purpleBall = distance(red,green,blue,175,0,175);
-
+        if (isBallInStorage()) {
+            red = color.red();
+            blue = color.blue();
+            green = color.green();
+            greenBall = distance(red, green, blue, 0, 255, 0);
+            purpleBall = distance(red, green, blue, 175, 0, 175);
+        }
         if (purpleBall<=greenBall){ ball1 = 2;}
         else { ball1 = 1;}
         if (isBallInStorage() && Spindexer.state == Spindexer.State.BALL){

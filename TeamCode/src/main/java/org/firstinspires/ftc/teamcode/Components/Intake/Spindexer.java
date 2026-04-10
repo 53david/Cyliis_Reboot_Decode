@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.Wrappers.PIDController;
 public class Spindexer {
     ElapsedTime timer = new ElapsedTime();
     double target = 0;
-    double timerTreshold = 1.5;
+    double timerTreshold = 1;
     public static double nrBalls = 0;
     public static double resetPos = Math.PI*2/3;
     public static double specialPos = Math.PI - 0.26;
@@ -81,7 +81,8 @@ public class Spindexer {
             gm1.rumble(tValue);
         }
     }
-    public void tune(){coef = new PIDCoefficients(Kp,0,Kd);
+    public void tune(){
+        coef = new PIDCoefficients(Kp,0,Kd);
         pid.setPidCoefficients(coef);
     }
     public void spinUpdate(){
@@ -91,11 +92,11 @@ public class Spindexer {
             return (encoder.getVoltage() / 3.3) * 2.0 * Math.PI;
     }
     public void turn60(){
-        target+= Math.PI /3 % (Math.PI*2);
+        target+= Math.PI /3;
         pid.setTargetPosition(target);
     }
     public void turn120(){
-        target+= Math.PI * 2/3 % (Math.PI*2);
+        target+= Math.PI * 2/3;
         pid.setTargetPosition(target);
     }
     public boolean IsStorageSpinning(){
