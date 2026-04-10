@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 
 @Configurable
 public class Turret {
-
+    public static double goalPositionX = 0, goalPositionY = 0;
     public double targetAngle = 0;
     public double maxAngle = normalizeRadians(360);
     Odo odo = new Odo();
@@ -28,7 +28,6 @@ public class Turret {
         BLUE,
     }
     public static AllienceState state;
-    public static double goalPositionX = 840, goalPositionY = 0;
     public Turret() {
         servo1.setPwmRange(new PwmControl.PwmRange(500 , 2500));
         servo2.setPwmRange(new PwmControl.PwmRange(500 , 2500));
@@ -68,7 +67,12 @@ public class Turret {
     }
 
     public void update() {
-        TurretUpdate();
+        odo.update();
+        updateAngle();
+        updateServosPosition();
+        if (gm1.ps && gm1.ps!=prevgm1.ps){
+            odo.reset();
+        }
         AllienceUpdate();
     }
     public void AllienceUpdate(){
@@ -79,14 +83,6 @@ public class Turret {
             case RED:
                 goalPositionX = -840; goalPositionY = 20;
                 break;
-        }
-    }
-    public void TurretUpdate(){
-        odo.update();
-        updateAngle();
-        updateServosPosition();
-        if (gm1.ps && gm1.ps!=prevgm1.ps){
-            odo.reset();
         }
     }
     public double normalizeRadians(double angle){

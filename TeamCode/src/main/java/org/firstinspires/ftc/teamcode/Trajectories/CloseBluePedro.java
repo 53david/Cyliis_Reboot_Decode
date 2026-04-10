@@ -11,6 +11,7 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 import org.firstinspires.ftc.teamcode.Components.Intake.Spindexer;
 
 public class CloseBluePedro {
+    ///Auto fumat
     ElapsedTime timer = new ElapsedTime();
     public Follower follower;
     public Pose start = new Pose(32,134,Math.toRadians(270));

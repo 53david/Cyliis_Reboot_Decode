@@ -28,7 +28,6 @@ public class CloseBlue {
             new Pose2D(-1910, 765, Math.PI/2),
             new Pose2D(-2450, 765, Math.PI/2)
     };
-
     public static Pose2D beforeShootPos = new Pose2D(-1930, 600, Math.PI/2-0.3);
     public static Pose2D beforeGatePos = new Pose2D(-1845, 620, Math.PI/2);
     public static Pose2D gatePos = new Pose2D(-1875, 700, Math.PI/2+0.4);

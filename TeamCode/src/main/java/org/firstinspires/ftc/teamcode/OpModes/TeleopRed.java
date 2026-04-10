@@ -22,7 +22,6 @@ public class TeleopRed extends LinearOpMode {
     Shooter shooter;
     Intake intake;
     Odo odo;
-
     @Override
     public void runOpMode(){
         isAutonomousActive = false;

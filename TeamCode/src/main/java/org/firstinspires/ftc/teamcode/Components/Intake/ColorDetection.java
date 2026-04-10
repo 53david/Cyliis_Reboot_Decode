@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.proximitysenso
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 
 public class ColorDetection {
+    Spindexer spindexer = new Spindexer();
     public float red = 0;
     public float green = 0;
     public float blue = 0;
@@ -21,7 +22,7 @@ public class ColorDetection {
         return (float)Math.sqrt( (r1-r2)*(r1-r2) + (b1-b2)*(b1-b2) + (g1-g2)*(g1-g2));
     }
     public void update(){
-        if (isBallInStorage()) {
+        if (isBallInStorage() && !spindexer.IsStorageSpinning()) {
             red = color.red();
             blue = color.blue();
             green = color.green();

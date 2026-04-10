@@ -61,7 +61,7 @@ public class Chassis{
         }
     }
 
-    public boolean inPosition( double x , double y , double Error)
+    public boolean inPosition(double ErrorX , double ErrorY , double ErrorRx)
     {
         double heading= Odo.getHeading();
         if(heading<0)realHeading=Math.abs(heading);
@@ -70,7 +70,7 @@ public class Chassis{
         error=targetHeading-realHeading;
         if(Math.abs(error)>Math.PI)error=-Math.signum(error)*(2*Math.PI-Math.abs(error));
 
-        if(Math.abs(targetX-pp.getPosX(DistanceUnit.MM))<x && Math.abs(targetY-pp.getPosY(DistanceUnit.MM))<y && Math.abs(error)<Error)return true;
+        if(Math.abs(targetX-pp.getPosX(DistanceUnit.MM))<ErrorX && Math.abs(targetY-pp.getPosY(DistanceUnit.MM))<ErrorY && Math.abs(error)<ErrorRx)return true;
         return false;
     }
 
@@ -122,6 +122,7 @@ public class Chassis{
 
     public void update() {
         if (state == State.DRIVE) {
+
             double X = gm1.left_stick_x;
             double Y = -gm1.left_stick_y;
             double rx = (gm1.right_trigger - gm1.left_trigger);
@@ -130,7 +131,7 @@ public class Chassis{
             double y = X * Math.sin(heading) + Y * Math.cos(heading);
             setTargetVector(x, y, rx);
         }
-        else if (state == State.PID){
+        else {
             if (Double.isNaN(Odo.x) || Double.isNaN(Odo.y) || Double.isNaN(Odo.heading)) {
                 return;
             }
