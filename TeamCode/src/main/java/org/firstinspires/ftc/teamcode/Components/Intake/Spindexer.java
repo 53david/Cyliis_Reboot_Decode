@@ -55,14 +55,13 @@ public class Spindexer {
                 break;
             case TRANSFER:
                 spin.setPower(pid.calculatePower(specialPos));
-                timer.startTime();
-                timer.reset();
                 break;
             case SHOOT:
-                turn120();
-                if (timer.seconds()>timerTreshold){
+                turn360();
+                if (IsStorageSpinning()){
                     state = State.RESET;
                 }
+                break;
             case RESET:
                 nrBalls = 0;
                 spin.setPower(pid.calculatePower(resetPos));
@@ -93,10 +92,17 @@ public class Spindexer {
     }
     public void turn60(){
         target+= Math.PI /3;
+        target = target % 360;
         pid.setTargetPosition(target);
     }
     public void turn120(){
         target+= Math.PI * 2/3;
+        target = target % 360;
+        pid.setTargetPosition(target);
+    }
+    public void turn360(){
+        target+= Math.PI*2;
+        target = target % 360;
         pid.setTargetPosition(target);
     }
     public boolean IsStorageSpinning(){
