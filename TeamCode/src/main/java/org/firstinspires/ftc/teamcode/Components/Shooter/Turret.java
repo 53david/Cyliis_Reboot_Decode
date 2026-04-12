@@ -60,7 +60,7 @@ public class Turret {
         double dx = goalPositionX - Odo.getX();
         double dy = goalPositionY - Odo.getY();
 
-        targetAngle = Math.atan2( ((goalPositionY)-dy),((goalPositionX)-dx ));
+        targetAngle = Math.atan2(((goalPositionY)-dy),((goalPositionX)-dx ));
         telemetryM.addData("X", pp.getPosX(DistanceUnit.MM));
         telemetryM.update();
 

@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.Wrappers.PIDController;
 
 @Configurable
 public class Spindexer {
+    ElapsedTime timer = new ElapsedTime();
     double target = 0;
     public static double nrBalls = 0;
     public static double resetPos = Math.PI*2/3;
@@ -55,8 +56,8 @@ public class Spindexer {
                 spin.setPower(pid.calculatePower(specialPos));
                 break;
             case SHOOT:
-                turn360();
-                if (IsStorageSpinning()){
+                spin.setPower(1);
+                if (timer.seconds()>1.5){
                     state = State.RESET;
                 }
                 break;
@@ -72,6 +73,7 @@ public class Spindexer {
         spinUpdate();
         if (state == State.TRANSFER && gm1.cross && prevgm1.cross != gm1.cross){
             state = State.SHOOT;
+            timer.reset();
         }
         if (ColorDetection.isBallInStorage() && !IsStorageSpinning() && nrBalls == 3){
             state = State.TRANSFER;
