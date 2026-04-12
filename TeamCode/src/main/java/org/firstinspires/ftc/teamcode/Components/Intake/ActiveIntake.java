@@ -12,10 +12,6 @@ import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigu
 
 @Configurable
 public class ActiveIntake {
-    public static double maxRPM = 1;
-    public static double maxPower = 1;
-    public static double zeroPower =0;
-    public static double reversePower = -1;
     public enum State{
         IDLE,
         INTAKE,
@@ -27,20 +23,20 @@ public class ActiveIntake {
         intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         MotorConfigurationType unlocked = intakeMotor.getMotorType();
-        unlocked.setAchieveableMaxRPMFraction(maxRPM);
+        unlocked.setAchieveableMaxRPMFraction(1);
         intakeMotor.setMotorType(unlocked);
         state = State.IDLE;
     }
     public void stateUpdate() {
         switch (state){
             case INTAKE:
-                intakeMotor.setPower(maxPower);
+                intakeMotor.setPower(1);
                 break;
             case IDLE:
-                intakeMotor.setPower(zeroPower);
+                intakeMotor.setPower(0);
                 break;
             case REVERSE:
-                intakeMotor.setPower(reversePower);
+                intakeMotor.setPower(-1);
                 break;
         }
     }
