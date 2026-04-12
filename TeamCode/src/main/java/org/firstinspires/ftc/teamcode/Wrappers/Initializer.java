@@ -36,11 +36,11 @@ public class Initializer {
     public  static org.firstinspires.ftc.teamcode.Wrappers.GoBildaPinpointDriver pp;
     public static AnalogInput encoder;
     public static ColorRangeSensor color;
-    public static DigitalChannel proximitysensor;
+    public static DigitalChannel proximitySensor;
     public static Gamepad prevgm1,prevgm2;
     public static Gamepad gm1,gm2;
     public static void start(HardwareMap hwMap){
-        Voltage = 12.0/hwMap.getAll(VoltageSensor .class).get(0).getVoltage();
+        Voltage = 12.0/hwMap.getAll(VoltageSensor.class).get(0).getVoltage();
         prevgm1 = new Gamepad();
         prevgm2 = new Gamepad();
         gm1 = new Gamepad();
@@ -61,7 +61,7 @@ public class Initializer {
         encoder = hwMap.get(AnalogInput.class,"encoder");
         color = hwMap.get(ColorRangeSensor.class,"color");
         hood = hwMap.get(Servo.class,"hood");
-        proximitysensor =hwMap.get(DigitalChannel.class,"proximitysensor");
+        proximitySensor =hwMap.get(DigitalChannel.class,"proximitySensor");
         pp.resetPosAndIMU();
         pp.recalibrateIMU();
 

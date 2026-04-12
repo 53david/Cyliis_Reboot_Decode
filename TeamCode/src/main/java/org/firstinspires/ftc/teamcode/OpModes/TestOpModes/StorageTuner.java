@@ -9,7 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Components.Intake.ColorDetection;
-import org.firstinspires.ftc.teamcode.Components.Intake.Spindexer;
+import org.firstinspires.ftc.teamcode.Components.Intake.Storage;
+
 @TeleOp
 @Configurable
 public class StorageTuner extends LinearOpMode {
@@ -18,27 +19,27 @@ public class StorageTuner extends LinearOpMode {
     public static boolean Turn120 = false;
     public static boolean Turn60 = false;
     public static boolean isTuningDone = false;
-    Spindexer spindexer;
+    Storage storage;
     ColorDetection colorDetection;
     @Override
     public void runOpMode() throws InterruptedException{
-        spindexer = new Spindexer();
+        storage = new Storage();
         colorDetection = new ColorDetection();
         waitForStart();
         while (opModeIsActive()) {
-            spindexer.tune();
+            storage.tune();
             transfer.setPosition(pos);
             intakeMotor.setPower(power);
             if (Turn120){
-                spindexer.turn120();
+                storage.turn120();
                 Turn120 = false;
             }
             if (Turn60){
-                spindexer.turn60();
+                storage.turn60();
                 Turn60 = false;
             }
             if (isTuningDone){
-                spindexer.update();
+                storage.update();
                 colorDetection.update();
             }
         }

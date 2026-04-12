@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Components.Chassis.Chassis;
 import org.firstinspires.ftc.teamcode.Components.Intake.Intake;
-import org.firstinspires.ftc.teamcode.Components.Intake.Spindexer;
+import org.firstinspires.ftc.teamcode.Components.Intake.Storage;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Shooter;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Turret;
 import org.firstinspires.ftc.teamcode.Wrappers.Initializer;
@@ -60,7 +60,9 @@ public class CloseBlue {
         currentNode = shoot;
         shoot.addConditions(
                 ()->{
-                    if (Intake.state == Intake.State.INTAKE && intake.spindexer.IsStorageSpinning()){Intake.state = Intake.State.IDLE;}
+                    if (Intake.state == Intake.State.INTAKE && !intake.storage.IsStorageSpinning()){
+                        Intake.state = Intake.State.IDLE;
+                    }
                     chassis.setTargetPosition(shootPos);
                     Shooter.state = Shooter.State.SHOOT;
                     if (chassis.inPosition(40,40,0.13) && Math.abs(Initializer.pp.getVelX(DistanceUnit.MM))<=25
@@ -69,7 +71,7 @@ public class CloseBlue {
                     }
                 },
                 ()->{
-                    return Spindexer.state == Spindexer.State.RESET;
+                    return Storage.state == Storage.State.RESET;
                 },
                 new Node[]{beforeSpike2, beforeOpenGate, beforeOpenGate, beforeSpike1}
         );
@@ -97,7 +99,7 @@ public class CloseBlue {
                 ()->{
                     chassis.setTargetPosition(beforeShootPos);
                     Shooter.state = Shooter.State.SHOOT;
-                    if (Spindexer.state == Spindexer.State.TRANSFER){
+                    if (Storage.state == Storage.State.TRANSFER){
                         Intake.state = Intake.State.REVERSE;
                     }
                 },

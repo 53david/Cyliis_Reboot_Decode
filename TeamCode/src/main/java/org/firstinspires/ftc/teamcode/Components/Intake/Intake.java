@@ -4,7 +4,7 @@ package org.firstinspires.ftc.teamcode.Components.Intake;
 public class Intake {
     public ColorDetection colorDetection = new ColorDetection();
     public ActiveIntake activeIntake;
-    public Spindexer spindexer;
+    public Storage storage;
 
     public Latch latch;
     public enum State{
@@ -18,13 +18,13 @@ public class Intake {
     public Intake(){
         state = State.IDLE;
         activeIntake = new ActiveIntake();
-        spindexer = new Spindexer();
+        storage = new Storage();
         latch = new Latch();
     }
     public void update(){
         stateUpdate();
         latch.update();
-        spindexer.update();
+        storage.update();
         activeIntake.update();
         colorDetection.update();
     }
@@ -32,7 +32,7 @@ public class Intake {
         switch (state){
             case IDLE:
                 Latch.state = Latch.State.IDLE;
-                Spindexer.state = Spindexer.State.IDLE;
+                Storage.state = Storage.State.IDLE;
                 ActiveIntake.state = ActiveIntake.State.IDLE;
                 break;
             case INTAKE:
@@ -42,12 +42,12 @@ public class Intake {
                 ActiveIntake.state = ActiveIntake.State.REVERSE;
                 break;
             case TRANSFER:
-                Spindexer.state = Spindexer.State.TRANSFER;
+                Storage.state = Storage.State.TRANSFER;
                 Latch.state = Latch.State.TRANSFER;
                 break;
             case SHOOT:
                 ActiveIntake.state = ActiveIntake.State.IDLE;
-                Spindexer.state = Spindexer.State.SHOOT;
+                Storage.state = Storage.State.SHOOT;
                 Latch.state = Latch.State.TRANSFER;
                 break;
         }

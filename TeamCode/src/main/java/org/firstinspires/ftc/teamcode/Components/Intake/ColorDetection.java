@@ -1,18 +1,18 @@
 package org.firstinspires.ftc.teamcode.Components.Intake;
 
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.color;
-import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.proximitysensor;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.proximitySensor;
 
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class ColorDetection {
-    Spindexer spindexer = new Spindexer();
+    Storage spindexer = new Storage();
     public static double distance = 10;
     public float red = 0;
     public float green = 0;
     public float blue = 0;
-    public static String ball1 = "No artifact", ball2 = "No artifact", ball3 = "No artifact";
+    public static String ball1 = "Waiting for artifact...", ball2 = "Waiting for artifact...", ball3 = "Waiting for artifact...";
     public double greenBall = 0, purpleBall = 0;
 
     public ColorDetection(){
@@ -26,7 +26,7 @@ public class ColorDetection {
             greenBall = distance(red, green, blue, 0, 255, 0);
             purpleBall = distance(red, green, blue, 175, 0, 175);
         }
-        if (isBallInStorage() && Spindexer.state == Spindexer.State.BALL){
+        if (isBallInStorage() && Storage.state == Storage.State.BALL){
             ball3 = ball2;
             ball2 = ball1;
         }
@@ -36,12 +36,12 @@ public class ColorDetection {
         else {
             ball1 = "Purple";
         }
-        if (Spindexer.state == Spindexer.State.RESET){
-            ball1 = "No artifact"; ball2 = "No artifact"; ball3 = "No artifact";
+        if (Storage.state == Storage.State.RESET){
+            ball1 = "Waiting for artifact..."; ball2 = "Waiting for artifact..."; ball3 = "Waiting for artifact...";
         }
     }
     public static boolean isBallInStorage(){
-        return proximitysensor.getState() || color.getDistance(DistanceUnit.MM)<distance;
+        return proximitySensor.getState() || color.getDistance(DistanceUnit.MM)<distance;
     }
     public float distance(float r1, float g1 , float b1, float r2, float g2, float b2) {
         return (float)Math.sqrt( (r1-r2)*(r1-r2) + (b1-b2)*(b1-b2) + (g1-g2)*(g1-g2));

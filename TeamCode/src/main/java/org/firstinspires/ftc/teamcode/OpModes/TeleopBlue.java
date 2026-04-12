@@ -16,7 +16,6 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 import org.firstinspires.ftc.teamcode.Components.Chassis.Chassis;
 import org.firstinspires.ftc.teamcode.Components.Intake.ColorDetection;
 import org.firstinspires.ftc.teamcode.Components.Intake.Intake;
-import org.firstinspires.ftc.teamcode.Components.Intake.Spindexer;
 import org.firstinspires.ftc.teamcode.Components.Shooter.FlyWheel;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Shooter;
 

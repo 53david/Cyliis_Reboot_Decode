@@ -39,7 +39,6 @@ public class FlyWheel {
                 rpm = 600;
                 break;
             case SHOOT:
-                rpm = 1200;
                 break;
         }
     }
@@ -60,13 +59,17 @@ public class FlyWheel {
         return shoot2.getVelocity();
     }
     public void tune(){
-        controller = new PIDController(Kp,Ki,Kd);
-        rpm = controller.calculate(shoot2.getVelocity(),rpm);
+        double error = rpm-shoot2.getVelocity();
+        rpm = controller.calculate(shoot2.getVelocity(),ShooterConstants.vel);
         rpm += Kv * rpm + Ks;
         rpm *= Voltage;
+        if (error>600) {
+            rpm += Ka * (error);
+        }
         shoot1.setPower(rpm);
         shoot2.setPower(rpm);
         telemetryM.addData("Velocity",getVelocity());
+        telemetryM.addData("Error",error);
         telemetryM.update();
     }
 }

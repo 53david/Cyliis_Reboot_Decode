@@ -3,18 +3,16 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.encoder;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.spin;
-import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Components.Shooter.Shooter;
 import org.firstinspires.ftc.teamcode.Wrappers.PIDController;
 
 @Configurable
-public class Spindexer {
+public class Storage {
     ElapsedTime timer = new ElapsedTime();
     double target = 0;
     public static double nrBalls = 0;
@@ -35,7 +33,7 @@ public class Spindexer {
     PIDController pid = new PIDController(Kp,0,Kd);
     PIDCoefficients coef = new PIDCoefficients(Kp,0,Kd);
 
-    public Spindexer(){
+    public Storage(){
         spin.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         spin.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         state = State.IDLE;
