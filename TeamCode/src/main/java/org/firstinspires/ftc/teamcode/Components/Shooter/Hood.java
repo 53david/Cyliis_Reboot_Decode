@@ -34,8 +34,6 @@ public class Hood {
     }
     public void update(){
         updateState();
-        telemetryM.addData("Pos",ShooterConstants.hoodAngle(Odo.distance()));
-        telemetryM.update();
     }
     public void tune(){
         hood.setPosition(pos);

@@ -16,10 +16,11 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants;
+
 @Configurable
 public class FlyWheel {
     PIDController controller = new PIDController(Kp,Ki,Kd);
-    double vel1 = 0;
     public enum State{
         IDLE,
         SHOOT,
@@ -45,16 +46,14 @@ public class FlyWheel {
     public void update(){
         updateState();
         double error = rpm-shoot2.getVelocity();
-        vel1 = controller.calculate(shoot2.getVelocity(),rpm);
-        vel1 += Kv * rpm + Ks;
-        vel1 *= Voltage;
+        rpm = controller.calculate(shoot2.getVelocity(),ShooterConstants.vel);
+        rpm += Kv * rpm + Ks;
+        rpm *= Voltage;
         if (error>600) {
-            vel1 += Ka * (error);
+            rpm += Ka * (error);
         }
-        shoot1.setPower(vel1);
-        shoot2.setPower(vel1);
-        telemetryM.addData("Velocity",Math.abs(shoot2.getVelocity()));
-        telemetryM.update();
+        shoot1.setPower(rpm);
+        shoot2.setPower(rpm);
 
     }
     public static double getVelocity(){
@@ -62,11 +61,12 @@ public class FlyWheel {
     }
     public void tune(){
         controller = new PIDController(Kp,Ki,Kd);
-        vel1 = controller.calculate(shoot2.getVelocity(),rpm);
-        vel1 += Kv * rpm + Ks;
-        vel1 *= Voltage;
-        shoot1.setPower(vel1);
-        shoot2.setPower(vel1);
-        telemetryM.addData("Velocity",Math.abs(shoot2.getVelocity()));
+        rpm = controller.calculate(shoot2.getVelocity(),rpm);
+        rpm += Kv * rpm + Ks;
+        rpm *= Voltage;
+        shoot1.setPower(rpm);
+        shoot2.setPower(rpm);
+        telemetryM.addData("Velocity",getVelocity());
+        telemetryM.update();
     }
 }

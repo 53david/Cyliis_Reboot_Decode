@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Components.Intake;
 
 
 public class Intake {
+    public ColorDetection colorDetection = new ColorDetection();
     public ActiveIntake activeIntake;
     public Spindexer spindexer;
 
@@ -14,7 +15,6 @@ public class Intake {
         TRANSFER,
     };
     public static State state;
-    ColorDetection colorDetection = new ColorDetection();
     public Intake(){
         state = State.IDLE;
         activeIntake = new ActiveIntake();

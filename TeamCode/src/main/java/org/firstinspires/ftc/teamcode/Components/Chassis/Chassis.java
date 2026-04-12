@@ -67,9 +67,13 @@ public class Chassis{
         else realHeading=2*Math.PI-heading;
 
         error=targetHeading-realHeading;
-        if(Math.abs(error)>Math.PI)error=-Math.signum(error)*(2*Math.PI-Math.abs(error));
+        if(Math.abs(error)>Math.PI)
+            error=-Math.signum(error)*(2*Math.PI-Math.abs(error));
 
-        if(Math.abs(targetX-pp.getPosX(DistanceUnit.MM))<ErrorX && Math.abs(targetY-pp.getPosY(DistanceUnit.MM))<ErrorY && Math.abs(error)<ErrorRx)return true;
+        if(Math.abs(targetX-pp.getPosX(DistanceUnit.MM))<ErrorX
+                && Math.abs(targetY-pp.getPosY(DistanceUnit.MM))<ErrorY
+                        && Math.abs(error)<ErrorRx)
+            return true;
         return false;
     }
 
