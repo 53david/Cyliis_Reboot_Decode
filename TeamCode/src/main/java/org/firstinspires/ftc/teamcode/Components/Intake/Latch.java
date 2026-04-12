@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.Components.Intake;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.isAutonomousActive;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.transfer;
 
 import com.bylazar.configurables.annotations.Configurable;
@@ -17,6 +18,15 @@ public class Latch {
         state = State.IDLE;
     }
     public void update(){
+        stateUpdate();
+        if (!isAutonomousActive && Spindexer.state == Spindexer.State.TRANSFER){
+            state = State.TRANSFER;
+        }
+        if (!isAutonomousActive && Spindexer.state == Spindexer.State.RESET){
+            state = State.IDLE;
+        }
+    }
+    public void stateUpdate(){
         switch (state){
             case IDLE:
                 transfer.setPosition(idlePos);

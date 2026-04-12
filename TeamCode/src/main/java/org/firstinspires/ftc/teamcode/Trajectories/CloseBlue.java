@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Trajectories;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Components.Chassis.Chassis;
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 import org.firstinspires.ftc.teamcode.Wrappers.Pose2D;
 
 public class CloseBlue {
+    ElapsedTime timer = new ElapsedTime();
     public Chassis chassis;
     public Intake intake;
     public Shooter shooter;
@@ -108,6 +110,7 @@ public class CloseBlue {
                 ()->{
                     chassis.setTargetPosition(beforeGatePos);
                     Shooter.state = Shooter.State.IDLE;
+                    timer.reset();
                 },
                 ()->{
                     return chassis.inPosition(60, 60, 0.15);
@@ -121,7 +124,7 @@ public class CloseBlue {
                     Shooter.state = Shooter.State.IDLE;
                 },
                 ()->{
-                    return Intake.state == Intake.State.TRANSFER;
+                    return Intake.state == Intake.State.TRANSFER || timer.seconds()>5.5;
                 },
                 new Node[]{afterCollecting}
         );

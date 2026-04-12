@@ -13,9 +13,7 @@ import org.firstinspires.ftc.teamcode.Wrappers.PIDController;
 
 @Configurable
 public class Spindexer {
-    ElapsedTime timer = new ElapsedTime();
     double target = 0;
-    double timerTreshold = 1;
     public static double nrBalls = 0;
     public static double resetPos = Math.PI*2/3;
     public static double specialPos = Math.PI - 0.26;
