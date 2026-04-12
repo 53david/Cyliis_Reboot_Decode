@@ -26,22 +26,16 @@ public class Odo {
         pp.resetPosAndIMU();
     }
 
-
-
-    public static double getHeading()
-    {
+    public static double getHeading() {
         return heading;
     }
-
-    public static double getX()
-    {
+    public static double getX(){
         return predictedX;
     }
-
-    public static double getY() {return predictedY;}
-
-    public void reset()
-    {
+    public static double getY() {
+        return predictedY;
+    }
+    public void reset() {
         pp.setPosition(new Pose2D(DistanceUnit.MM , 0 , 0 , RADIANS , 0));
     }
 

@@ -16,7 +16,6 @@ public class Node {
         this.condition=condition;
         this.next=next;
     }
-
     public void run()
     {
         operation.run();

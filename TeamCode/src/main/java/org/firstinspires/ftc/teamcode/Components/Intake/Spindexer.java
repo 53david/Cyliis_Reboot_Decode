@@ -3,6 +3,8 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.encoder;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.spin;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
+
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
@@ -18,7 +20,6 @@ public class Spindexer {
     public static double nrBalls = 0;
     public static double resetPos = Math.PI*2/3;
     public static double specialPos = Math.PI - 0.26;
-    public double power = 400;
     public static int tValue =1000;
     public static double Kp = 0;
     public static double Kd = 0;
@@ -88,7 +89,7 @@ public class Spindexer {
         spin.setPower(pid.calculatePower(FromVtoRads()));
     }
     public double FromVtoRads(){
-            return (encoder.getVoltage() / 3.3) * 2.0 * Math.PI;
+        return (encoder.getVoltage() / 3.3) * 2.0 * Math.PI;
     }
     public void turn60(){
         target+= Math.PI /3;
@@ -97,11 +98,6 @@ public class Spindexer {
     }
     public void turn120(){
         target+= Math.PI * 2/3;
-        target = target % 360;
-        pid.setTargetPosition(target);
-    }
-    public void turn360(){
-        target+= Math.PI*2;
         target = target % 360;
         pid.setTargetPosition(target);
     }

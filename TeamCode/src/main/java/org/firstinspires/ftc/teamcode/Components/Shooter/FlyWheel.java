@@ -57,6 +57,9 @@ public class FlyWheel {
         telemetryM.update();
 
     }
+    public static double getVelocity(){
+        return shoot2.getVelocity();
+    }
     public void tune(){
         controller = new PIDController(Kp,Ki,Kd);
         vel1 = controller.calculate(shoot2.getVelocity(),rpm);

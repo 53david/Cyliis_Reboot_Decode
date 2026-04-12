@@ -5,12 +5,14 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm2;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.isAutonomousActive;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm2;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Components.Chassis.Chassis;
 import org.firstinspires.ftc.teamcode.Components.Intake.Intake;
+import org.firstinspires.ftc.teamcode.Components.Shooter.FlyWheel;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Shooter;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Turret;
 import org.firstinspires.ftc.teamcode.Wrappers.Initializer;
@@ -41,6 +43,14 @@ public class TeleopRed extends LinearOpMode {
             odo.update();
             prevgm1.copy(gm1);
             prevgm2.copy(gm2);
+
+            telemetryM.addData("X",Odo.getX());
+            telemetryM.addData("Y",Odo.getY());
+            telemetryM.addData("Heading",Odo.getHeading());
+            telemetryM.addData("Intake state", Intake.state);
+            telemetryM.addData("Shooter state", Shooter.state);
+            telemetryM.addData("Flywheel velocity", FlyWheel.getVelocity());
+            telemetryM.update();
         }
     }
 }

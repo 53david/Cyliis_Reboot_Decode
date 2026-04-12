@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Components.Chassis;
 
-import static org.firstinspires.ftc.teamcode.Components.Intake.ActiveIntake.maxRPM;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.Voltage;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.backLeft;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.backRight;
@@ -53,7 +52,7 @@ public class Chassis{
         backRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         if (state == State.DRIVE){
             MotorConfigurationType unlock= frontLeft.getMotorType();
-            unlock.setAchieveableMaxRPMFraction(maxRPM);
+            unlock.setAchieveableMaxRPMFraction(1);
             frontRight.setMotorType(unlock);
             frontLeft.setMotorType(unlock);
             backLeft.setMotorType(unlock);

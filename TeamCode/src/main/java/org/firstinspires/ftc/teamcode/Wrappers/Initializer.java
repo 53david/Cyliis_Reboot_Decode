@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.Wrappers;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -34,7 +35,7 @@ public class Initializer {
     public static WebcamName webcam;
     public  static org.firstinspires.ftc.teamcode.Wrappers.GoBildaPinpointDriver pp;
     public static AnalogInput encoder;
-    public static ColorSensor color;
+    public static ColorRangeSensor color;
     public static DigitalChannel proximitysensor;
     public static Gamepad prevgm1,prevgm2;
     public static Gamepad gm1,gm2;
@@ -58,7 +59,7 @@ public class Initializer {
         servo2 = hwMap.get(ServoImplEx.class,"servo2");
         webcam = hwMap.get(WebcamName.class,"Webcam 1");
         encoder = hwMap.get(AnalogInput.class,"encoder");
-        color = hwMap.get(ColorSensor.class,"color");
+        color = hwMap.get(ColorRangeSensor.class,"color");
         hood = hwMap.get(Servo.class,"hood");
         proximitysensor =hwMap.get(DigitalChannel.class,"proximitysensor");
         pp.resetPosAndIMU();

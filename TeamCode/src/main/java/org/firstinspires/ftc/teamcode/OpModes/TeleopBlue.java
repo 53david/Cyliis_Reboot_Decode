@@ -1,9 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 
-
-import com.bylazar.telemetry.PanelsTelemetry;
-import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -17,7 +14,10 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 
 
 import org.firstinspires.ftc.teamcode.Components.Chassis.Chassis;
+import org.firstinspires.ftc.teamcode.Components.Intake.ColorDetection;
 import org.firstinspires.ftc.teamcode.Components.Intake.Intake;
+import org.firstinspires.ftc.teamcode.Components.Intake.Spindexer;
+import org.firstinspires.ftc.teamcode.Components.Shooter.FlyWheel;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Shooter;
 
 import org.firstinspires.ftc.teamcode.Components.Shooter.Turret;
@@ -49,9 +49,20 @@ public class TeleopBlue extends LinearOpMode {
             drive.update();
             shooter.update();
             odo.update();
-            telemetryM.update();
             prevgm1.copy(gm1);
             prevgm2.copy(gm2);
+
+            telemetryM.addData("ALIANCE",Turret.state);
+            telemetryM.addData("X",Odo.getX());
+            telemetryM.addData("Y",Odo.getY());
+            telemetryM.addData("Heading",Odo.getHeading());
+            telemetryM.addData("Intake state", Intake.state);
+            telemetryM.addData("Shooter state", Shooter.state);
+            telemetryM.addData("Flywheel velocity", FlyWheel.getVelocity());
+            telemetryM.addData("Ball1", ColorDetection.ball1);
+            telemetryM.addData("Ball2",ColorDetection.ball2);
+            telemetryM.addData("Ball3",ColorDetection.ball3);
+            telemetryM.update();
         }
     }
 }
