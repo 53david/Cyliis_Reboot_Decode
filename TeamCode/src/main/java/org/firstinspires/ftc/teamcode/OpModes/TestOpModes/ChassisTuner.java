@@ -49,6 +49,7 @@ public class ChassisTuner extends LinearOpMode {
         while (opModeIsActive()){
             updateState();
             chassis.update();
+            chassis.tunePid();
             odo.update();
         }
     }
