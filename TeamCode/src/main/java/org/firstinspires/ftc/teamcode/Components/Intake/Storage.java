@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Wrappers.PIDController;
 @Configurable
 public class Storage {
     ElapsedTime timer = new ElapsedTime();
-    double target = 0;
+    public static double target = 0;
     public static double nrBalls = 0;
     public static double resetPos = Math.PI*2/3;
     public static double specialPos = Math.PI - 0.26;
@@ -86,7 +86,7 @@ public class Storage {
     public void spinUpdate(){
         spin.setPower(pid.calculatePower(FromVtoRads()));
     }
-    public double FromVtoRads(){
+    public static double FromVtoRads(){
         return (encoder.getVoltage() / 3.3) * 2.0 * Math.PI;
     }
     public void turn60(){
@@ -99,8 +99,8 @@ public class Storage {
         target = target % 360;
         pid.setTargetPosition(target);
     }
-    public boolean IsStorageSpinning(){
-        return Math.abs(target-FromVtoRads()) < Math.toRadians(5) && spin.getVelocity() < 20;
+    public static boolean IsStorageSpinning(){
+        return Math.abs(target-FromVtoRads()) < Math.toRadians(3);
     }
 
 }

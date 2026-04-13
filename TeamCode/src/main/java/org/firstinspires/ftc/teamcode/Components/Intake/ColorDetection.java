@@ -7,7 +7,6 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.proximitySenso
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class ColorDetection {
-    Storage spindexer = new Storage();
     public static double distance = 10;
     public float red = 0;
     public float green = 0;
@@ -19,7 +18,7 @@ public class ColorDetection {
         color.enableLed(true);
     }
     public void update(){
-        if (isBallInStorage() && !spindexer.IsStorageSpinning()) {
+        if (isBallInStorage() && !Storage.IsStorageSpinning()) {
             red = color.red();
             blue = color.blue();
             green = color.green();

@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Components.Chassis.Chassis;
+import org.firstinspires.ftc.teamcode.Wrappers.Initializer;
 import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 import org.firstinspires.ftc.teamcode.Wrappers.Pose2D;
 @Configurable
@@ -43,6 +44,7 @@ public class ChassisTuner extends LinearOpMode {
         }
     }
     public void runOpMode(){
+        Initializer.start(hardwareMap);
         chassis = new Chassis(Chassis.State.PID);
         odo = new Odo();
         waitForStart();

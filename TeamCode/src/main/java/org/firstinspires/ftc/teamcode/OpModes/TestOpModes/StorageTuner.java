@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Components.Intake.ColorDetection;
 import org.firstinspires.ftc.teamcode.Components.Intake.Storage;
+import org.firstinspires.ftc.teamcode.Wrappers.Initializer;
 
 @TeleOp
 @Configurable
@@ -23,6 +24,7 @@ public class StorageTuner extends LinearOpMode {
     ColorDetection colorDetection;
     @Override
     public void runOpMode() throws InterruptedException{
+        Initializer.start(hardwareMap);
         storage = new Storage();
         colorDetection = new ColorDetection();
         waitForStart();

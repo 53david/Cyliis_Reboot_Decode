@@ -115,6 +115,13 @@ public class Chassis{
         rotation=targetHeading;
         usingTargetHeading=false;
     }
+    public void setTargetSpecialPosition(Pose2D position)
+    {
+        this.targetX=position.x;
+        this.targetY=position.y;
+        rotation=targetHeading;
+        usingTargetHeading=false;
+    }
     public void setTargetPosition(Pose2D position)
     {
         targetX=position.x;

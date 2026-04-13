@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Components.Chassis.Chassis;
 import org.firstinspires.ftc.teamcode.Components.Shooter.FlyWheel;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Hood;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Turret;
+import org.firstinspires.ftc.teamcode.Wrappers.Initializer;
 import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 
 @TeleOp
@@ -21,6 +22,7 @@ public class ShooterAjustments extends LinearOpMode {
     Chassis chassis;
     @Override
     public void runOpMode() throws InterruptedException{
+        Initializer.start(hardwareMap);
            flyWheel = new FlyWheel();
            hood = new Hood();
            odo = new Odo();

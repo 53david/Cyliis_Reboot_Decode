@@ -36,20 +36,19 @@ public class CloseBlue {
 
     public Pose2D beforeSpike1Pos = new Pose2D(-1270 , -450 , Math.PI/2);
     public Pose2D spike1Pos = new Pose2D(-1270 , 620 , Math.PI/2);
-    Node shoot,beforeSpike2,beforeOpenGate,beforeSpike1,openGate,spike1,spike2,afterCollecting,beforeGate,gate;
+    Node shoot,beforeSpike2,beforeSpike1,openGate,spike1,spike2,afterCollecting,beforeGate,gate;
     public Node currentNode;
+    boolean isShootReady = false;
     public CloseBlue(HardwareMap hardwareMap){
+        Initializer.start(hardwareMap);
          chassis = new Chassis(Chassis.State.PID);
          intake = new Intake();
          shooter = new Shooter();
          odo = new Odo();
-        Chassis.state = Chassis.State.PID;
         Intake.state = Intake.State.TRANSFER;
         Turret.state = Turret.AllienceState.BLUE;
-        Initializer.start(hardwareMap);
         shoot = new Node("shoot");
         beforeSpike2 = new Node("beforeSpike2");
-        beforeOpenGate = new Node("beforeOpenGate");
         beforeSpike1 = new Node("beforeSpike1");
         openGate = new Node("openGate");
         spike1 = new Node("spike1");
@@ -60,28 +59,30 @@ public class CloseBlue {
         currentNode = shoot;
         shoot.addConditions(
                 ()->{
-                    if (Intake.state == Intake.State.INTAKE && !intake.storage.IsStorageSpinning()){
+                    if ((Intake.state == Intake.State.INTAKE || Intake.state == Intake.State.REVERSE)&& !Storage.IsStorageSpinning()){
                         Intake.state = Intake.State.IDLE;
                     }
                     chassis.setTargetPosition(shootPos);
                     Shooter.state = Shooter.State.SHOOT;
                     if (chassis.inPosition(40,40,0.13) && Math.abs(Initializer.pp.getVelX(DistanceUnit.MM))<=25
-                            && Math.abs(Initializer.pp.getVelX())<=25){
+                            && Math.abs(Initializer.pp.getVelX())<=25 && !isShootReady){
                         Intake.state = Intake.State.SHOOT;
+                        isShootReady = false;
                     }
                 },
                 ()->{
                     return Storage.state == Storage.State.RESET;
                 },
-                new Node[]{beforeSpike2, beforeOpenGate, beforeOpenGate, beforeSpike1}
+                new Node[]{beforeSpike2, beforeGate, beforeGate, beforeSpike1}
         );
         beforeSpike2.addConditions(
                 ()->{
                     Shooter.state = Shooter.State.IDLE;
+                    Intake.state = Intake.State.IDLE;
                     chassis.setTargetPosition(beforeSpike2Pos[Math.min(beforeSpike2.index , beforeSpike2Pos.length-1) ] );
                 },
                 ()->{
-                    return chassis.inPosition(35, 35, 0.1) && Intake.state == Intake.State.IDLE;
+                    return chassis.inPosition(35, 35, 0.1);
                 },
                 new Node[]{spike2}
         );
@@ -97,6 +98,7 @@ public class CloseBlue {
         );
         afterCollecting.addConditions(
                 ()->{
+                    isShootReady = false;
                     chassis.setTargetPosition(beforeShootPos);
                     Shooter.state = Shooter.State.SHOOT;
                     if (Storage.state == Storage.State.TRANSFER){
@@ -134,14 +136,16 @@ public class CloseBlue {
                 ()->{
                     chassis.setTargetPosition(beforeSpike1Pos);
                     Shooter.state = Shooter.State.IDLE;
+                    Intake.state = Intake.State.IDLE;
                 },
                 ()->{
-                    return chassis.inPosition(40, 40, 0.1) && Intake.state == Intake.State.IDLE;
+                    return chassis.inPosition(40, 40, 0.1);
                 },
                 new Node[]{spike1}
         );
         spike1.addConditions(
                 ()->{
+                    isShootReady = false;
                     chassis.setTargetPosition(spike1Pos);
                     Intake.state = Intake.State.INTAKE;
                     Shooter.state = Shooter.State.IDLE;

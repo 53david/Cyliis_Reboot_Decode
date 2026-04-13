@@ -19,10 +19,10 @@ public class Latch {
     }
     public void update(){
         stateUpdate();
-        if (!isAutonomousActive && Spindexer.state == Spindexer.State.TRANSFER){
+        if (!isAutonomousActive && Storage.state == Storage.State.TRANSFER){
             state = State.TRANSFER;
         }
-        if (!isAutonomousActive && Spindexer.state == Spindexer.State.RESET){
+        if (!isAutonomousActive && Storage.state == Storage.State.RESET){
             state = State.IDLE;
         }
     }
