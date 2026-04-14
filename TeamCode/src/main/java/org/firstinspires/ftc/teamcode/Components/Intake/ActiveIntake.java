@@ -7,6 +7,7 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 
@@ -19,12 +20,7 @@ public class ActiveIntake {
     };
     public static State state;
     public ActiveIntake() {
-
-        intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        MotorConfigurationType unlocked = intakeMotor.getMotorType();
-        unlocked.setAchieveableMaxRPMFraction(1);
-        intakeMotor.setMotorType(unlocked);
+        intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         state = State.IDLE;
     }
     public void stateUpdate() {

@@ -16,7 +16,7 @@ public class Storage {
     ElapsedTime timer = new ElapsedTime();
     public static double target = 0;
     public static double nrBalls = 0;
-    public static double resetPos = Math.PI*2/3;
+    public static double resetPos = -0.76;
     public static double specialPos = Math.PI - 0.26;
     public static int tValue =1000;
     public static double Kp = 0;
@@ -34,8 +34,7 @@ public class Storage {
     PIDCoefficients coef = new PIDCoefficients(Kp,0,Kd);
 
     public Storage(){
-        spin.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        spin.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        pid.setTargetPosition(resetPos);
         state = State.IDLE;
     }
     public void stateUpdate(){
@@ -48,8 +47,10 @@ public class Storage {
                 break;
             case BALL:
                 turn120();
-                nrBalls++;
-                state = State.IDLE;
+                if (!IsStorageSpinning()) {
+                    state = State.IDLE;
+                    nrBalls++;
+                }
                 break;
             case TRANSFER:
                 spin.setPower(pid.calculatePower(specialPos));
@@ -91,16 +92,16 @@ public class Storage {
     }
     public void turn60(){
         target+= Math.PI /3;
-        target = target % 360;
+        target = target % (Math.PI*2);
         pid.setTargetPosition(target);
     }
     public void turn120(){
         target+= Math.PI * 2/3;
-        target = target % 360;
+        target = target % (Math.PI*2);
         pid.setTargetPosition(target);
     }
     public static boolean IsStorageSpinning(){
-        return Math.abs(target-FromVtoRads()) < Math.toRadians(3);
+        return Math.abs(target-FromVtoRads()) < Math.toRadians(5);
     }
 
 }

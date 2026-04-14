@@ -34,6 +34,7 @@ public class ShooterAjustments extends LinearOpMode {
                hood.tune();
                odo.update();
                telemetry.addData("Delta",Odo.distance());
+               telemetry.addData("Velocity",FlyWheel.getVelocity());
                telemetry.update();
            }
     }

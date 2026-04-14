@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.TestOpModes;
 
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
+
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -53,6 +55,10 @@ public class ChassisTuner extends LinearOpMode {
             chassis.update();
             chassis.tunePid();
             odo.update();
+            telemetryM.addData("X",Odo.getX());
+            telemetryM.addData("Y",Odo.getY());
+            telemetryM.addData("Heading",Odo.getHeading());
+            telemetryM.update();
         }
     }
 
