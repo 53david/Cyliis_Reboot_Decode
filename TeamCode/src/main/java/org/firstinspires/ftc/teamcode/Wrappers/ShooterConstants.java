@@ -5,12 +5,12 @@ import com.pedropathing.math.MathFunctions;
 @Configurable
 public class ShooterConstants {
 
-    public static double Kp = 0;
+    public static double Kp = 0.005;
     public static double Ki = 0;
     public static double Kd = 0;
-    public static double Ks = 0;
-    public static double Kv = 0;
-    public static double Ka = 0;
+    public static double Ks = 0.15;
+    public static double Kv = 0.0004;
+    public static double Ka = 0.01;
     public static double vel = 0;
     public static double flywheelOffset = 0;
     public static double hoodOffset = 0;

@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.OpModes.TestOpModes;
 
 
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.encoder;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.intakeMotor;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.spin;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.transfer;
 
 import com.bylazar.configurables.annotations.Configurable;
@@ -16,9 +19,11 @@ import org.firstinspires.ftc.teamcode.Wrappers.Initializer;
 @Configurable
 public class StorageTuner extends LinearOpMode {
     public static double power = 0;
+    public static double power2 =0 ;
     public static double pos = 0;
     public static boolean Turn120 = false;
     public static boolean Turn60 = false;
+    public static double angle = 1e9;
     public static boolean isTuningDone = false;
     Storage storage;
     ColorDetection colorDetection;
@@ -32,18 +37,15 @@ public class StorageTuner extends LinearOpMode {
             storage.tune();
             transfer.setPosition(pos);
             intakeMotor.setPower(power);
-            if (Turn120){
-                storage.turn120();
-                Turn120 = false;
-            }
-            if (Turn60){
-                storage.turn60();
-                Turn60 = false;
-            }
-            if (isTuningDone){
-                storage.update();
-                colorDetection.update();
-            }
+            storage.update();
+            colorDetection.update();
+
+            telemetryM.addData("Turn120",Turn120);
+            telemetryM.addData("Turn60",Turn60);
+            telemetryM.addData("Rads",Storage.getAngle());
+            telemetryM.addData("Angle", Math.toDegrees(Storage.getAngle()));
+            telemetryM.addData("State",Storage.state);
+            telemetryM.update();
         }
     }
 }

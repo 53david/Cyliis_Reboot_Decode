@@ -54,10 +54,10 @@ public class Initializer {
         backLeft = hwMap.get(DcMotorEx.class,"mch2");
         shoot1 = hwMap.get(CRServo.class,"sch1");
         shoot2 = hwMap.get(CRServo.class,"sch2");
-        spin = hwMap.get(CRServo.class,"spin");
+        spin = hwMap.get(CRServo.class,"sch3");
         servo1 = hwMap.get(ServoImplEx.class,"ssh1");
         servo2 = hwMap.get(ServoImplEx.class,"ssh2");
-        encoder = hwMap.get(AnalogInput.class,"sch3");
+        encoder = hwMap.get(AnalogInput.class,"spindexer");
         color = hwMap.get(ColorRangeSensor.class,"colorSensor");
         hood = hwMap.get(ServoImplEx.class,"ssh5");
         proximitySensor =hwMap.get(DigitalChannel.class,"bb");

@@ -6,19 +6,23 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Components.Shooter.Turret;
 import org.firstinspires.ftc.teamcode.Wrappers.Initializer;
+import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 
 @TeleOp
 @Configurable
 public class TurretBlueTest extends LinearOpMode {
     Turret turret;
+    Odo odo;
     @Override
     public void runOpMode() throws InterruptedException{
         Initializer.start(hardwareMap);
         turret = new Turret();
+        odo = new Odo();
         Turret.state = Turret.AllienceState.BLUE;
         waitForStart();
         while (opModeIsActive()){
-            turret.update();
+            turret.test();
+            odo.update();
         }
     }
 

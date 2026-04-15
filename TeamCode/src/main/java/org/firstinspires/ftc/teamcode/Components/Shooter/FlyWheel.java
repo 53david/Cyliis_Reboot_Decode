@@ -17,6 +17,7 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants;
 
@@ -28,9 +29,11 @@ public class FlyWheel {
         SHOOT,
     };
     public static State state = State.IDLE;
+    public static double vel = 0;
     public static double rpm = 0;
     public FlyWheel(){
-
+        shoot1.setDirection(DcMotorSimple.Direction.REVERSE);
+        shoot2.setDirection(DcMotorSimple.Direction.REVERSE);
     }
     public void updateState(){
         switch (state){
@@ -44,8 +47,8 @@ public class FlyWheel {
     public void update(){
         updateState();
         double error = rpm-frontLeft.getVelocity();
-        rpm = controller.calculate(frontLeft.getVelocity(),ShooterConstants.vel);
-        rpm += Kv * rpm + Ks;
+        rpm = controller.calculate(frontLeft.getVelocity(),vel);
+        rpm += Kv * vel + Ks;
         rpm *= Voltage;
         if (error>600) {
             rpm += Ka * (error);
@@ -55,13 +58,13 @@ public class FlyWheel {
 
     }
     public static double getVelocity(){
-        return frontLeft.getVelocity();
+        return Math.abs(frontLeft.getVelocity());
     }
     public void tune(){
         controller.setPID(Kp,0,Kd);
-        double error = rpm-frontLeft.getVelocity();
-        rpm = controller.calculate(frontLeft.getVelocity(),ShooterConstants.vel);
-        rpm += Kv * rpm + Ks;
+        double error = vel-getVelocity();
+        rpm = controller.calculate(getVelocity(),vel);
+        rpm += Kv * vel + Ks;
         rpm *= Voltage;
         if (error>600) {
             rpm += Ka * (error);
