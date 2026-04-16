@@ -85,6 +85,7 @@ public class Storage {
             case TRANSFER:
                 target = Math.toRadians(specialPos);
                 if(!IsStorageSpinning()) {
+                    gm1.rumble(1000);
                     Latch.state = Latch.State.TRANSFER;
                 }
                 if (!IsStorageSpinning() && gm1.cross &&prevgm1.cross!= gm1.cross){
@@ -122,6 +123,9 @@ public class Storage {
         if (state == State.TRANSFER && gm1.cross && prevgm1.cross != gm1.cross){
             state = State.SHOOT;
             timer.reset();
+        }
+        if (gm1.circle && prevgm1.circle!= gm1.circle && nrBalls>=1){
+            state = State.TRANSFER;
         }
     }
     public void tune(){
