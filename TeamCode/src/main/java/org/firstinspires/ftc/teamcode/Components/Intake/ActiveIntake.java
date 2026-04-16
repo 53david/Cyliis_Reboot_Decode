@@ -38,7 +38,6 @@ public class ActiveIntake {
     }
     public void update(){
         stateUpdate();
-        if (!isAutonomousActive) {
             if (gm1.left_bumper && gm1.left_bumper == prevgm1.left_bumper) {
                 state = State.REVERSE;
             } else if (gm1.right_bumper && gm1.right_bumper == prevgm1.right_bumper) {
@@ -46,7 +45,6 @@ public class ActiveIntake {
             }
             else {
                 state = State.IDLE;
-            }
         }
     }
 }

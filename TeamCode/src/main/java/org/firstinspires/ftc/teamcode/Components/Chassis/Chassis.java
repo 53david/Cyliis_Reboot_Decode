@@ -133,9 +133,9 @@ public class Chassis{
     public void update() {
         if (state == State.DRIVE) {
 
-            double X = gm1.left_stick_x;
-            double Y = -gm1.left_stick_y;
-            double rx = (gm1.right_trigger - gm1.left_trigger);
+            double X = -gm1.left_stick_y;
+            double Y = -gm1.left_stick_x;
+            double rx = (gm1.right_trigger - gm1.left_trigger) * 0.8;
             double heading = -Odo.getHeading() + Math.PI / 2;
             double x = X * Math.cos(heading) - Y * Math.sin(heading);
             double y = X * Math.sin(heading) + Y * Math.cos(heading);

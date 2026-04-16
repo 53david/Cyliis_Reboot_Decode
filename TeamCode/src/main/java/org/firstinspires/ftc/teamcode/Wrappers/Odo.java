@@ -9,6 +9,7 @@ import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Turret;
 import org.firstinspires.ftc.teamcode.Wrappers.LowPassFilter;
 
@@ -20,7 +21,7 @@ public class Odo {
     public  static double heading,x ,y, xVelocity, yVelocity, predictedX, predictedY;
     public Odo(){
         pp.setPosition(new Pose2D(DistanceUnit.MM,0,0,RADIANS,0));
-        pp.setEncoderDirections(org.firstinspires.ftc.teamcode.Wrappers.GoBildaPinpointDriver.EncoderDirection.REVERSED , org.firstinspires.ftc.teamcode.Wrappers.GoBildaPinpointDriver.EncoderDirection.FORWARD);
+        pp.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED , org.firstinspires.ftc.teamcode.Wrappers.GoBildaPinpointDriver.EncoderDirection.FORWARD);
         pp.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         pp.setOffsets(129.503 , -78.001, DistanceUnit.MM);
         pp.resetPosAndIMU();
@@ -85,5 +86,14 @@ public class Odo {
         updateGlide();
         predictedX = x + xGlide;
         predictedY = y + yGlide;
+    }
+    public static double trueX(){
+        return pp.getPosX(DistanceUnit.MM);
+    }
+    public static double trueY(){
+        return pp.getPosY(DistanceUnit.MM);
+    }
+    public static double trueHeading(){
+        return pp.getHeading(UnnormalizedAngleUnit.RADIANS);
     }
 }

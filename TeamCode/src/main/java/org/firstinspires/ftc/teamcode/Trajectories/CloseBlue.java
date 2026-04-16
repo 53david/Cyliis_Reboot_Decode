@@ -16,6 +16,7 @@ import org.firstinspires.ftc.teamcode.Wrappers.Pose2D;
 
 public class CloseBlue {
     ElapsedTime timer = new ElapsedTime();
+    Storage storage;
     public Chassis chassis;
     public Intake intake;
     public Shooter shooter;
@@ -41,6 +42,7 @@ public class CloseBlue {
     boolean isShootReady = false;
     public CloseBlue(HardwareMap hardwareMap){
         Initializer.start(hardwareMap);
+        storage = new Storage();
          chassis = new Chassis(Chassis.State.PID);
          intake = new Intake();
          shooter = new Shooter();
@@ -59,7 +61,7 @@ public class CloseBlue {
         currentNode = shoot;
         shoot.addConditions(
                 ()->{
-                    if ((Intake.state == Intake.State.INTAKE || Intake.state == Intake.State.REVERSE)&& !Storage.IsStorageSpinning()){
+                    if ((Intake.state == Intake.State.INTAKE || Intake.state == Intake.State.REVERSE)&& !storage.IsStorageSpinning()){
                         Intake.state = Intake.State.IDLE;
                     }
                     chassis.setTargetPosition(shootPos);

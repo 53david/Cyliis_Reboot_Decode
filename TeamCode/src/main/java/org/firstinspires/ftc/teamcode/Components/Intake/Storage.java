@@ -5,29 +5,29 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.encoder;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.spin;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.PIDCoefficients;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Wrappers.PIDController;
+import org.opencv.core.Mat;
 
 import java.lang.reflect.Array;
 
 @Configurable
 public class Storage {
+    PIDController pid = new PIDController(Kp,0,Kd);
     ElapsedTime timer = new ElapsedTime();
-    public static double target = 0;
+    public double target = Math.PI / 6.0;//balls
     public double nrBalls = 0;
-    public static double resetPos = -0.76;
-    public static double specialPos = Math.PI - 0.26;
-    public static double ballPos1 = Math.PI/3,ballPos2 = ballPos1 + Math.PI*2/3,ballPos3 = ballPos2 + Math.PI*2/3;
+    public static double resetPos = Math.PI/6.0;
+    public static double specialPos = Math.toRadians(330);
+    public static double ballPos1 = Math.PI/6.0,ballPos2 = ballPos1 + Math.toRadians(130),ballPos3 = ballPos2 + Math.toRadians(120);
     public static int tValue =1000;
-    public static double Kp = 0.48;
-    public static double Kd = 0.03;
+    public static double Kp = 0.7;
+    public static double Kd = 0.04;
     public static double Ks = 0.08;
-    PIDCoefficients coef1 = new PIDCoefficients(Kp,0,Kd);
-    PIDCoefficients coef2 = new PIDCoefficients(0,0,0);
 
     public enum State{
         BALL1,
@@ -39,8 +39,6 @@ public class Storage {
         RESET,
     };
     public static State state;
-    PIDController pid = new PIDController(Kp,0,Kd);
-    PIDCoefficients coef = new PIDCoefficients(Kp,0,Kd);
 
     public Storage(){
         state = State.IDLE;
@@ -59,18 +57,19 @@ public class Storage {
                     state = State.BALL3;
                 }
                 if (nrBalls==3 && !IsStorageSpinning()){
+                    timer.reset();
                     state = State.TRANSFER;
                 }
                 break;
             case BALL1:
-                pid.setTargetPosition(ballPos1);
+                target = ballPos2;
                 if (!IsStorageSpinning()) {
                     state = State.IDLE;
                     nrBalls=1;
                 }
                 break;
             case BALL2:
-                pid.setTargetPosition(ballPos2);
+                target = ballPos3;
                 if (!IsStorageSpinning()) {
                     state = State.IDLE;
                     nrBalls=2;
@@ -78,34 +77,44 @@ public class Storage {
                 break;
 
             case BALL3:
-                pid.setTargetPosition(ballPos3);
                 if (!IsStorageSpinning()) {
                     state = State.IDLE;
                     nrBalls=3;
                 }
                 break;
             case TRANSFER:
-                spin.setPower(pid.calculatePower(specialPos));
+                target = Math.toRadians(specialPos);
+                if(!IsStorageSpinning()) {
+                    Latch.state = Latch.State.TRANSFER;
+                }
+                if (!IsStorageSpinning() && gm1.cross &&prevgm1.cross!= gm1.cross){
+                    state = State.SHOOT;
+                    timer.reset();
+                }
                 break;
             case SHOOT:
-                pid.setPidCoefficients(coef2);
-                spin.setPower(1);
-                if (timer.seconds()>1.5){
+                pid.setPID(0,0,0);
+                spin.setPower(-1);
+                if (timer.seconds()>1){
                     state = State.RESET;
-                    pid.setPidCoefficients(coef1);
+                    timer.reset();
                 }
                 break;
             case RESET:
                 nrBalls = 0;
-                spin.setPower(pid.calculatePower(resetPos));
-                if (!IsStorageSpinning()) {
+                pid.setPID(Kp,0,Kd);
+                target = specialPos;
+                Latch.state = Latch.State.IDLE;
+                if (!IsStorageSpinning() && timer.seconds()>1) {
                     state = State.IDLE;
+                    target = resetPos;
+                }
+                else if (!IsStorageSpinning() && timer.seconds()>0.2){
+                    Latch.state = Latch.State.IDLE;
                 }
                 break;
 
         }
-        telemetryM.addData("nrballs",nrBalls);
-        telemetryM.update();
     }
     public void update(){
         stateUpdate();
@@ -117,33 +126,45 @@ public class Storage {
     }
     public void tune(){
         spinUpdate();
-        coef = new PIDCoefficients(Kp,0,Kd);
-        pid.setPidCoefficients(coef);
+        pid.setPID(Kp,0,Kd);
+        telemetryM.addData("nrballs",nrBalls);
+        telemetryM.addData("State",state);
+        telemetryM.addData("Error",Math.toDegrees(Math.abs(target-FromVtoRads())));
+        telemetryM.addData("Angle",Math.toDegrees(FromVtoRads()));
+        telemetryM.addData("Target", target);
+        telemetryM.addData("Is Storage Spinig?",IsStorageSpinning());
+        telemetryM.addData("Is Ball in Storage?",ColorDetection.isBallInStorage());
+        telemetryM.addData("Timer",timer.seconds());
+        telemetryM.addData("Latch state",Latch.state);
+        telemetryM.update();
     }
     public void spinUpdate(){
-        spin.setPower(pid.calculatePower(FromVtoRads())+Ks) ;
-    }
+        if (state == State.SHOOT){
+            pid.setPID(0,0,0);
+        }
+        else {
+            spin.setPower(pid.calculate(FromVtoRads(), target) + Ks);
+        }
+        }
     public static double FromVtoRads(){
-        return (encoder.getVoltage() / encoder.getMaxVoltage()) *2.0 * Math.PI;
+        return Math.abs(encoder.getVoltage() / encoder.getMaxVoltage()) *2.0 * Math.PI;
     }
     public void turn60(){
-        target+= Math.PI /3;
-        target = target % (Math.PI*2);
-        pid.setTargetPosition(target);
+        target+= Math.PI/3;
+        target = target % (350);
     }
     public void turn120(){
         target+= Math.PI * 2/3;
         target = target % (Math.toRadians(350));
-        pid.setTargetPosition(target);
     }
-    public static boolean IsStorageSpinning(){
-        return Math.abs(target-FromVtoRads()) > Math.toRadians(15);
+    public boolean IsStorageSpinning(){
+        return Math.abs(target-FromVtoRads()) > Math.toRadians(12);
     }
     public static double getAngle(){
         return (encoder.getVoltage()/ encoder.getMaxVoltage()) *2.0 * Math.PI;
     }
     public void SetTarget(double angle){
-        pid.setTargetPosition(Math.toRadians(angle));
+        target = Math.toRadians(angle);
     }
 
 

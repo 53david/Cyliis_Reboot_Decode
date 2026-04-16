@@ -28,8 +28,8 @@ public class FlyWheel {
         IDLE,
         SHOOT,
     };
-    public static State state = State.IDLE;
-    public static double vel = 0;
+    public static State state = State.SHOOT;
+    public static double vel = 1400;
     public static double rpm = 0;
     public FlyWheel(){
         shoot1.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -38,7 +38,7 @@ public class FlyWheel {
     public void updateState(){
         switch (state){
             case IDLE :
-                rpm = 600;
+                vel = 600;
                 break;
             case SHOOT:
                 break;
@@ -46,8 +46,8 @@ public class FlyWheel {
     }
     public void update(){
         updateState();
-        double error = rpm-frontLeft.getVelocity();
-        rpm = controller.calculate(frontLeft.getVelocity(),vel);
+        double error = rpm-getVelocity();
+        rpm = controller.calculate(getVelocity(),vel);
         rpm += Kv * vel + Ks;
         rpm *= Voltage;
         if (error>600) {

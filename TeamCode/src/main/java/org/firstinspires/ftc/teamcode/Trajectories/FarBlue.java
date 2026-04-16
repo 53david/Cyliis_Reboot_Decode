@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 import org.firstinspires.ftc.teamcode.Wrappers.Pose2D;
 
 public class FarBlue {
+    Storage storage;
     public Odo odo;
     public Chassis chassis;
     public Intake intake;
@@ -31,6 +32,7 @@ public class FarBlue {
     boolean isShootReady = false;
     public FarBlue(HardwareMap hardwareMap){
         Initializer.start(hardwareMap);
+        storage = new Storage();
         odo = new Odo();
         chassis = new Chassis(Chassis.State.PID);
         intake = new Intake();
@@ -43,7 +45,7 @@ public class FarBlue {
         currentNode = shoot;
         shoot.addConditions(
                 ()->{
-                    if (Intake.state == Intake.State.INTAKE && !Storage.IsStorageSpinning()){
+                    if (Intake.state == Intake.State.INTAKE && !storage.IsStorageSpinning()){
                         Intake.state = Intake.State.IDLE;
                     }
                     chassis.setTargetSpecialPosition(shootPos);

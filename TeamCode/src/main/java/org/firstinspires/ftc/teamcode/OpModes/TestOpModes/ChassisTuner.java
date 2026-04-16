@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.OpModes.TestOpModes;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 
 import com.bylazar.configurables.annotations.Configurable;
+import com.bylazar.gamepad.Gamepad;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -17,6 +18,7 @@ public class ChassisTuner extends LinearOpMode {
     Pose2D finish = new Pose2D(1200,0,Math.PI/2);
     Chassis chassis;
     Odo odo;
+    Gamepad gm1;
     public static boolean isReady;
     public enum State{
         IDLE,
@@ -27,7 +29,9 @@ public class ChassisTuner extends LinearOpMode {
     public void updateState(){
         switch (state){
             case IDLE:
-                chassis.setTargetPosition(start);
+                if(!chassis.inPosition(100,100,0.4)) {
+                    chassis.setTargetPosition(start);
+                }
                 if (isReady)
                     state = State.FORWARD;
                 break;
@@ -49,8 +53,12 @@ public class ChassisTuner extends LinearOpMode {
         Initializer.start(hardwareMap);
         chassis = new Chassis(Chassis.State.PID);
         odo = new Odo();
+        odo.reset();
         waitForStart();
         while (opModeIsActive()){
+            if (gamepad1.ps){
+                odo.reset();
+            }
             updateState();
             chassis.update();
             chassis.tunePid();
@@ -58,6 +66,9 @@ public class ChassisTuner extends LinearOpMode {
             telemetryM.addData("X",Odo.getX());
             telemetryM.addData("Y",Odo.getY());
             telemetryM.addData("Heading",Odo.getHeading());
+            telemetryM.addData("True X",Odo.trueX());
+            telemetryM.addData("True Y",Odo.trueY());
+            telemetryM.addData("True heading",Odo.trueHeading());
             telemetryM.update();
         }
     }

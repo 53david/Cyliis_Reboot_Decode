@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 public class Turret {
     public static double goalPositionX = 0, goalPositionY = 0;
     public double targetAngle = 0;
-    public static double x = 0;
+    public static double x = 0.1;
     public double maxAngle = normalizeRadians(360);
     Odo odo = new Odo();
     public enum AllienceState {
@@ -59,8 +59,8 @@ public class Turret {
     }
     public void updateAngle() {
 
-        double dx = goalPositionX - Odo.getX();
-        double dy = goalPositionY - Odo.getY();
+        double dx = goalPositionX - Odo.trueX();
+        double dy = goalPositionY - Odo.trueY();
         targetAngle = Math.atan2(((goalPositionY)-dy),((goalPositionX)-dx));
         telemetryM.addData("Angle",targetAngle);
         telemetryM.update();
@@ -68,13 +68,8 @@ public class Turret {
     }
 
     public void update() {
-        odo.update();
-        updateAngle();
-        updateServosPosition();
-        if (gm1.ps && gm1.ps!=prevgm1.ps){
-            odo.reset();
-        }
-        AllienceUpdate();
+        servo1.setPosition(x-0.005);
+        servo2.setPosition(x+0.005);
     }
     public void AllienceUpdate(){
         switch (state){
@@ -99,7 +94,5 @@ public class Turret {
         telemetryM.addData("Heading",Odo.getHeading());
         odo.update();
         telemetryM.update();
-        servo1.setPosition(x-0.005);
-        servo2.setPosition(x+0.005);
     }
 }

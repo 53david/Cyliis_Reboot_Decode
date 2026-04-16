@@ -11,20 +11,15 @@ public class Latch {
         TRANSFER,
     };
     public static State state;
-    public static double transPos = 0;
-    public static double idlePos = 0;
+    public static double transPos = 0.385;
+    public static double idlePos = 0.16;
     public Latch(){
         transfer.setPosition(idlePos);
         state = State.IDLE;
     }
     public void update(){
         stateUpdate();
-        if (!isAutonomousActive && Storage.state == Storage.State.TRANSFER){
-            state = State.TRANSFER;
-        }
-        if (!isAutonomousActive && Storage.state == Storage.State.RESET){
-            state = State.IDLE;
-        }
+
     }
     public void stateUpdate(){
         switch (state){

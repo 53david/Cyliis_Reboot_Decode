@@ -12,7 +12,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Components.Intake.ColorDetection;
+import org.firstinspires.ftc.teamcode.Components.Intake.Latch;
 import org.firstinspires.ftc.teamcode.Components.Intake.Storage;
+import org.firstinspires.ftc.teamcode.Components.Shooter.FlyWheel;
 import org.firstinspires.ftc.teamcode.Wrappers.Initializer;
 
 @TeleOp
@@ -23,29 +25,27 @@ public class StorageTuner extends LinearOpMode {
     public static double pos = 0;
     public static boolean Turn120 = false;
     public static boolean Turn60 = false;
-    public static double angle = 1e9;
+    public static double angle = 60;
     public static boolean isTuningDone = false;
+    FlyWheel flyWheel;
     Storage storage;
+    Latch latch;
     ColorDetection colorDetection;
     @Override
     public void runOpMode() throws InterruptedException{
         Initializer.start(hardwareMap);
+        latch = new Latch();
+        flyWheel = new FlyWheel();
         storage = new Storage();
         colorDetection = new ColorDetection();
         waitForStart();
         while (opModeIsActive()) {
+            latch.update();
             storage.tune();
-            transfer.setPosition(pos);
             intakeMotor.setPower(power);
+            flyWheel.update();
             storage.update();
             colorDetection.update();
-
-            telemetryM.addData("Turn120",Turn120);
-            telemetryM.addData("Turn60",Turn60);
-            telemetryM.addData("Rads",Storage.getAngle());
-            telemetryM.addData("Angle", Math.toDegrees(Storage.getAngle()));
-            telemetryM.addData("State",Storage.state);
-            telemetryM.update();
         }
     }
 }
