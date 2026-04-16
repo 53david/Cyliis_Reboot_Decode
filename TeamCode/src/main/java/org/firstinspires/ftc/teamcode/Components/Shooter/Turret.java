@@ -30,6 +30,7 @@ public class Turret {
     }
     public static AllienceState state;
     public Turret() {
+
         servo1.setPwmRange(new PwmControl.PwmRange(500 , 2500));
         servo2.setPwmRange(new PwmControl.PwmRange(500 , 2500));
         servo1.setDirection(Servo.Direction.REVERSE);
@@ -52,9 +53,9 @@ public class Turret {
         right = Math.max(0.0007, right);
         right = Math.min(1 - 0.0007, right);
 
-        telemetryM.addData("left",left);
-        telemetryM.addData("right",right);
-        telemetryM.update();
+        servo1.setPosition(left);
+        servo2.setPosition(right);
+
 
     }
     public void updateAngle() {
@@ -68,8 +69,9 @@ public class Turret {
     }
 
     public void update() {
-        servo1.setPosition(x-0.005);
-        servo2.setPosition(x+0.005);
+        AllienceUpdate();
+        updateServosPosition();
+        updateAngle();
     }
     public void AllienceUpdate(){
         switch (state){
