@@ -11,11 +11,13 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.pp;
 import com.arcrobotics.ftclib.controller.PIDController;
 
 import com.bylazar.configurables.annotations.Configurable;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
+import org.firstinspires.ftc.teamcode.Components.Shooter.Turret;
 import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 import org.firstinspires.ftc.teamcode.Wrappers.Pose2D;
 @Configurable
@@ -82,10 +84,10 @@ public class Chassis{
         x*=lateralMultiplier;
 
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx) , 1);
-        double frontLeftPower = (y + x + rx) / denominator * 12 /Voltage;
-        double backLeftPower = (y - x + rx) / denominator * 12 /Voltage;
-        double frontRightPower = (y - x - rx) / denominator * 12 /Voltage;
-        double backRightPower = (y + x - rx) / denominator * 12 /Voltage;
+        double frontLeftPower = (y + x + rx) / denominator ;
+        double backLeftPower = (y - x + rx) / denominator ;
+        double frontRightPower = (y - x - rx) / denominator;
+        double backRightPower = (y + x - rx) / denominator;
 
         frontLeft.setPower(frontLeftPower);
         backLeft.setPower(backLeftPower);
@@ -131,12 +133,22 @@ public class Chassis{
     }
 
     public void update() {
-        if (state == State.DRIVE) {
+        if (state == State.DRIVE && Turret.state == Turret.AllienceState.BLUE) {
 
-            double X = -gm1.left_stick_y;
-            double Y = -gm1.left_stick_x;
-            double rx = (gm1.right_trigger - gm1.left_trigger) * 0.8;
+            double X = gm1.left_stick_x;
+            double Y = -gm1.left_stick_y;
+            double rx = (gm1.right_trigger - gm1.left_trigger);
             double heading = -Odo.getHeading() + Math.PI / 2;
+            double x = X * Math.cos(heading) - Y * Math.sin(heading);
+            double y = X * Math.sin(heading) + Y * Math.cos(heading);
+            setTargetVector(x, y, rx);
+        }
+        else if (state == State.DRIVE && Turret.state == Turret.AllienceState.RED) {
+
+            double X = gm1.left_stick_x;
+            double Y = -gm1.left_stick_y;
+            double rx = (gm1.right_trigger - gm1.left_trigger);
+            double heading = -Odo.getHeading() - Math.PI / 2;
             double x = X * Math.cos(heading) - Y * Math.sin(heading);
             double y = X * Math.sin(heading) + Y * Math.cos(heading);
             setTargetVector(x, y, rx);

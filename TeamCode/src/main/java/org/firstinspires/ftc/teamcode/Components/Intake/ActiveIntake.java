@@ -37,14 +37,13 @@ public class ActiveIntake {
         }
     }
     public void update(){
-        stateUpdate();
             if (gm1.left_bumper && gm1.left_bumper == prevgm1.left_bumper) {
-                state = State.REVERSE;
+                intakeMotor.setPower(1);
             } else if (gm1.right_bumper && gm1.right_bumper == prevgm1.right_bumper) {
-                state = State.INTAKE;
+                intakeMotor.setPower(-1);
             }
             else {
-                state = State.IDLE;
+                intakeMotor.setPower(0);
         }
     }
 }

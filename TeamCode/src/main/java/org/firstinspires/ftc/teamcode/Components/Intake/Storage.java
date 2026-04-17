@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Components.Shooter.Shooter;
 import org.opencv.core.Mat;
 
 import java.lang.reflect.Array;
@@ -20,9 +21,9 @@ public class Storage {
     PIDController pid = new PIDController(Kp,0,Kd);
     ElapsedTime timer = new ElapsedTime();
     public double target = Math.PI / 6.0;//balls
-    public double nrBalls = 0;
+    public static double nrBalls =  0;
     public static double resetPos = Math.PI/6.0;
-    public static double specialPos = Math.toRadians(330);
+    public static double specialPos = Math.toRadians(320);
     public static double ballPos1 = Math.PI/6.0,ballPos2 = ballPos1 + Math.toRadians(130),ballPos3 = ballPos2 + Math.toRadians(120);
     public static int tValue =1000;
     public static double Kp = 0.7;
@@ -78,17 +79,17 @@ public class Storage {
 
             case BALL3:
                 if (!IsStorageSpinning()) {
-                    state = State.IDLE;
+                    state = State.TRANSFER;
                     nrBalls=3;
                 }
                 break;
             case TRANSFER:
-                target = Math.toRadians(specialPos);
+                target = specialPos;
                 if(!IsStorageSpinning()) {
                     gm1.rumble(1000);
                     Latch.state = Latch.State.TRANSFER;
                 }
-                if (!IsStorageSpinning() && gm1.cross &&prevgm1.cross!= gm1.cross){
+                if (!IsStorageSpinning() && gm1.cross){
                     state = State.SHOOT;
                     timer.reset();
                 }
@@ -96,7 +97,7 @@ public class Storage {
             case SHOOT:
                 pid.setPID(0,0,0);
                 spin.setPower(-1);
-                if (timer.seconds()>1){
+                if (timer.seconds()>0.5){
                     state = State.RESET;
                     timer.reset();
                 }
@@ -105,8 +106,7 @@ public class Storage {
                 nrBalls = 0;
                 pid.setPID(Kp,0,Kd);
                 target = specialPos;
-                Latch.state = Latch.State.IDLE;
-                if (!IsStorageSpinning() && timer.seconds()>1) {
+                if (!IsStorageSpinning() && timer.seconds()>0.6) {
                     state = State.IDLE;
                     target = resetPos;
                 }

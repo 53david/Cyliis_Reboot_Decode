@@ -41,6 +41,7 @@ public class FlyWheel {
                 vel = 600;
                 break;
             case SHOOT:
+                vel = 1400;
                 break;
         }
     }
@@ -62,7 +63,7 @@ public class FlyWheel {
     }
     public void tune(){
         controller.setPID(Kp,0,Kd);
-        double error = vel-getVelocity();
+        double error = Math.abs(vel-getVelocity());
         rpm = controller.calculate(getVelocity(),vel);
         rpm += Kv * vel + Ks;
         rpm *= Voltage;

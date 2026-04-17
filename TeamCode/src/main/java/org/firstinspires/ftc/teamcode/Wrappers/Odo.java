@@ -20,7 +20,6 @@ public class Odo {
 
     public  static double heading,x ,y, xVelocity, yVelocity, predictedX, predictedY;
     public Odo(){
-        pp.setPosition(new Pose2D(DistanceUnit.MM,0,0,RADIANS,0));
         pp.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED , org.firstinspires.ftc.teamcode.Wrappers.GoBildaPinpointDriver.EncoderDirection.FORWARD);
         pp.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         pp.setOffsets(129.503 , -78.001, DistanceUnit.MM);

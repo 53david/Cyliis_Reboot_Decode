@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Components.Intake;
 
 
 public class Intake {
-    public ColorDetection colorDetection = new ColorDetection();
+    public ColorDetection colorDetection;
     public ActiveIntake activeIntake;
     public Storage storage;
 
@@ -17,6 +17,7 @@ public class Intake {
     public static State state;
     public Intake(){
         state = State.IDLE;
+        colorDetection = new ColorDetection();
         activeIntake = new ActiveIntake();
         storage = new Storage();
         latch = new Latch();

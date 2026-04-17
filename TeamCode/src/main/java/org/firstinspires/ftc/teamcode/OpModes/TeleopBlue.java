@@ -16,6 +16,7 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 import org.firstinspires.ftc.teamcode.Components.Chassis.Chassis;
 import org.firstinspires.ftc.teamcode.Components.Intake.ColorDetection;
 import org.firstinspires.ftc.teamcode.Components.Intake.Intake;
+import org.firstinspires.ftc.teamcode.Components.Intake.Storage;
 import org.firstinspires.ftc.teamcode.Components.Shooter.FlyWheel;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Shooter;
 
@@ -52,17 +53,29 @@ public class TeleopBlue extends LinearOpMode {
             prevgm1.copy(gm1);
             prevgm2.copy(gm2);
 
-            telemetryM.addData("ALIANCE",Turret.state);
-            telemetryM.addData("X",Odo.getX());
-            telemetryM.addData("Y",Odo.getY());
-            telemetryM.addData("Heading",Odo.getHeading());
-            telemetryM.addData("Intake state", Intake.state);
-            telemetryM.addData("Shooter state", Shooter.state);
-            telemetryM.addData("Flywheel velocity", FlyWheel.getVelocity());
-            telemetryM.addData("Ball1", ColorDetection.ball1);
-            telemetryM.addData("Ball2",ColorDetection.ball2);
-            telemetryM.addData("Ball3",ColorDetection.ball3);
-            telemetryM.update();
+            if (gamepad1.psWasPressed()){
+                odo.reset();
+            }
+            if (Storage.state == Storage.State.BALL3){
+                gamepad1.rumble(1000);
+            }
+            if (Storage.nrBalls > 0){
+                Shooter.state = Shooter.State.SHOOT;
+            }
+            else {
+                Shooter.state = Shooter.State.IDLE;
+            }
+            telemetry.addData("ALLIANCE",Turret.state);
+            telemetry.addData("X",Odo.getX());
+            telemetry.addData("Y",Odo.getY());
+            telemetry.addData("Heading",Odo.getHeading());
+            telemetry.addData("Intake state", Intake.state);
+            telemetry.addData("Shooter state", Shooter.state);
+            telemetry.addData("Flywheel velocity", FlyWheel.getVelocity());
+            telemetry.addData("Ball1", ColorDetection.ball1);
+            telemetry.addData("Ball2",ColorDetection.ball2);
+            telemetry.addData("Ball3",ColorDetection.ball3);
+            telemetry.update();
         }
     }
 }

@@ -21,8 +21,9 @@ import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 public class Turret {
     public static double goalPositionX = 0, goalPositionY = 0;
     public double targetAngle = 0;
-    public static double x = 0.1;
-    public double maxAngle = normalizeRadians(360);
+    public static double x = 0.5;
+    double x1 = 0, x2 =0;
+    public double maxAngle = Math.PI*2;
     Odo odo = new Odo();
     public enum AllienceState {
         RED,
@@ -40,22 +41,23 @@ public class Turret {
 
     private void updateServosPosition() {
 
-        targetAngle -= Odo.getCurrentPosition().h;
+        targetAngle -= Odo.getHeading();
         targetAngle = normalizeRadians(targetAngle);
         targetAngle = targetAngle / maxAngle;
 
         double targetPosition = targetAngle;
-        double left = targetPosition - 0.005;
-        double right = targetPosition + 0.005;
+        double left = targetPosition;
+        double right = targetPosition;
 
-        left = Math.max(0.0007, left);
-        left = Math.min(1 - 0.0007, left);
-        right = Math.max(0.0007, right);
-        right = Math.min(1 - 0.0007, right);
+        left = Math.max(0.01, left);
+        left = Math.min(1 - 0.01, left);
+        right = Math.max(0.01, right);
+        right = Math.min(1 - 0.01, right);
 
-        servo1.setPosition(left);
-        servo2.setPosition(right);
-
+        x1 = left;
+        x2 = right;
+        servo1.setPosition(x1);
+        servo2.setPosition(x2);
 
     }
     public void updateAngle() {
@@ -69,9 +71,8 @@ public class Turret {
     }
 
     public void update() {
-        AllienceUpdate();
-        updateServosPosition();
-        updateAngle();
+        servo1.setPosition(x+0.005);
+        servo2.setPosition(x-0.005);
     }
     public void AllienceUpdate(){
         switch (state){
@@ -91,10 +92,15 @@ public class Turret {
     }
     public void test(){
         telemetryM.addData("Angle",targetAngle);
+        telemetryM.addData("Left",x1);
+        telemetryM.addData("Right",x2);
         telemetryM.addData("X",Odo.getX());
         telemetryM.addData("y",Odo.getY());
         telemetryM.addData("Heading",Odo.getHeading());
         odo.update();
         telemetryM.update();
+        updateAngle();
+        updateServosPosition();
+        AllienceUpdate();
     }
 }
