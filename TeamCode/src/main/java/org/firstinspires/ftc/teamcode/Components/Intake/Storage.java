@@ -20,15 +20,15 @@ import java.lang.reflect.Array;
 public class Storage {
     PIDController pid = new PIDController(Kp,0,Kd);
     ElapsedTime timer = new ElapsedTime();
-    public double target = Math.PI / 6.0;//balls
+    public double target = Math.PI / 6.0;
     public static double nrBalls =  0;
     public static double resetPos = Math.PI/6.0;
     public static double specialPos = Math.toRadians(320);
-    public static double ballPos1 = Math.PI/6.0,ballPos2 = ballPos1 + Math.toRadians(130),ballPos3 = ballPos2 + Math.toRadians(120);
+    public static double ballPos1 = Math.PI/6.0,ballPos2 = ballPos1 + Math.toRadians(130),ballPos3 = ballPos2 + Math.PI*2.0/3;
     public static int tValue =1000;
-    public static double Kp = 0.7;
+    public static double Kp = 0.8;
     public static double Kd = 0.04;
-    public static double Ks = 0.08;
+    public static double Ks = 0.09;
 
     public enum State{
         BALL1,
@@ -42,6 +42,7 @@ public class Storage {
     public static State state;
 
     public Storage(){
+        timer.startTime();
         state = State.IDLE;
     }
     public void stateUpdate(){
@@ -85,8 +86,7 @@ public class Storage {
                 break;
             case TRANSFER:
                 target = specialPos;
-                if(!IsStorageSpinning()) {
-                    gm1.rumble(1000);
+                if(!IsStorageSpinning())    {
                     Latch.state = Latch.State.TRANSFER;
                 }
                 if (!IsStorageSpinning() && gm1.cross){
@@ -97,7 +97,7 @@ public class Storage {
             case SHOOT:
                 pid.setPID(0,0,0);
                 spin.setPower(-1);
-                if (timer.seconds()>0.5){
+                if (timer.seconds()>0.6){
                     state = State.RESET;
                     timer.reset();
                 }
@@ -129,9 +129,9 @@ public class Storage {
         }
     }
     public void tune(){
-        spinUpdate();
+        update();
         pid.setPID(Kp,0,Kd);
-        telemetryM.addData("nrballs",nrBalls);
+        telemetryM.addData("Nr balls",nrBalls);
         telemetryM.addData("State",state);
         telemetryM.addData("Error",Math.toDegrees(Math.abs(target-FromVtoRads())));
         telemetryM.addData("Angle",Math.toDegrees(FromVtoRads()));

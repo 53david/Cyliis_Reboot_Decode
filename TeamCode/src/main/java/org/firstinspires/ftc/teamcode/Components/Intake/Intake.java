@@ -5,8 +5,8 @@ public class Intake {
     public ColorDetection colorDetection;
     public ActiveIntake activeIntake;
     public Storage storage;
-
     public Latch latch;
+
     public enum State{
         IDLE,
         SHOOT,
@@ -31,8 +31,6 @@ public class Intake {
     public void stateUpdate(){
         switch (state){
             case IDLE:
-                Latch.state = Latch.State.IDLE;
-                Storage.state = Storage.State.IDLE;
                 ActiveIntake.state = ActiveIntake.State.IDLE;
                 break;
             case INTAKE:
@@ -43,12 +41,10 @@ public class Intake {
                 break;
             case TRANSFER:
                 Storage.state = Storage.State.TRANSFER;
-                Latch.state = Latch.State.TRANSFER;
                 break;
             case SHOOT:
                 ActiveIntake.state = ActiveIntake.State.IDLE;
                 Storage.state = Storage.State.SHOOT;
-                Latch.state = Latch.State.TRANSFER;
                 break;
         }
     }

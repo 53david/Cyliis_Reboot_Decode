@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 public class Turret {
     public static double goalPositionX = 0, goalPositionY = 0;
     public double targetAngle = 0;
-    public static double x = 0.5;
+    public static double x = 0.3;
     double x1 = 0, x2 =0;
     public double maxAngle = Math.PI*2;
     Odo odo = new Odo();
@@ -49,38 +49,33 @@ public class Turret {
         double left = targetPosition;
         double right = targetPosition;
 
-        left = Math.max(0.01, left);
-        left = Math.min(1 - 0.01, left);
-        right = Math.max(0.01, right);
-        right = Math.min(1 - 0.01, right);
-
-        x1 = left;
-        x2 = right;
-        servo1.setPosition(x1);
-        servo2.setPosition(x2);
-
+        left = Math.max(0.007, left);
+        left = Math.min(1 - 0.007, left);
+        right = Math.max(0.007, right);
+        right = Math.min(1 - 0.007, right);
+        servo1.setPosition(left);
+        servo2.setPosition(right);
     }
     public void updateAngle() {
 
         double dx = goalPositionX - Odo.trueX();
         double dy = goalPositionY - Odo.trueY();
-        targetAngle = Math.atan2(((goalPositionY)-dy),((goalPositionX)-dx));
-        telemetryM.addData("Angle",targetAngle);
-        telemetryM.update();
+        targetAngle = Math.atan2((dy),(dx));
 
     }
 
     public void update() {
-        servo1.setPosition(x+0.005);
-        servo2.setPosition(x-0.005);
+        AllienceUpdate();
+        updateAngle();
+        updateServosPosition();
     }
     public void AllienceUpdate(){
         switch (state){
             case BLUE:
-                goalPositionX = 840; goalPositionY = 0;
+                goalPositionX = 0; goalPositionY = 860;
                 break;
             case RED:
-                goalPositionX = -840; goalPositionY = 20;
+                goalPositionX = 20 ; goalPositionY = -860;
                 break;
         }
     }
@@ -97,10 +92,12 @@ public class Turret {
         telemetryM.addData("X",Odo.getX());
         telemetryM.addData("y",Odo.getY());
         telemetryM.addData("Heading",Odo.getHeading());
+        telemetryM.addData("Goal X",goalPositionX);
+        telemetryM.addData("Goal Y",goalPositionY);
         odo.update();
         telemetryM.update();
+        AllienceUpdate();
         updateAngle();
         updateServosPosition();
-        AllienceUpdate();
     }
 }

@@ -41,7 +41,7 @@ public class FlyWheel {
                 vel = 600;
                 break;
             case SHOOT:
-                vel = 1400;
+
                 break;
         }
     }
@@ -51,9 +51,6 @@ public class FlyWheel {
         rpm = controller.calculate(getVelocity(),vel);
         rpm += Kv * vel + Ks;
         rpm *= Voltage;
-        if (error>600) {
-            rpm += Ka * (error);
-        }
         shoot1.setPower(rpm);
         shoot2.setPower(rpm);
 
@@ -67,9 +64,6 @@ public class FlyWheel {
         rpm = controller.calculate(getVelocity(),vel);
         rpm += Kv * vel + Ks;
         rpm *= Voltage;
-        if (error>600) {
-            rpm += Ka * (error);
-        }
         shoot1.setPower(rpm);
         shoot2.setPower(rpm);
         telemetryM.addData("Velocity",getVelocity());

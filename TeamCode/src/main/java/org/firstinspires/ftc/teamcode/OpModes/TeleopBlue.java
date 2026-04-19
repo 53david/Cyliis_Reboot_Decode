@@ -56,19 +56,14 @@ public class TeleopBlue extends LinearOpMode {
             if (gamepad1.psWasPressed()){
                 odo.reset();
             }
-            if (Storage.state == Storage.State.BALL3){
-                gamepad1.rumble(1000);
-            }
-            if (Storage.nrBalls > 0){
-                Shooter.state = Shooter.State.SHOOT;
-            }
-            else {
-                Shooter.state = Shooter.State.IDLE;
+            if (Storage.state == Storage.State.BALL3) {
+                gamepad1.rumble(200);
             }
             telemetry.addData("ALLIANCE",Turret.state);
             telemetry.addData("X",Odo.getX());
             telemetry.addData("Y",Odo.getY());
             telemetry.addData("Heading",Odo.getHeading());
+            telemetryM.addData("Distance",Odo.distance());
             telemetry.addData("Intake state", Storage.state);
             telemetry.addData("Shooter state", Shooter.state);
             telemetry.addData("Flywheel velocity", FlyWheel.getVelocity());
