@@ -19,6 +19,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 import org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants;
 
 @Configurable
@@ -41,7 +42,7 @@ public class FlyWheel {
                 vel = 600;
                 break;
             case SHOOT:
-
+                vel = ShooterConstants.fwVel(Odo.distance());
                 break;
         }
     }

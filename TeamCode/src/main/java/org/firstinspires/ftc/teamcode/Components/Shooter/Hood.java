@@ -24,7 +24,7 @@ public class Hood {
                 hood.setPosition(IdlePos);
                 break;
             case SHOOT:
-                hood.setPosition(ShootPos);
+                hood.setPosition(ShooterConstants.hoodAngle(FlyWheel.getVelocity()));
                 break;
         }
     }

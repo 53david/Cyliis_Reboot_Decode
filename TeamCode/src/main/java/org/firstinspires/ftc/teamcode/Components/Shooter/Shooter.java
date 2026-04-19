@@ -34,6 +34,5 @@ public class Shooter {
         updateState();
         hood.update();
         flyWheel.update();
-        turret.update();
     }
 }

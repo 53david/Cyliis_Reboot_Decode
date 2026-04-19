@@ -15,13 +15,13 @@ public class ShooterConstants {
     public static double flywheelOffset = 0;
     public static double hoodOffset = 0;
     public static double fwVel(double delta) {
-        return MathFunctions.clamp(0.0000247737 * Math.pow(delta, 2)+ 0.106755 * delta + 1187.38005, 600,2100)
+        return MathFunctions.clamp(0.0000433298 * Math.pow(delta, 2)+ 0.0518419 * delta + 1262.769, 600,2200)
                 +flywheelOffset;
     }
 
     public static double hoodAngle(double delta){
-        return MathFunctions.clamp( (1.25 * Math.pow(10,-9)) * Math.pow(delta,3) - 0.00000694643 * Math.pow(delta,2)
-                +0.0130607 *delta -7.88929,0.11,0.55) + hoodOffset;
+        return MathFunctions.clamp( (3.63972 * Math.pow(10,-9)) * Math.pow(delta,3) -0.0000186946 * Math.pow(delta,2)
+                +0.0000186946 *delta -18.04131,0.11,0.45) + hoodOffset;
     }
 
 }
