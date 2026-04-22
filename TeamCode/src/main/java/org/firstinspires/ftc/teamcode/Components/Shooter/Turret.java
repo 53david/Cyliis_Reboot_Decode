@@ -21,19 +21,25 @@ import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 public class Turret {
     public static double goalPositionX = 0, goalPositionY = 0;
     public double targetAngle = 0;
-    public static double x = 0.3;
-    double x1 = 0, x2 =0;
+    public double targetPosition = 0.5;
     public double maxAngle = Math.PI*2;
     Odo odo = new Odo();
     public enum AllienceState {
         RED,
         BLUE,
     }
-    public static AllienceState state;
+    public enum State{
+        AUTO,
+        MANUAL,
+    };
+    public static AllienceState allienceState;
+    public State state;
     public Turret() {
 
+        state = State.MANUAL;
         servo1.setPwmRange(new PwmControl.PwmRange(500 , 2500));
         servo2.setPwmRange(new PwmControl.PwmRange(500 , 2500));
+
         servo1.setDirection(Servo.Direction.REVERSE);
         servo2.setDirection(Servo.Direction.REVERSE);
 
@@ -45,21 +51,30 @@ public class Turret {
         targetAngle = normalizeRadians(targetAngle);
         targetAngle = targetAngle / maxAngle;
 
-        double targetPosition = targetAngle;
-        double left = targetPosition;
-        double right = targetPosition;
+        switch (state) {
+            case AUTO :
+                targetPosition = targetAngle;
+                if (gm1.dpad_right && prevgm1.dpad_right != gm1.dpad_right){
+                    state = State.MANUAL;
+                }
+                break;
+            case MANUAL:
+                targetPosition = 0.5;
+                if (gm1.dpad_right && prevgm1.dpad_right != gm1.dpad_right){
+                    state = State.AUTO;
+                }
+                break;
+        }
+        targetPosition = Math.max(0.007, targetPosition);
+        targetPosition = Math.min(1 - 0.007, targetPosition);
 
-        left = Math.max(0.007, left);
-        left = Math.min(1 - 0.007, left);
-        right = Math.max(0.007, right);
-        right = Math.min(1 - 0.007, right);
-        servo1.setPosition(left);
-        servo2.setPosition(right);
+        servo1.setPosition(targetPosition);
+        servo2.setPosition(targetPosition);
     }
     public void updateAngle() {
 
-        double dx = goalPositionX - Odo.trueX();
-        double dy = goalPositionY - Odo.trueY();
+        double dx = goalPositionX - Odo.getX();
+        double dy = goalPositionY - Odo.getY();
         targetAngle = Math.atan2((dy),(dx));
 
     }
@@ -70,12 +85,12 @@ public class Turret {
         updateServosPosition();
     }
     public void AllienceUpdate(){
-        switch (state){
+        switch (allienceState){
             case BLUE:
-                goalPositionX = 0; goalPositionY = 860;
+                goalPositionX = 0; goalPositionY = 840;
                 break;
             case RED:
-                goalPositionX = 20 ; goalPositionY = -860;
+                goalPositionX = -20 ; goalPositionY = -840;
                 break;
         }
     }
@@ -86,9 +101,8 @@ public class Turret {
 
     }
     public void test(){
+
         telemetryM.addData("Angle",targetAngle);
-        telemetryM.addData("Left",x1);
-        telemetryM.addData("Right",x2);
         telemetryM.addData("X",Odo.getX());
         telemetryM.addData("y",Odo.getY());
         telemetryM.addData("Heading",Odo.getHeading());
@@ -99,5 +113,6 @@ public class Turret {
         AllienceUpdate();
         updateAngle();
         updateServosPosition();
+
     }
 }
