@@ -153,23 +153,9 @@ public class Storage {
     public static double FromVtoRads(){
         return Math.abs(encoder.getVoltage() / encoder.getMaxVoltage()) *2.0 * Math.PI;
     }
-    public void turn60(){
-        target+= Math.PI/3;
-        target = target % (350);
-    }
-    public void turn120(){
-        target+= Math.PI * 2/3;
-        target = target % (Math.toRadians(350));
-    }
-    public boolean IsStorageSpinning(){
-        return Math.abs(target-FromVtoRads()) > Math.toRadians(12);
-    }
-    public static double getAngle(){
-        return (encoder.getVoltage()/ encoder.getMaxVoltage()) *2.0 * Math.PI;
-    }
-    public void SetTarget(double angle){
-        target = Math.toRadians(angle);
-    }
 
+    public boolean IsStorageSpinning(){
+        return Math.abs(target-FromVtoRads()) > Math.toRadians(10);
+    }
 
 }
