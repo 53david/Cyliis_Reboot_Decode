@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Components.Intake;
 
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.intakeMotor;
 
 import com.bylazar.configurables.annotations.Configurable;
@@ -32,6 +33,14 @@ public class ActiveIntake {
         }
     }
     public void update(){
-        stateUpdate();
+        if (gm1.left_bumper){
+            intakeMotor.setPower(-1);
+        }
+        else if (gm1.right_bumper){
+            intakeMotor.setPower(1);
+        }
+        else {
+            intakeMotor.setPower(0);
+        }
     }
 }

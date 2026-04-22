@@ -60,6 +60,7 @@ public class Storage {
                     state = State.TRANSFER;
                 }
                 break;
+
             case BALL1:
                 target = ballPos2;
                 if (!IsStorageSpinning()) {
@@ -67,6 +68,7 @@ public class Storage {
                     nrBalls=1;
                 }
                 break;
+
             case BALL2:
                 target = ballPos3;
                 if (!IsStorageSpinning()) {
@@ -81,6 +83,7 @@ public class Storage {
                     nrBalls=3;
                 }
                 break;
+
             case TRANSFER:
                 target = specialPos;
                 if(!IsStorageSpinning())    {
@@ -91,6 +94,7 @@ public class Storage {
                     timer.reset();
                 }
                 break;
+
             case SHOOT:
                 pid.setPID(0,0,0);
                 spin.setPower(-1);
@@ -99,6 +103,7 @@ public class Storage {
                     timer.reset();
                 }
                 break;
+
             case RESET:
                 nrBalls = 0;
                 pid.setPID(Kp,0,Kd);
