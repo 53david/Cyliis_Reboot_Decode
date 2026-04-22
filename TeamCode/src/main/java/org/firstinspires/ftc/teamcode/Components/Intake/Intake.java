@@ -23,6 +23,7 @@ public class Intake {
         latch = new Latch();
     }
     public void update(){
+        stateUpdate();
         latch.update();
         storage.update();
         activeIntake.update();

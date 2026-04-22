@@ -37,13 +37,6 @@ public class ActiveIntake {
         }
     }
     public void update(){
-            if (gm1.left_bumper && gm1.left_bumper == prevgm1.left_bumper) {
-                intakeMotor.setPower(-1);
-            } else if (gm1.right_bumper && gm1.right_bumper == prevgm1.right_bumper) {
-                intakeMotor.setPower(1);
-            }
-            else {
-                intakeMotor.setPower(0);
-        }
+        stateUpdate();
     }
 }

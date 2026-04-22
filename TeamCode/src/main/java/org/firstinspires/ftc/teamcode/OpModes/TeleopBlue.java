@@ -59,6 +59,15 @@ public class TeleopBlue extends LinearOpMode {
             if (Storage.state == Storage.State.BALL3) {
                 gamepad1.rumble(200);
             }
+            if (gamepad1.left_bumper){
+                Intake.state = Intake.State.REVERSE;
+            }
+            else if (gamepad1.right_bumper){
+                Intake.state = Intake.State.INTAKE;
+            }
+            else {
+                Intake.state = Intake.State.IDLE;
+            }
             telemetry.addData("ALLIANCE",Turret.state);
             telemetry.addData("X",Odo.getX());
             telemetry.addData("Y",Odo.getY());

@@ -39,7 +39,7 @@ public class FlyWheel {
     public void updateState(){
         switch (state){
             case IDLE :
-                vel = 600;
+                vel = 920;
                 break;
             case SHOOT:
                 vel = ShooterConstants.fwVel(Odo.distance());
@@ -51,6 +51,9 @@ public class FlyWheel {
         double error = rpm-getVelocity();
         rpm = controller.calculate(getVelocity(),vel);
         rpm += Kv * vel + Ks;
+        if (error >= 350){
+            rpm += Ka * error;
+        }
         rpm *= Voltage;
         shoot1.setPower(rpm);
         shoot2.setPower(rpm);
