@@ -128,20 +128,6 @@ public class Storage {
             state = State.TRANSFER;
         }
     }
-    public void tune(){
-        update();
-        pid.setPID(Kp,0,Kd);
-        telemetryM.addData("Nr balls",nrBalls);
-        telemetryM.addData("State",state);
-        telemetryM.addData("Error",Math.toDegrees(Math.abs(target-FromVtoRads())));
-        telemetryM.addData("Angle",Math.toDegrees(FromVtoRads()));
-        telemetryM.addData("Target", target);
-        telemetryM.addData("Is Storage Spinig?",IsStorageSpinning());
-        telemetryM.addData("Is Ball in Storage?",ColorDetection.isBallInStorage());
-        telemetryM.addData("Timer",timer.seconds());
-        telemetryM.addData("Latch state",Latch.state);
-        telemetryM.update();
-    }
     public void spinUpdate(){
         if (state == State.SHOOT){
             pid.setPID(0,0,0);
