@@ -21,7 +21,7 @@ public class Storage {
     public static double resetPos = Math.PI/6.0;
     public static double specialPos = Math.toRadians(310);
     public static double ballPos1 = Math.PI/6.0,ballPos2 = ballPos1 + Math.PI *2/3,ballPos3 = ballPos2 + Math.PI*2/3;
-    public static double Kp = 0.8;
+    public static double Kp = 0.7;
     public static double Kd = 0.04;
     public static double P = 0;
     public static double D = 0;
