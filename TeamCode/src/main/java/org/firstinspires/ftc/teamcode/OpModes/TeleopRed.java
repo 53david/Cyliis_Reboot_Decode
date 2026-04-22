@@ -11,7 +11,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Components.Chassis.Chassis;
+import org.firstinspires.ftc.teamcode.Components.Intake.ColorDetection;
 import org.firstinspires.ftc.teamcode.Components.Intake.Intake;
+import org.firstinspires.ftc.teamcode.Components.Intake.Storage;
 import org.firstinspires.ftc.teamcode.Components.Shooter.FlyWheel;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Shooter;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Turret;
@@ -31,7 +33,7 @@ public class TeleopRed extends LinearOpMode {
         drive = new Chassis(Chassis.State.DRIVE);
         shooter = new Shooter();
         intake = new Intake();
-        Turret.state = Turret.AllienceState.RED;
+        Turret.allienceState = Turret.AllianceState.RED;
         Shooter.state = Shooter.State.SHOOT;
         waitForStart();
         while (opModeIsActive()){
@@ -44,12 +46,17 @@ public class TeleopRed extends LinearOpMode {
             prevgm1.copy(gm1);
             prevgm2.copy(gm2);
 
-            telemetryM.addData("X",Odo.getX());
-            telemetryM.addData("Y",Odo.getY());
-            telemetryM.addData("Heading",Odo.getHeading());
-            telemetryM.addData("Intake state", Intake.state);
-            telemetryM.addData("Shooter state", Shooter.state);
-            telemetryM.addData("Flywheel velocity", FlyWheel.getVelocity());
+            telemetry.addData("ALLIANCE",Turret.allienceState);
+            telemetry.addData("X",Odo.getX());
+            telemetry.addData("Y",Odo.getY());
+            telemetry.addData("Heading",Odo.getHeading());
+            telemetryM.addData("Distance",Odo.distance());
+            telemetry.addData("Intake state", Storage.state);
+            telemetry.addData("Shooter state", Shooter.state);
+            telemetry.addData("Flywheel velocity", FlyWheel.getVelocity());
+            telemetry.addData("Ball1", ColorDetection.ball1);
+            telemetry.addData("Ball2",ColorDetection.ball2);
+            telemetry.addData("Ball3",ColorDetection.ball3);
             telemetryM.update();
         }
     }

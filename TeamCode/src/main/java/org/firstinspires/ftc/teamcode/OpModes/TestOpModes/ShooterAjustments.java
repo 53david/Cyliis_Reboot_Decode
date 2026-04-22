@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes.TestOpModes;
 
 import com.bylazar.configurables.annotations.Configurable;
-import com.bylazar.telemetry.PanelsTelemetry;
-import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -27,7 +25,7 @@ public class ShooterAjustments extends LinearOpMode {
            hood = new Hood();
            odo = new Odo();
            chassis = new Chassis(Chassis.State.DRIVE);
-           Turret.state= Turret.AllienceState.BLUE;
+           Turret.allienceState= Turret.AllianceState.BLUE;
            waitForStart();
            while (opModeIsActive()){
                flyWheel.tune();

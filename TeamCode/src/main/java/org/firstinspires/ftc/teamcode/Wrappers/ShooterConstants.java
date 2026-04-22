@@ -11,7 +11,6 @@ public class ShooterConstants {
     public static double Ks = 0.15;
     public static double Kv = 0.0004;
     public static double Ka = 0.01;
-    public static double vel = 0;
     public static double flywheelOffset = 0;
     public static double hoodOffset = 0;
     public static double fwVel(double delta) {

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Wrappers;
 
-import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 
 public class Pose2D {
     public double x;

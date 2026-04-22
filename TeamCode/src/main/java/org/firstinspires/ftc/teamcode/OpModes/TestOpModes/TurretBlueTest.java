@@ -18,7 +18,7 @@ public class TurretBlueTest extends LinearOpMode {
         Initializer.start(hardwareMap);
         turret = new Turret();
         odo = new Odo();
-        Turret.state = Turret.AllienceState.BLUE;
+        Turret.state = Turret.AllianceState.BLUE;
         waitForStart();
         while (opModeIsActive()){
             turret.test();

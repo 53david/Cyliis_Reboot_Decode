@@ -7,29 +7,26 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.bylazar.configurables.annotations.Configurable;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Components.Shooter.Shooter;
-import org.opencv.core.Mat;
-
-import java.lang.reflect.Array;
 
 @Configurable
 public class Storage {
     PIDController pid = new PIDController(Kp,0,Kd);
+    PIDController special = new PIDController(P,0,D);
     ElapsedTime timer = new ElapsedTime();
-    public double target = Math.PI / 6.0;
+    public static double target = Math.PI/6.0;
     public static double nrBalls =  0;
     public static double resetPos = Math.PI/6.0;
     public static double specialPos = Math.toRadians(320);
     public static double ballPos1 = Math.PI/6.0,ballPos2 = ballPos1 + Math.PI *2/3,ballPos3 = ballPos2 + Math.PI*2/3;
-    public static int tValue =1000;
     public static double Kp = 0.8;
     public static double Kd = 0.04;
+    public static double P = 0;
+    public static double D = 0;
     public static double Ks = 0.09;
-
+    public double error = 0;
     public enum State{
         BALL1,
         BALL2,
@@ -38,7 +35,7 @@ public class Storage {
         IDLE,
         SHOOT,
         RESET,
-    };
+    }
     public static State state;
 
     public Storage(){
@@ -118,6 +115,7 @@ public class Storage {
         }
     }
     public void update(){
+        getError();
         stateUpdate();
         spinUpdate();
         if (state == State.TRANSFER && gm1.cross && prevgm1.cross != gm1.cross){
@@ -128,20 +126,44 @@ public class Storage {
             state = State.TRANSFER;
         }
     }
+    public void tune(){
+
+        special.setPID(P,0,D);
+        pid.setPID(Kp,0,Kd);
+        spinUpdate();
+
+        telemetryM.addData("Error",Math.toDegrees(error));
+        telemetryM.addData("Current position",Math.toDegrees(FromVtoRads()));
+        telemetryM.addData("Target",Math.toDegrees(target));
+        telemetryM.addData("Is ball in Storage",ColorDetection.isBallInStorage());
+        telemetryM.addData("Is Storage Spinning",IsStorageSpinning());
+        telemetryM.update();
+
+    }
     public void spinUpdate(){
         if (state == State.SHOOT){
             pid.setPID(0,0,0);
         }
         else {
-            spin.setPower(pid.calculate(FromVtoRads(), target) + Ks);
+            if (error>Math.toRadians(10)) {
+                spin.setPower(pid.calculate(FromVtoRads(),target) + Ks);
+            }
+            else {
+                spin.setPower(special.calculate(FromVtoRads(),target) + Ks);
+            }
         }
         }
     public static double FromVtoRads(){
         return Math.abs(encoder.getVoltage() / encoder.getMaxVoltage()) *2.0 * Math.PI;
     }
-
+    public void getError(){
+        error = Math.abs(target-FromVtoRads());
+    }
     public boolean IsStorageSpinning(){
-        return Math.abs(target-FromVtoRads()) > Math.toRadians(10);
+        return Math.abs(target-FromVtoRads()) > Math.toRadians(5);
+    }
+    public void setTargetAngle(double angle){
+        target = Math.toRadians(angle);
     }
 
 }

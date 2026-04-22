@@ -1,11 +1,8 @@
 package org.firstinspires.ftc.teamcode.Components.Shooter;
 
-import org.firstinspires.ftc.teamcode.Components.Intake.Intake;
-
 public class Shooter {
-    public FlyWheel flyWheel;
-    public Turret turret;
-    public Hood hood;
+    FlyWheel flyWheel;
+    Hood hood;
     public enum State{
         IDLE,
         SHOOT,
@@ -13,10 +10,8 @@ public class Shooter {
     public static State state = State.IDLE;
     public Shooter(){
         flyWheel =new FlyWheel();
-        turret =new Turret();
         hood = new Hood();
     }
-
     public void updateState(){
         switch (state){
             case IDLE:

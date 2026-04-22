@@ -40,7 +40,7 @@ public class TeleopBlue extends LinearOpMode {
         intake =new Intake();
         drive =new Chassis(Chassis.State.DRIVE);
         shooter =new Shooter();
-        Turret.state = Turret.AllienceState.BLUE;
+        Turret.allienceState = Turret.AllianceState.BLUE;
         Shooter.state = Shooter.State.SHOOT;
         waitForStart();
         while (opModeIsActive()) {
@@ -68,7 +68,7 @@ public class TeleopBlue extends LinearOpMode {
             else {
                 Intake.state = Intake.State.IDLE;
             }
-            telemetry.addData("ALLIANCE",Turret.state);
+            telemetry.addData("ALLIANCE",Turret.allienceState);
             telemetry.addData("X",Odo.getX());
             telemetry.addData("Y",Odo.getY());
             telemetry.addData("Heading",Odo.getHeading());

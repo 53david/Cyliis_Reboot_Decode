@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Trajectories;
 
-import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -38,7 +37,7 @@ public class FarBlue {
         intake = new Intake();
         shooter = new Shooter();
         Intake.state = Intake.State.TRANSFER;
-        Turret.state = Turret.AllienceState.BLUE;
+        Turret.allienceState = Turret.AllianceState.BLUE;
         shoot = new Node("shoot");
         spike1 = new Node("spike1");
         loadingZone = new Node("loadingZone");

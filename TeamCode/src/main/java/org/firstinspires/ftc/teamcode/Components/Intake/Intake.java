@@ -13,7 +13,7 @@ public class Intake {
         REVERSE,
         INTAKE,
         TRANSFER,
-    };
+    }
     public static State state;
     public Intake(){
         state = State.IDLE;

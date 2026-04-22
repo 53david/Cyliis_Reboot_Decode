@@ -1,12 +1,5 @@
 package org.firstinspires.ftc.teamcode.OpModes.TestOpModes;
 
-
-import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.encoder;
-import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.intakeMotor;
-import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.spin;
-import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
-import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.transfer;
-
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -20,13 +13,7 @@ import org.firstinspires.ftc.teamcode.Wrappers.Initializer;
 @TeleOp
 @Configurable
 public class StorageTuner extends LinearOpMode {
-    public static double power = 0;
-    public static double power2 =0 ;
-    public static double pos = 0;
-    public static boolean Turn120 = false;
-    public static boolean Turn60 = false;
-    public static double angle = 60;
-    public static boolean isTuningDone = false;
+    public static double angle = 30;
     FlyWheel flyWheel;
     Storage storage;
     Latch latch;
@@ -40,12 +27,10 @@ public class StorageTuner extends LinearOpMode {
         colorDetection = new ColorDetection();
         waitForStart();
         while (opModeIsActive()) {
-            latch.update();
             storage.tune();
-            intakeMotor.setPower(power);
-            flyWheel.update();
-            storage.update();
+            storage.setTargetAngle(angle);
             colorDetection.update();
+
         }
     }
 }

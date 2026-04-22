@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Components.Chassis;
 
-import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.Voltage;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.backLeft;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.backRight;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.frontLeft;
@@ -11,7 +10,6 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.pp;
 import com.arcrobotics.ftclib.controller.PIDController;
 
 import com.bylazar.configurables.annotations.Configurable;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
@@ -133,7 +131,7 @@ public class Chassis{
     }
 
     public void update() {
-        if (state == State.DRIVE && Turret.state == Turret.AllienceState.BLUE) {
+        if (state == State.DRIVE && Turret.allienceState == Turret.AllianceState.BLUE) {
 
             double X = gm1.left_stick_x;
             double Y = -gm1.left_stick_y;
@@ -143,7 +141,7 @@ public class Chassis{
             double y = X * Math.sin(heading) + Y * Math.cos(heading);
             setTargetVector(x, y, rx);
         }
-        else if (state == State.DRIVE && Turret.state == Turret.AllienceState.RED) {
+        else if (state == State.DRIVE && Turret.allienceState == Turret.AllianceState.RED) {
 
             double X = gm1.left_stick_x;
             double Y = -gm1.left_stick_y;

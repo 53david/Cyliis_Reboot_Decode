@@ -2,19 +2,14 @@ package org.firstinspires.ftc.teamcode.Components.Shooter;
 
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
-import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.pp;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.servo1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.servo2;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 
 import com.bylazar.configurables.annotations.Configurable;
-import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 
 @Configurable
@@ -24,15 +19,15 @@ public class Turret {
     public double targetPosition = 0.5;
     public double maxAngle = Math.PI*2;
     Odo odo = new Odo();
-    public enum AllienceState {
+    public enum AllianceState {
         RED,
         BLUE,
     }
     public enum State{
         AUTO,
         MANUAL,
-    };
-    public static AllienceState allienceState;
+    }
+    public static AllianceState allienceState;
     public State state;
     public Turret() {
 
@@ -80,11 +75,11 @@ public class Turret {
     }
 
     public void update() {
-        AllienceUpdate();
+        AllianceUpdate();
         updateAngle();
         updateServosPosition();
     }
-    public void AllienceUpdate(){
+    public void AllianceUpdate(){
         switch (allienceState){
             case BLUE:
                 goalPositionX = 0; goalPositionY = 840;
@@ -110,7 +105,7 @@ public class Turret {
         telemetryM.addData("Goal Y",goalPositionY);
         odo.update();
         telemetryM.update();
-        AllienceUpdate();
+        AllianceUpdate();
         updateAngle();
         updateServosPosition();
 

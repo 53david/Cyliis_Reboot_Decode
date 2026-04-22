@@ -11,7 +11,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Turret;
-import org.firstinspires.ftc.teamcode.Wrappers.LowPassFilter;
 
 import java.lang.Math;
 

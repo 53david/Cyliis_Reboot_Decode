@@ -1,14 +1,9 @@
 package org.firstinspires.ftc.teamcode.Components.Intake;
 
-import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.intakeMotor;
-import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.isAutonomousActive;
-import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 
 import com.bylazar.configurables.annotations.Configurable;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 
 @Configurable
@@ -17,7 +12,7 @@ public class ActiveIntake {
         IDLE,
         INTAKE,
         REVERSE,
-    };
+    }
     public static State state;
     public ActiveIntake() {
         intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);

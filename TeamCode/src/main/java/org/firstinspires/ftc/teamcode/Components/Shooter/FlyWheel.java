@@ -15,8 +15,6 @@ import static org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants.Kv;
 
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.bylazar.configurables.annotations.Configurable;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.Wrappers.Odo;
@@ -28,7 +26,7 @@ public class FlyWheel {
     public enum State{
         IDLE,
         SHOOT,
-    };
+    }
     public static State state = State.SHOOT;
     public static double vel = 1400;
     public static double rpm = 0;

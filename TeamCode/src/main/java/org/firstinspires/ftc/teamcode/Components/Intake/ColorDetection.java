@@ -8,7 +8,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class ColorDetection {
     Storage storage = new Storage();
-    public static double distance = 2;
     public float red = 0;
     public float green = 0;
     public float blue = 0;

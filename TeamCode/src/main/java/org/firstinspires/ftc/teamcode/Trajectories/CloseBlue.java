@@ -48,7 +48,7 @@ public class CloseBlue {
          shooter = new Shooter();
          odo = new Odo();
         Intake.state = Intake.State.TRANSFER;
-        Turret.state = Turret.AllienceState.BLUE;
+        Turret.allienceState = Turret.AllianceState.BLUE;
         shoot = new Node("shoot");
         beforeSpike2 = new Node("beforeSpike2");
         beforeSpike1 = new Node("beforeSpike1");
