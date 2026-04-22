@@ -15,7 +15,7 @@ public class TurretRedTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException{
         Initializer.start(hardwareMap);
         turret = new Turret();
-        Turret.state = Turret.AllianceState.RED;
+        Turret.allienceState = Turret.AllianceState.RED;
         waitForStart();
         while (opModeIsActive()){
             turret.update();
