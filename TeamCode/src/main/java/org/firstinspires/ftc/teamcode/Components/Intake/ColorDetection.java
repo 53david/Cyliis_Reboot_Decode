@@ -26,16 +26,16 @@ public class ColorDetection {
             purpleBall = distance(red, green, blue, 175, 0, 175);
         }
 
-        if (isBallInStorage() && Storage.state == Storage.State.BALL1){
+        if (isBallInStorage() && Storage.nrBalls == 0){
             ball3 = ball2;
             ball2 = ball1;
         }
-        if (isBallInStorage() && Storage.state == Storage.State.BALL2){
+        if (isBallInStorage() && Storage.nrBalls == 1){
             ball3 = ball2;
             ball2 = ball1;
         }
 
-        if (isBallInStorage() && Storage.state == Storage.State.BALL3){
+        if (isBallInStorage() && Storage.nrBalls == 2){
             ball3 = ball2;
             ball2 = ball1;
         }
@@ -50,7 +50,7 @@ public class ColorDetection {
         }
     }
     public static boolean isBallInStorage(){
-        return !proximitySensor.getState() || color.getDistance(DistanceUnit.MM)<10;
+        return !proximitySensor.getState() || color.getDistance(DistanceUnit.MM)<20;
     }
     public float distance(float r1, float g1 , float b1, float r2, float g2, float b2) {
         return (float)Math.sqrt( (r1-r2)*(r1-r2) + (b1-b2)*(b1-b2) + (g1-g2)*(g1-g2));

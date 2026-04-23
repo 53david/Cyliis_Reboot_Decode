@@ -19,12 +19,12 @@ public class Storage {
     public static double target = Math.PI/6.0;
     public static double nrBalls =  0;
     public static double resetPos = Math.PI/6.0;
-    public static double specialPos = Math.toRadians(310);
+    public static double specialPos = Math.toRadians(314);
     public static double ballPos1 = Math.PI/6.0,ballPos2 = ballPos1 + Math.PI *2/3,ballPos3 = ballPos2 + Math.PI*2/3;
     public static double Kp = 0.7;
-    public static double Kd = 0.04;
-    public static double P = 0;
-    public static double D = 0;
+    public static double Kd = 0.03;
+    public static double P = 1.6;
+    public static double D = 0.07;
     public static double Ks = 0.09;
     public double error = 0;
     public enum State{
@@ -47,46 +47,21 @@ public class Storage {
         switch (state){
             case IDLE:
                 if (ColorDetection.isBallInStorage() && !IsStorageSpinning() && nrBalls==0){
-                    state = State.BALL1;
+                    nrBalls = 1;
+                    target = ballPos2;
                 }
                 else if (ColorDetection.isBallInStorage() && !IsStorageSpinning() && nrBalls==1){
-                    state = State.BALL2;
+                    nrBalls = 2;
+                    target = ballPos3;
                 }
                 else if (ColorDetection.isBallInStorage() && !IsStorageSpinning() && nrBalls==2){
-                    state = State.BALL3;
-                }
-                if (nrBalls==3 && !IsStorageSpinning()){
-                    timer.reset();
-                    state = State.TRANSFER;
-                }
-                break;
-
-            case BALL1:
-                target = ballPos2;
-                if (!IsStorageSpinning()) {
-                    state = State.IDLE;
-                    nrBalls=1;
-                }
-                break;
-
-            case BALL2:
-                target = ballPos3;
-                if (!IsStorageSpinning()) {
-                    state = State.IDLE;
-                    nrBalls=2;
-                }
-                break;
-
-            case BALL3:
-                if (!IsStorageSpinning()) {
-                    state = State.TRANSFER;
-                    nrBalls=3;
+                    nrBalls = 3;
+                    target = specialPos;
                 }
                 break;
 
             case TRANSFER:
-                target = specialPos;
-                if(!IsStorageSpinning())    {
+                if(!IsStorageSpinning() && timer.seconds()>0.25)    {
                     Latch.state = Latch.State.TRANSFER;
                 }
                 if (!IsStorageSpinning() && gm1.cross){
@@ -108,11 +83,11 @@ public class Storage {
                 nrBalls = 0;
                 pid.setPID(Kp,0,Kd);
                 target = specialPos;
-                if (!IsStorageSpinning() && timer.seconds()>0.6) {
+                if (!IsStorageSpinning() && Latch.state == Latch.State.IDLE) {
                     state = State.IDLE;
                     target = resetPos;
                 }
-                else if (!IsStorageSpinning() && timer.seconds()>0.2){
+                else if (!IsStorageSpinning()){
                     Latch.state = Latch.State.IDLE;
                 }
                 break;
@@ -121,8 +96,8 @@ public class Storage {
     }
     public void update(){
         getError();
-        stateUpdate();
         spinUpdate();
+        stateUpdate();
         if (state == State.TRANSFER && gm1.cross && prevgm1.cross != gm1.cross){
             state = State.SHOOT;
             timer.reset();
@@ -130,31 +105,19 @@ public class Storage {
         if (gm1.circle && prevgm1.circle!= gm1.circle && nrBalls>=1){
             state = State.TRANSFER;
         }
-    }
-    public void tune(){
-
-        special.setPID(P,0,D);
         pid.setPID(Kp,0,Kd);
-        spinUpdate();
-
-        telemetryM.addData("Error",Math.toDegrees(error));
-        telemetryM.addData("Current position",Math.toDegrees(FromVtoRads()));
-        telemetryM.addData("Target",Math.toDegrees(target));
-        telemetryM.addData("Is ball in Storage",ColorDetection.isBallInStorage());
-        telemetryM.addData("Is Storage Spinning",IsStorageSpinning());
-        telemetryM.update();
-
+        special.setPID(P,0,D);
     }
     public void spinUpdate(){
         if (state == State.SHOOT){
             pid.setPID(0,0,0);
         }
         else {
-            if (error>Math.toRadians(10)) {
-                spin.setPower(pid.calculate(FromVtoRads(),target) + Ks);
+            if (Math.toDegrees(Math.abs(FromVtoRads()-target)) >= 10) {
+                spin.setPower(pid.calculate(FromVtoRads(), target) + Ks);
             }
             else {
-                spin.setPower(special.calculate(FromVtoRads(),target) + Ks);
+                spin.setPower(special.calculate(FromVtoRads(), target) + Ks);
             }
         }
         }
@@ -165,7 +128,7 @@ public class Storage {
         error = Math.abs(target-FromVtoRads());
     }
     public boolean IsStorageSpinning(){
-        return Math.abs(target-FromVtoRads()) > Math.toRadians(5);
+        return Math.abs(target-FromVtoRads()) > Math.toRadians(20);
     }
     public void setTargetAngle(double angle){
         target = Math.toRadians(angle);

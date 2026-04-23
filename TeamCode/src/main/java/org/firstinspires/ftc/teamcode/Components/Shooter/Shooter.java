@@ -7,7 +7,7 @@ public class Shooter {
         IDLE,
         SHOOT,
     }
-    public static State state = State.IDLE;
+    public static State state = State.SHOOT;
     public Shooter(){
         flyWheel =new FlyWheel();
         hood = new Hood();

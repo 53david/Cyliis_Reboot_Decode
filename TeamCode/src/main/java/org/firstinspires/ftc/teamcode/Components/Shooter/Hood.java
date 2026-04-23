@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Components.Shooter;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.hood;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -14,7 +15,7 @@ public class Hood {
         IDLE,
         SHOOT,
     }
-    public static State state = State.IDLE;
+    public static State state = State.SHOOT;
     public void updateState(){
         switch (state){
             case IDLE :
@@ -31,6 +32,8 @@ public class Hood {
     }
     public void update(){
         updateState();
+        telemetryM.addData("Pos",ShooterConstants.hoodAngle(FlyWheel.getVelocity()));
+        telemetryM.update();
     }
     public void tune(){
         hood.setPosition(pos);

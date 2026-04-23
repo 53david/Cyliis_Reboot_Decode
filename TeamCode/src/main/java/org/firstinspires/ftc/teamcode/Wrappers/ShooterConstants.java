@@ -5,22 +5,23 @@ import com.pedropathing.math.MathFunctions;
 @Configurable
 public class ShooterConstants {
 
-    public static double Kp = 0.003;
+    public static double Kp = 0.005;
     public static double Ki = 0;
     public static double Kd = 0;
-    public static double Ks = 0.15;
+    public static double Ks = 0.13;
     public static double Kv = 0.0004;
-    public static double Ka = 0.01;
-    public static double flywheelOffset = 0;
+    public static double Ka = 0.3;
+    public static double flywheelOffset = 50;
     public static double hoodOffset = 0;
+
     public static double fwVel(double delta) {
-        return MathFunctions.clamp(0.0000433298 * Math.pow(delta, 2)+ 0.0518419 * delta + 1262.769, 600,2200)
-                +flywheelOffset;
+        return Math.clamp(((8.52922 * Math.pow(10, -8)) * Math.pow(delta, 3)
+                - 0.00050839 * Math.pow(delta, 2) + 1.25903 * delta + 519.65035)+flywheelOffset,1500,2300);
     }
 
-    public static double hoodAngle(double delta){
-        return MathFunctions.clamp( (3.63972 * Math.pow(10,-9)) * Math.pow(delta,3) -0.0000186946 * Math.pow(delta,2)
-                +0.0000186946 *delta -18.04131,0.11,0.4) + hoodOffset;
-    }
+    public static double hoodAngle(double delta) {
+        return Math.clamp(((0.0000241756 * Math.pow(delta, 3) - 0.122862
+                * Math.pow(delta, 2) + 208.82546 * delta - 114884.567) * 0.0001),0.15,0.6);
 
+    }
 }

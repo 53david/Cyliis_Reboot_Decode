@@ -46,12 +46,8 @@ public class FlyWheel {
     }
     public void update(){
         updateState();
-        double error = rpm-getVelocity();
         rpm = controller.calculate(getVelocity(),vel);
         rpm += Kv * vel + Ks;
-        if (error >= 350){
-            rpm += Ka * error;
-        }
         rpm *= Voltage;
         shoot1.setPower(rpm);
         shoot2.setPower(rpm);

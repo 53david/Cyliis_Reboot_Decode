@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Wrappers.Initializer;
 @TeleOp
 @Configurable
 public class StorageTuner extends LinearOpMode {
-    public static double angle = 30;
+
     FlyWheel flyWheel;
     Storage storage;
     Latch latch;
@@ -27,10 +27,9 @@ public class StorageTuner extends LinearOpMode {
         colorDetection = new ColorDetection();
         waitForStart();
         while (opModeIsActive()) {
-            storage.tune();
-            storage.setTargetAngle(angle);
+            storage.update();
+            latch.update();
             colorDetection.update();
-
         }
     }
 }
