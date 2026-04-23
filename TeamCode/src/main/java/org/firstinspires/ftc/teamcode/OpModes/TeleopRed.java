@@ -46,6 +46,12 @@ public class TeleopRed extends LinearOpMode {
             prevgm1.copy(gm1);
             prevgm2.copy(gm2);
 
+            if (gamepad1.psWasPressed()){
+                odo.reset();
+            }
+            if (Storage.isShootReady) {
+                gamepad1.rumble(200);
+            }
             telemetry.addData("ALLIANCE",Turret.allienceState);
             telemetry.addData("X",Odo.getX());
             telemetry.addData("Y",Odo.getY());

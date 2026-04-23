@@ -16,6 +16,7 @@ public class Storage {
     PIDController pid = new PIDController(Kp,0,Kd);
     PIDController special = new PIDController(P,0,D);
     ElapsedTime timer = new ElapsedTime();
+    public static boolean isShootReady = false;
     public static double target = Math.PI/6.0;
     public static double nrBalls =  0;
     public static double resetPos = Math.PI/6.0;
@@ -28,9 +29,6 @@ public class Storage {
     public static double Ks = 0.09;
     public double error = 0;
     public enum State{
-        BALL1,
-        BALL2,
-        BALL3,
         TRANSFER,
         IDLE,
         SHOOT,
@@ -41,6 +39,7 @@ public class Storage {
     public Storage(){
         timer.startTime();
         state = State.IDLE;
+        isShootReady = false;
     }
     public void stateUpdate(){
 
@@ -49,18 +48,22 @@ public class Storage {
                 if (ColorDetection.isBallInStorage() && !IsStorageSpinning() && nrBalls==0){
                     nrBalls = 1;
                     target = ballPos2;
+                    isShootReady = false;
                 }
                 else if (ColorDetection.isBallInStorage() && !IsStorageSpinning() && nrBalls==1){
                     nrBalls = 2;
                     target = ballPos3;
+                    isShootReady = false;
                 }
                 else if (ColorDetection.isBallInStorage() && !IsStorageSpinning() && nrBalls==2){
                     nrBalls = 3;
                     target = specialPos;
+                    state = State.TRANSFER;
+                    isShootReady = true;
                 }
                 break;
-
             case TRANSFER:
+
                 if(!IsStorageSpinning() && timer.seconds()>0.25)    {
                     Latch.state = Latch.State.TRANSFER;
                 }
@@ -95,7 +98,6 @@ public class Storage {
         }
     }
     public void update(){
-        getError();
         spinUpdate();
         stateUpdate();
         if (state == State.TRANSFER && gm1.cross && prevgm1.cross != gm1.cross){
@@ -124,14 +126,8 @@ public class Storage {
     public static double FromVtoRads(){
         return Math.abs(encoder.getVoltage() / encoder.getMaxVoltage()) *2.0 * Math.PI;
     }
-    public void getError(){
-        error = Math.abs(target-FromVtoRads());
-    }
     public boolean IsStorageSpinning(){
-        return Math.abs(target-FromVtoRads()) > Math.toRadians(20);
-    }
-    public void setTargetAngle(double angle){
-        target = Math.toRadians(angle);
+        return Math.abs(target-FromVtoRads()) > Math.toRadians(12.5);
     }
 
 }

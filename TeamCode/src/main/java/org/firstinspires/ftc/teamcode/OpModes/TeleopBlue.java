@@ -56,7 +56,7 @@ public class TeleopBlue extends LinearOpMode {
             if (gamepad1.psWasPressed()){
                 odo.reset();
             }
-            if (Storage.state == Storage.State.BALL3) {
+            if (Storage.isShootReady) {
                 gamepad1.rumble(200);
             }
 
