@@ -4,10 +4,13 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.color;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.proximitySensor;
 
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import com.bylazar.configurables.annotations.Configurable;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+@Configurable
 public class ColorDetection {
     Storage storage = new Storage();
+    public static double a = 50;
     public float red = 0;
     public float green = 0;
     public float blue = 0;
@@ -50,7 +53,7 @@ public class ColorDetection {
         }
     }
     public static boolean isBallInStorage(){
-        return !proximitySensor.getState() || color.getDistance(DistanceUnit.MM)<20;
+        return !proximitySensor.getState() || color.getDistance(DistanceUnit.MM)<a;
     }
     public float distance(float r1, float g1 , float b1, float r2, float g2, float b2) {
         return (float)Math.sqrt( (r1-r2)*(r1-r2) + (b1-b2)*(b1-b2) + (g1-g2)*(g1-g2));

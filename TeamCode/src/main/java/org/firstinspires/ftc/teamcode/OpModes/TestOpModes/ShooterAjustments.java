@@ -15,9 +15,9 @@ import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 @Configurable
 public class ShooterAjustments extends LinearOpMode {
     FlyWheel flyWheel;
+    Chassis chassis;
     Hood hood;
     Odo odo;
-    Chassis chassis;
     @Override
     public void runOpMode() throws InterruptedException{
         Initializer.start(hardwareMap);
@@ -31,6 +31,7 @@ public class ShooterAjustments extends LinearOpMode {
                flyWheel.tune();
                hood.tune();
                odo.update();
+
                telemetry.addData("Delta",Odo.distance());
                telemetry.addData("Velocity",FlyWheel.getVelocity());
                telemetry.update();

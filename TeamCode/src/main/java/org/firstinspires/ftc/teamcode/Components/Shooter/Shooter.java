@@ -15,11 +15,9 @@ public class Shooter {
     public void updateState(){
         switch (state){
             case IDLE:
-                Hood.state = Hood.State.IDLE;
                 FlyWheel.state = FlyWheel.State.IDLE;
                 break;
             case SHOOT:
-                Hood.state = Hood.State.SHOOT;
                 FlyWheel.state = FlyWheel.State.SHOOT;
                 break;
         }

@@ -6,7 +6,7 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.shoot1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.shoot2;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.frontLeft;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
-import static org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants.Ka;
+
 import static org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants.Kd;
 import static org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants.Ki;
 import static org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants.Kp;
@@ -45,7 +45,11 @@ public class FlyWheel {
         }
     }
     public void update(){
+        controller.setPID(Kp,0,Kd);
         updateState();
+        if (Math.abs(getVelocity()-vel)<=20){
+            vel = getVelocity();
+        }
         rpm = controller.calculate(getVelocity(),vel);
         rpm += Kv * vel + Ks;
         rpm *= Voltage;

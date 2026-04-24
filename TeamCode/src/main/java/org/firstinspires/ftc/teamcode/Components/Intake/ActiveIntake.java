@@ -18,6 +18,7 @@ public class ActiveIntake {
     public ActiveIntake() {
         intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         state = State.IDLE;
+
     }
     public void stateUpdate() {
         switch (state){

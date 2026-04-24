@@ -15,7 +15,7 @@ public class Hood {
         IDLE,
         SHOOT,
     }
-    public static State state = State.SHOOT;
+    public static State state = State.IDLE;
     public void updateState(){
         switch (state){
             case IDLE :

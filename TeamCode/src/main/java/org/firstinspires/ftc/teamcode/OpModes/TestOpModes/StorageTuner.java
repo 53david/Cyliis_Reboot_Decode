@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.TestOpModes;
 
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
+
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -30,6 +32,9 @@ public class StorageTuner extends LinearOpMode {
             storage.update();
             latch.update();
             colorDetection.update();
+            telemetryM.addData("Storage pos",Math.toDegrees(Storage.FromVtoRads()));
+            telemetryM.addData("Target pos",Math.toDegrees(Storage.target));
+            telemetryM.update();
         }
     }
 }

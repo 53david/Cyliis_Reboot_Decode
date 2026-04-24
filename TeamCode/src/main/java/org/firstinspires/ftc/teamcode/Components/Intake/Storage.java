@@ -10,24 +10,25 @@ import com.bylazar.configurables.annotations.Configurable;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Components.Shooter.Hood;
+
 
 @Configurable
 public class Storage {
     PIDController pid = new PIDController(Kp,0,Kd);
     PIDController special = new PIDController(P,0,D);
     ElapsedTime timer = new ElapsedTime();
-    public static boolean isShootReady = false;
-    public static double target = Math.PI/6.0;
+    public static boolean isTransferReady = false;
+    public static double target = Math.PI/4.0;
     public static double nrBalls =  0;
-    public static double resetPos = Math.PI/6.0;
-    public static double specialPos = Math.toRadians(314);
-    public static double ballPos1 = Math.PI/6.0,ballPos2 = ballPos1 + Math.PI *2/3,ballPos3 = ballPos2 + Math.PI*2/3;
-    public static double Kp = 0.7;
+    public static double resetPos = Math.PI/4.0;
+    public static double specialPos = Math.toRadians(317);
+    public static double ballPos1 = Math.PI/4.,ballPos2 = ballPos1 + Math.PI *2/3,ballPos3 = ballPos2 + Math.PI*2/3;
+    public static double Kp = 0.9;
     public static double Kd = 0.03;
-    public static double P = 1.6;
-    public static double D = 0.07;
-    public static double Ks = 0.09;
-    public double error = 0;
+    public static double P = 1.8;
+    public static double D = 0.06;
+    public static double Ks = 0;
     public enum State{
         TRANSFER,
         IDLE,
@@ -39,36 +40,38 @@ public class Storage {
     public Storage(){
         timer.startTime();
         state = State.IDLE;
-        isShootReady = false;
+        isTransferReady = false;
     }
     public void stateUpdate(){
 
         switch (state){
             case IDLE:
+                Hood.state = Hood.State.IDLE;
                 if (ColorDetection.isBallInStorage() && !IsStorageSpinning() && nrBalls==0){
                     nrBalls = 1;
                     target = ballPos2;
-                    isShootReady = false;
+                    isTransferReady= false;
                 }
                 else if (ColorDetection.isBallInStorage() && !IsStorageSpinning() && nrBalls==1){
                     nrBalls = 2;
                     target = ballPos3;
-                    isShootReady = false;
+                    isTransferReady = false;
                 }
                 else if (ColorDetection.isBallInStorage() && !IsStorageSpinning() && nrBalls==2){
                     nrBalls = 3;
                     target = specialPos;
                     state = State.TRANSFER;
-                    isShootReady = true;
+                    isTransferReady = true;
                 }
                 break;
             case TRANSFER:
-
-                if(!IsStorageSpinning() && timer.seconds()>0.25)    {
+                isTransferReady = false;
+                if(!IsStorageSpinning() && timer.seconds()>0.25){
                     Latch.state = Latch.State.TRANSFER;
                 }
                 if (!IsStorageSpinning() && gm1.cross){
                     state = State.SHOOT;
+                    Hood.state = Hood.State.SHOOT;
                     timer.reset();
                 }
                 break;
@@ -85,7 +88,8 @@ public class Storage {
             case RESET:
                 nrBalls = 0;
                 pid.setPID(Kp,0,Kd);
-                target = specialPos;
+                target = resetPos;
+                Hood.state = Hood.State.IDLE;
                 if (!IsStorageSpinning() && Latch.state == Latch.State.IDLE) {
                     state = State.IDLE;
                     target = resetPos;
@@ -105,6 +109,7 @@ public class Storage {
             timer.reset();
         }
         if (gm1.circle && prevgm1.circle!= gm1.circle && nrBalls>=1){
+            target = specialPos;
             state = State.TRANSFER;
         }
         pid.setPID(Kp,0,Kd);
@@ -116,18 +121,18 @@ public class Storage {
         }
         else {
             if (Math.toDegrees(Math.abs(FromVtoRads()-target)) >= 10) {
-                spin.setPower(pid.calculate(FromVtoRads(), target) + Ks);
+                spin.setPower(pid.calculate(FromVtoRads(), target) + Ks * Math.signum(FromVtoRads()-target));
             }
             else {
-                spin.setPower(special.calculate(FromVtoRads(), target) + Ks);
+                spin.setPower(special.calculate(FromVtoRads(), target) + Ks * Math.signum(FromVtoRads()-target));
             }
         }
         }
     public static double FromVtoRads(){
-        return Math.abs(encoder.getVoltage() / encoder.getMaxVoltage()) *2.0 * Math.PI;
+        return Math.abs(encoder.getVoltage() / 3.3) *2.0 * Math.PI;
     }
     public boolean IsStorageSpinning(){
-        return Math.abs(target-FromVtoRads()) > Math.toRadians(12.5);
+        return Math.abs(target-FromVtoRads()) > Math.toRadians(10);
     }
 
 }

@@ -18,11 +18,13 @@ import org.firstinspires.ftc.teamcode.Components.Intake.ColorDetection;
 import org.firstinspires.ftc.teamcode.Components.Intake.Intake;
 import org.firstinspires.ftc.teamcode.Components.Intake.Storage;
 import org.firstinspires.ftc.teamcode.Components.Shooter.FlyWheel;
+import org.firstinspires.ftc.teamcode.Components.Shooter.Hood;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Shooter;
 
 import org.firstinspires.ftc.teamcode.Components.Shooter.Turret;
 import org.firstinspires.ftc.teamcode.Wrappers.Initializer;
 import org.firstinspires.ftc.teamcode.Wrappers.Odo;
+import org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants;
 
 @TeleOp
 public class TeleopBlue extends LinearOpMode {
@@ -42,6 +44,7 @@ public class TeleopBlue extends LinearOpMode {
         shooter =new Shooter();
         Turret.allienceState = Turret.AllianceState.BLUE;
         Shooter.state = Shooter.State.SHOOT;
+        Hood.state = Hood.State.IDLE;
         waitForStart();
         while (opModeIsActive()) {
             gm1.copy(gamepad1);
@@ -56,10 +59,13 @@ public class TeleopBlue extends LinearOpMode {
             if (gamepad1.psWasPressed()){
                 odo.reset();
             }
-            if (Storage.isShootReady) {
+            if (Storage.isTransferReady) {
                 gamepad1.rumble(200);
             }
-
+            telemetryM.addData("Velocity",FlyWheel.getVelocity());
+            telemetryM.addData("Target", ShooterConstants.fwVel(Odo.distance()));
+            telemetryM.addData("Storage target",Math.toDegrees(Storage.target));
+            telemetryM.addData("Storage pos",Math.toDegrees(Storage.FromVtoRads()));
             telemetry.addData("ALLIANCE",Turret.allienceState);
             telemetry.addData("X",Odo.getX());
             telemetry.addData("Y",Odo.getY());
