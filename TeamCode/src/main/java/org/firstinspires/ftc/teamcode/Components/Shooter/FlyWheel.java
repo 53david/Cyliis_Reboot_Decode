@@ -19,6 +19,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 import org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants;
+import org.opencv.core.Mat;
 
 @Configurable
 public class FlyWheel {
@@ -51,7 +52,7 @@ public class FlyWheel {
             vel = getVelocity();
         }
         rpm = controller.calculate(getVelocity(),vel);
-        rpm += Kv * vel + Ks;
+        rpm += Kv * vel + Math.signum(vel-getVelocity())*Ks;
         rpm *= Voltage;
         shoot1.setPower(rpm);
         shoot2.setPower(rpm);
@@ -64,7 +65,7 @@ public class FlyWheel {
         controller.setPID(Kp,0,Kd);
         double error = Math.abs(vel-getVelocity());
         rpm = controller.calculate(getVelocity(),vel);
-        rpm += Kv * vel + Ks;
+        rpm += Kv * vel + Math.signum(vel-getVelocity())*Ks;
         rpm *= Voltage;
         shoot1.setPower(rpm);
         shoot2.setPower(rpm);

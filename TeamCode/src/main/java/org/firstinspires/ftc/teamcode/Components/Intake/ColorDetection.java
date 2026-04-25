@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 @Configurable
 public class ColorDetection {
     Storage storage = new Storage();
-    public static double a = 50;
+    public static double a = 45;
     public float red = 0;
     public float green = 0;
     public float blue = 0;

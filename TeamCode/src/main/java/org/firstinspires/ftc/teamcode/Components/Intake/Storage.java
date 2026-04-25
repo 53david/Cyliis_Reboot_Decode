@@ -28,10 +28,12 @@ public class Storage {
     public static double Kd = 0.03;
     public static double P = 1.8;
     public static double D = 0.06;
-    public static double Ks = 0;
+    public static double Ks = 0.09;
     public enum State{
+        BAlL1,
+        BALL2,
+        BALL3,
         TRANSFER,
-        IDLE,
         SHOOT,
         RESET,
     }
@@ -39,28 +41,30 @@ public class Storage {
 
     public Storage(){
         timer.startTime();
-        state = State.IDLE;
+        state = State.RESET;
         isTransferReady = false;
     }
     public void stateUpdate(){
 
         switch (state){
-            case IDLE:
-                Hood.state = Hood.State.IDLE;
-                if (ColorDetection.isBallInStorage() && !IsStorageSpinning() && nrBalls==0){
+            case BAlL1:
+                target = ballPos1;
+                if (!IsStorageSpinning() && ColorDetection.isBallInStorage()){
+                    state = State.BALL2;
                     nrBalls = 1;
-                    target = ballPos2;
-                    isTransferReady= false;
                 }
-                else if (ColorDetection.isBallInStorage() && !IsStorageSpinning() && nrBalls==1){
+            case BALL2:
+                target = ballPos2;
+                if (!IsStorageSpinning() && ColorDetection.isBallInStorage()){
+                    state = State.BALL3;
                     nrBalls = 2;
-                    target = ballPos3;
-                    isTransferReady = false;
                 }
-                else if (ColorDetection.isBallInStorage() && !IsStorageSpinning() && nrBalls==2){
-                    nrBalls = 3;
-                    target = specialPos;
+                break;
+            case BALL3:
+                target = ballPos3;
+                if (!IsStorageSpinning() && ColorDetection.isBallInStorage()){
                     state = State.TRANSFER;
+                    nrBalls = 2;
                     isTransferReady = true;
                 }
                 break;
@@ -71,12 +75,11 @@ public class Storage {
                 }
                 if (!IsStorageSpinning() && gm1.cross){
                     state = State.SHOOT;
-                    Hood.state = Hood.State.SHOOT;
                     timer.reset();
                 }
                 break;
-
             case SHOOT:
+                Hood.state = Hood.State.SHOOT;
                 pid.setPID(0,0,0);
                 spin.setPower(-1);
                 if (timer.seconds()>0.6){
@@ -90,12 +93,12 @@ public class Storage {
                 pid.setPID(Kp,0,Kd);
                 target = resetPos;
                 Hood.state = Hood.State.IDLE;
-                if (!IsStorageSpinning() && Latch.state == Latch.State.IDLE) {
-                    state = State.IDLE;
-                    target = resetPos;
-                }
-                else if (!IsStorageSpinning()){
+                if (!IsStorageSpinning()){
                     Latch.state = Latch.State.IDLE;
+                }
+                if (!IsStorageSpinning() && Latch.state == Latch.State.IDLE) {
+                    state = State.BAlL1;
+                    target = resetPos;
                 }
                 break;
 
