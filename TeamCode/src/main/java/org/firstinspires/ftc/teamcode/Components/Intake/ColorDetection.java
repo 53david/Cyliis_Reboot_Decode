@@ -14,7 +14,7 @@ public class ColorDetection {
     public float red = 0;
     public float green = 0;
     public float blue = 0;
-    public static String ball1 = "Waiting for artifact...", ball2 = "Waiting for artifact...", ball3 = "Waiting for artifact...";
+    public static String ball1 = "Waiting for artifact...", ball2 = "Waiting for artifact...", ball3 = "Waiting for artifact...",currentBall = "Waiting for artifact...";
     public double greenBall = 0, purpleBall = 0;
 
     public ColorDetection(){
@@ -28,25 +28,25 @@ public class ColorDetection {
             greenBall = distance(red, green, blue, 0, 255, 0);
             purpleBall = distance(red, green, blue, 175, 0, 175);
         }
+        if (isBallInStorage() && purpleBall<=greenBall){
+            currentBall = "Green";
+        }
+        else if (isBallInStorage() && purpleBall> greenBall){
+            currentBall = "Purple";
+        }
+        if (Storage.state == Storage.State.BALL1
+                && isBallInStorage() && !storage.IsStorageSpinning()){
+            ball1 = currentBall;
+        }
 
-        if (isBallInStorage() && Storage.nrBalls == 0){
-            ball3 = ball2;
-            ball2 = ball1;
-        }
-        if (isBallInStorage() && Storage.nrBalls == 1){
-            ball3 = ball2;
-            ball2 = ball1;
+        if (Storage.state == Storage.State.BALL2
+                && isBallInStorage() && !storage.IsStorageSpinning()){
+            ball2 = currentBall;
         }
 
-        if (isBallInStorage() && Storage.nrBalls == 2){
-            ball3 = ball2;
-            ball2 = ball1;
-        }
-        if (purpleBall<=greenBall){
-            ball1 = "Green";
-        }
-        else {
-            ball1 = "Purple";
+        if (Storage.state == Storage.State.BALL3
+                && isBallInStorage() && !storage.IsStorageSpinning()){
+            ball3 = currentBall;
         }
         if (Storage.state == Storage.State.RESET){
             ball1 = "Waiting for artifact..."; ball2 = "Waiting for artifact..."; ball3 = "Waiting for artifact...";

@@ -30,7 +30,7 @@ public class Storage {
     public static double D = 0.06;
     public static double Ks = 0.09;
     public enum State{
-        BAlL1,
+        BALL1,
         BALL2,
         BALL3,
         TRANSFER,
@@ -47,12 +47,14 @@ public class Storage {
     public void stateUpdate(){
 
         switch (state){
-            case BAlL1:
+            case BALL1:
                 target = ballPos1;
                 if (!IsStorageSpinning() && ColorDetection.isBallInStorage()){
                     state = State.BALL2;
                     nrBalls = 1;
                 }
+                break;
+
             case BALL2:
                 target = ballPos2;
                 if (!IsStorageSpinning() && ColorDetection.isBallInStorage()){
@@ -60,6 +62,7 @@ public class Storage {
                     nrBalls = 2;
                 }
                 break;
+
             case BALL3:
                 target = ballPos3;
                 if (!IsStorageSpinning() && ColorDetection.isBallInStorage()){
@@ -68,6 +71,7 @@ public class Storage {
                     isTransferReady = true;
                 }
                 break;
+
             case TRANSFER:
                 isTransferReady = false;
                 if(!IsStorageSpinning() && timer.seconds()>0.25){
@@ -78,6 +82,7 @@ public class Storage {
                     timer.reset();
                 }
                 break;
+
             case SHOOT:
                 Hood.state = Hood.State.SHOOT;
                 pid.setPID(0,0,0);
@@ -97,7 +102,7 @@ public class Storage {
                     Latch.state = Latch.State.IDLE;
                 }
                 if (!IsStorageSpinning() && Latch.state == Latch.State.IDLE) {
-                    state = State.BAlL1;
+                    state = State.BALL1;
                     target = resetPos;
                 }
                 break;
