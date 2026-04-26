@@ -25,7 +25,7 @@ public class Storage {
     public static double nrBalls =  0;
     public static double resetPos = Math.toRadians(77);
     public static double specialPos = Math.toRadians(317);
-    public static double ballPos1 = Math.PI/4.,ballPos2 = ballPos1 + Math.PI *2/3,ballPos3 = ballPos2 + Math.PI*2/3;
+    public static double ballPos1 = Math.PI/4.0,ballPos2 = ballPos1 + Math.PI *2/3,ballPos3 = ballPos2 + Math.PI*2/3;
     public static double Kp = 0.9;
     public static double Kd = 0.03;
     public static double P = 1.8;
@@ -99,6 +99,7 @@ public class Storage {
 
                 Hood.state = Hood.State.SHOOT;
                 pid.setPID(0,0,0);
+                special.setPID(0,0,0);
                 spin.setPower(-1);
 
                 if (timer.seconds()>0.6){
@@ -108,17 +109,19 @@ public class Storage {
                 break;
 
             case RESET:
+
+                target = resetPos;
                 nrBalls = 0;
                 Shooter.state = Shooter.State.IDLE;
                 pid.setPID(Kp,0,Kd);
-                target = resetPos;
+                pid.setPID(P,0,D);
                 Hood.state = Hood.State.IDLE;
+
                 if (!IsStorageSpinning()){
                     Latch.state = Latch.State.IDLE;
                 }
                 if (!IsStorageSpinning() && Latch.state == Latch.State.IDLE) {
                     state = State.BALL1;
-                    target = resetPos;
                 }
                 break;
 
@@ -140,6 +143,7 @@ public class Storage {
     public void spinUpdate(){
         if (state == State.SHOOT){
             pid.setPID(0,0,0);
+            special.setPID(0,0,0);
         }
         else {
             if (Math.toDegrees(Math.abs(FromVtoRads()-target)) >= 10) {
