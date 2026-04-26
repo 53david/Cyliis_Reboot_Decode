@@ -10,7 +10,7 @@ public class BlueFar extends LinearOpMode {
     FarBlue farBlue;
     @Override
     public void runOpMode(){
-        isAutonomousActive = false;
+        isAutonomousActive = true;
         farBlue = new FarBlue(hardwareMap);
         waitForStart();
         while (opModeIsActive()){

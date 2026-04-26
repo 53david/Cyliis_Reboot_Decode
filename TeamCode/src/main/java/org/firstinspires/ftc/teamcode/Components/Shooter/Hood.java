@@ -5,7 +5,7 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants;
+import org.firstinspires.ftc.teamcode.Math.ShooterCalculator;
 
 @Configurable
 public class Hood {
@@ -22,7 +22,7 @@ public class Hood {
                 hood.setPosition(IdlePos);
                 break;
             case SHOOT:
-                hood.setPosition(ShooterConstants.hoodAngle(FlyWheel.getVelocity()));
+                hood.setPosition(ShooterCalculator.hoodAngle(FlyWheel.getVelocity()));
                 break;
         }
     }
@@ -32,7 +32,7 @@ public class Hood {
     }
     public void update(){
         updateState();
-        telemetryM.addData("Pos",ShooterConstants.hoodAngle(FlyWheel.getVelocity()));
+        telemetryM.addData("Pos", ShooterCalculator.hoodAngle(FlyWheel.getVelocity()));
         telemetryM.update();
     }
     public void tune(){

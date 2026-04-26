@@ -7,19 +7,18 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.shoot2;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.frontLeft;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 
-import static org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants.Kd;
-import static org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants.Ki;
-import static org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants.Kp;
-import static org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants.Ks;
-import static org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants.Kv;
+import static org.firstinspires.ftc.teamcode.Math.ShooterCalculator.Kd;
+import static org.firstinspires.ftc.teamcode.Math.ShooterCalculator.Ki;
+import static org.firstinspires.ftc.teamcode.Math.ShooterCalculator.Kp;
+import static org.firstinspires.ftc.teamcode.Math.ShooterCalculator.Ks;
+import static org.firstinspires.ftc.teamcode.Math.ShooterCalculator.Kv;
 
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.Wrappers.Odo;
-import org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants;
-import org.opencv.core.Mat;
+import org.firstinspires.ftc.teamcode.Math.ShooterCalculator;
 
 @Configurable
 public class FlyWheel {
@@ -41,7 +40,7 @@ public class FlyWheel {
                 vel = 920;
                 break;
             case SHOOT:
-                vel = ShooterConstants.fwVel(Odo.distance());
+                vel = ShooterCalculator.fwVel(Odo.distance());
                 break;
         }
     }

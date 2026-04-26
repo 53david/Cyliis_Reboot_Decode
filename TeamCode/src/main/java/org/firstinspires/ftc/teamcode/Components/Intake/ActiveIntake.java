@@ -6,6 +6,8 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.intakeMotor;
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.teamcode.Wrappers.Initializer;
+
 
 @Configurable
 public class ActiveIntake {
@@ -34,14 +36,18 @@ public class ActiveIntake {
         }
     }
     public void update(){
-        if (gm1.left_bumper){
-            intakeMotor.setPower(-1);
-        }
-        else if (gm1.right_bumper){
-            intakeMotor.setPower(1);
-        }
-        else {
-            intakeMotor.setPower(0);
+        stateUpdate();
+        if (!Initializer.isAutonomousActive){
+            if (gm1.right_bumper){
+                state = State.INTAKE;
+            }
+            else if (gm1.left_bumper){
+                state = State.REVERSE;
+            }
+            else {
+                state =State.IDLE;
+            }
         }
     }
+
 }

@@ -24,7 +24,7 @@ import org.firstinspires.ftc.teamcode.Components.Shooter.Shooter;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Turret;
 import org.firstinspires.ftc.teamcode.Wrappers.Initializer;
 import org.firstinspires.ftc.teamcode.Wrappers.Odo;
-import org.firstinspires.ftc.teamcode.Wrappers.ShooterConstants;
+import org.firstinspires.ftc.teamcode.Math.ShooterCalculator;
 
 @TeleOp
 public class TeleopBlue extends LinearOpMode {
@@ -63,7 +63,7 @@ public class TeleopBlue extends LinearOpMode {
                 gamepad1.rumble(200);
             }
             telemetryM.addData("Velocity",FlyWheel.getVelocity());
-            telemetryM.addData("Target", ShooterConstants.fwVel(Odo.distance()));
+            telemetryM.addData("Target", ShooterCalculator.fwVel(Odo.distance()));
             telemetryM.addData("Storage target",Math.toDegrees(Storage.target));
             telemetryM.addData("Storage pos",Math.toDegrees(Storage.FromVtoRads()));
             telemetry.addData("ALLIANCE",Turret.allienceState);

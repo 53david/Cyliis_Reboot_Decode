@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.Wrappers;
+package org.firstinspires.ftc.teamcode.Math;
 
 import com.bylazar.configurables.annotations.Configurable;
 @Configurable
-public class ShooterConstants {
+public class ShooterCalculator {
 
     public static double Kp = 0.005;
     public static double Ki = 0;

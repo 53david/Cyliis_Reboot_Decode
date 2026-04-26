@@ -18,7 +18,6 @@ public class ChassisTuner extends LinearOpMode {
     Pose2D finish = new Pose2D(1200,0,Math.PI/2);
     Chassis chassis;
     Odo odo;
-    Gamepad gm1;
     public static boolean isReady;
     public enum State{
         IDLE,
