@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Components.Shooter.FlyWheel;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Hood;
+import org.firstinspires.ftc.teamcode.Components.Shooter.Shooter;
 
 
 @Configurable
@@ -49,7 +50,9 @@ public class Storage {
 
         switch (state){
             case BALL1:
+
                 target = ballPos1;
+
                 if (!IsStorageSpinning() && ColorDetection.isBallInStorage()){
                     state = State.BALL2;
                     nrBalls = 1;
@@ -57,7 +60,9 @@ public class Storage {
                 break;
 
             case BALL2:
+
                 target = ballPos2;
+
                 if (!IsStorageSpinning() && ColorDetection.isBallInStorage()){
                     state = State.BALL3;
                     nrBalls = 2;
@@ -65,16 +70,22 @@ public class Storage {
                 break;
 
             case BALL3:
+
                 target = ballPos3;
+
                 if (!IsStorageSpinning() && ColorDetection.isBallInStorage()){
                     state = State.TRANSFER;
-                    nrBalls = 2;
+                    nrBalls = 3;
                     isTransferReady = true;
                 }
                 break;
 
             case TRANSFER:
+
+                target = specialPos;
                 isTransferReady = false;
+                Shooter.state = Shooter.State.SHOOT;
+
                 if(!IsStorageSpinning() && timer.seconds()>0.25){
                     Latch.state = Latch.State.TRANSFER;
                 }
@@ -85,9 +96,11 @@ public class Storage {
                 break;
 
             case SHOOT:
+
                 Hood.state = Hood.State.SHOOT;
                 pid.setPID(0,0,0);
                 spin.setPower(-1);
+
                 if (timer.seconds()>0.6){
                     state = State.RESET;
                     timer.reset();
@@ -96,6 +109,7 @@ public class Storage {
 
             case RESET:
                 nrBalls = 0;
+                Shooter.state = Shooter.State.IDLE;
                 pid.setPID(Kp,0,Kd);
                 target = resetPos;
                 Hood.state = Hood.State.IDLE;
@@ -118,7 +132,6 @@ public class Storage {
             timer.reset();
         }
         if (gm1.circle && prevgm1.circle!= gm1.circle && nrBalls>=1){
-            target = specialPos;
             state = State.TRANSFER;
         }
         pid.setPID(Kp,0,Kd);
@@ -141,7 +154,7 @@ public class Storage {
         return Math.abs(encoder.getVoltage() / 3.3) *2.0 * Math.PI;
     }
     public boolean IsStorageSpinning(){
-        return Math.abs(target-FromVtoRads()) > Math.toRadians(10);
+        return Math.abs(target-FromVtoRads()) > Math.toRadians(11);
     }
 
 }
