@@ -10,6 +10,7 @@ import com.bylazar.configurables.annotations.Configurable;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Components.Shooter.FlyWheel;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Hood;
 
 
@@ -21,7 +22,7 @@ public class Storage {
     public static boolean isTransferReady = false;
     public static double target = Math.PI/4.0;
     public static double nrBalls =  0;
-    public static double resetPos = Math.PI/4.0;
+    public static double resetPos = Math.toRadians(77);
     public static double specialPos = Math.toRadians(317);
     public static double ballPos1 = Math.PI/4.,ballPos2 = ballPos1 + Math.PI *2/3,ballPos3 = ballPos2 + Math.PI*2/3;
     public static double Kp = 0.9;
@@ -77,7 +78,7 @@ public class Storage {
                 if(!IsStorageSpinning() && timer.seconds()>0.25){
                     Latch.state = Latch.State.TRANSFER;
                 }
-                if (!IsStorageSpinning() && gm1.cross){
+                if (!IsStorageSpinning() && gm1.cross && FlyWheel.IsShootReady()){
                     state = State.SHOOT;
                     timer.reset();
                 }

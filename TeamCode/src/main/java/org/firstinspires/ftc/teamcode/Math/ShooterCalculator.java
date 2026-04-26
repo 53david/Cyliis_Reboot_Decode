@@ -4,11 +4,12 @@ import com.bylazar.configurables.annotations.Configurable;
 @Configurable
 public class ShooterCalculator {
 
-    public static double Kp = 0.005;
+    public static double Kp = 0;
     public static double Ki = 0;
     public static double Kd = 0;
     public static double Ks = 0.13;
     public static double Kv = 0.00039;
+    public static double Ka = 0;
     public static double hoodOffset = 0;
     public static double fwOffset = 0;
 

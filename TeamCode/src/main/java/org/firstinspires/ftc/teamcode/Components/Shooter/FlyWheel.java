@@ -5,9 +5,9 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.Voltage;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.shoot1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.shoot2;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.frontLeft;
-import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 
 import static org.firstinspires.ftc.teamcode.Math.ShooterCalculator.Kd;
+import static org.firstinspires.ftc.teamcode.Math.ShooterCalculator.Ka;
 import static org.firstinspires.ftc.teamcode.Math.ShooterCalculator.Ki;
 import static org.firstinspires.ftc.teamcode.Math.ShooterCalculator.Kp;
 import static org.firstinspires.ftc.teamcode.Math.ShooterCalculator.Ks;
@@ -27,6 +27,7 @@ public class FlyWheel {
         IDLE,
         SHOOT,
     }
+    public static double errorThreshold = 60;
     public static State state = State.SHOOT;
     public static double vel = 1400;
     public static double rpm = 0;
@@ -47,29 +48,20 @@ public class FlyWheel {
     public void update(){
         controller.setPID(Kp,0,Kd);
         updateState();
-        if (Math.abs(getVelocity()-vel)<=20){
-            vel = getVelocity();
-        }
-        rpm = controller.calculate(getVelocity(),vel);
-        rpm += Kv * vel + Math.signum(vel-getVelocity())*Ks;
+        updateShooter();
+
+    }
+    public void updateShooter(){
+        rpm = controller.calculate(getVelocity(),vel) + Kv * vel +Ks + (vel-getVelocity()) * Ka;
         rpm *= Voltage;
         shoot1.setPower(rpm);
         shoot2.setPower(rpm);
-
+    }
+    public static boolean IsShootReady(){
+        return Math.abs(vel-getVelocity()) < errorThreshold;
     }
     public static double getVelocity(){
         return Math.abs(frontLeft.getVelocity());
     }
-    public void tune(){
-        controller.setPID(Kp,0,Kd);
-        double error = Math.abs(vel-getVelocity());
-        rpm = controller.calculate(getVelocity(),vel);
-        rpm += Kv * vel + Math.signum(vel-getVelocity())*Ks;
-        rpm *= Voltage;
-        shoot1.setPower(rpm);
-        shoot2.setPower(rpm);
-        telemetryM.addData("Velocity",getVelocity());
-        telemetryM.addData("Error",error);
-        telemetryM.update();
-    }
+
 }
