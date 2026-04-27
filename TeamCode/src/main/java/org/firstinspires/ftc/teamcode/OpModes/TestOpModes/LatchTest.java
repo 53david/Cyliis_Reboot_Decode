@@ -4,21 +4,21 @@ import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.Components.Intake.Latch;
 import org.firstinspires.ftc.teamcode.Wrappers.Initializer;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.transfer;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.spin;
 @Configurable
 @TeleOp
 public class LatchTest extends LinearOpMode {
-    public static double pos = 0.16;
-    public static double power = 0;
+    Latch latch;
     @Override
     public void runOpMode(){
         Initializer.start(hardwareMap);
+        latch = new Latch();
         waitForStart();
         while (opModeIsActive()){
-            transfer.setPosition(pos);
-            spin.setPower(power);
+            transfer.setPosition(Latch.pos);
         }
     }
 }

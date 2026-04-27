@@ -28,7 +28,7 @@ public class ShooterAjustments extends LinearOpMode {
            Turret.allienceState= Turret.AllianceState.BLUE;
            waitForStart();
            while (opModeIsActive()){
-               flyWheel.tune();
+               flyWheel.update();
                hood.tune();
                odo.update();
 

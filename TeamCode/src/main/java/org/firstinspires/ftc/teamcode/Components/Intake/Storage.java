@@ -3,7 +3,6 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.encoder;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.spin;
-import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.bylazar.configurables.annotations.Configurable;
@@ -24,13 +23,13 @@ public class Storage {
     public static double target = Math.PI/4.0;
     public static double nrBalls =  0;
     public static double resetPos = Math.toRadians(77);
-    public static double specialPos = Math.toRadians(317);
+    public static double specialPos = Math.toRadians(318);
     public static double ballPos1 = Math.PI/4.0,ballPos2 = ballPos1 + Math.PI *2/3,ballPos3 = ballPos2 + Math.PI*2/3;
-    public static double Kp = 0.9;
-    public static double Kd = 0.03;
-    public static double P = 1.8;
-    public static double D = 0.06;
-    public static double Ks = 0.09;
+    public static double Kp = 0.6;
+    public static double Kd = 0.02;
+    public static double P = 1.5;
+    public static double D = 0.05;
+    public static double Ks = 0;
     public enum State{
         BALL1,
         BALL2,
@@ -84,7 +83,7 @@ public class Storage {
 
                 target = specialPos;
                 isTransferReady = false;
-                Shooter.state = Shooter.State.SHOOT;
+
 
                 if(!IsStorageSpinning() && timer.seconds()>0.25){
                     Latch.state = Latch.State.TRANSFER;
@@ -112,7 +111,6 @@ public class Storage {
 
                 target = resetPos;
                 nrBalls = 0;
-                Shooter.state = Shooter.State.IDLE;
                 pid.setPID(Kp,0,Kd);
                 pid.setPID(P,0,D);
                 Hood.state = Hood.State.IDLE;

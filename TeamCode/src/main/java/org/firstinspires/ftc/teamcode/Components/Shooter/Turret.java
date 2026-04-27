@@ -23,15 +23,10 @@ public class Turret {
         RED,
         BLUE,
     }
-    public enum State{
-        AUTO,
-        MANUAL,
-    }
     public static AllianceState allienceState;
-    public State state;
+
     public Turret() {
 
-        state = State.MANUAL;
         servo1.setPwmRange(new PwmControl.PwmRange(500 , 2500));
         servo2.setPwmRange(new PwmControl.PwmRange(500 , 2500));
 
@@ -46,20 +41,7 @@ public class Turret {
         targetAngle = normalizeRadians(targetAngle);
         targetAngle = targetAngle / maxAngle;
 
-        switch (state) {
-            case AUTO :
-                targetPosition = targetAngle;
-                if (gm1.dpad_right && prevgm1.dpad_right != gm1.dpad_right){
-                    state = State.MANUAL;
-                }
-                break;
-            case MANUAL:
-                targetPosition = 0.5;
-                if (gm1.dpad_right && prevgm1.dpad_right != gm1.dpad_right){
-                    state = State.AUTO;
-                }
-                break;
-        }
+
         targetPosition = Math.max(0.007, targetPosition);
         targetPosition = Math.min(1 - 0.007, targetPosition);
 
