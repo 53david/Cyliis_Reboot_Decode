@@ -73,6 +73,8 @@ public class TeleopBlue extends LinearOpMode {
             telemetryM.addData("Distance",Odo.distance());
             telemetry.addData("Intake state", Storage.state);
             telemetry.addData("Shooter state", Shooter.state);
+            telemetryM.addData("Hood Angle",ShooterCalculator.hoodAngle(FlyWheel.getVelocity()));
+            telemetryM.addData("Hood Angle",ShooterCalculator.hoodRegression(FlyWheel.getVelocity()));
             telemetry.addData("Flywheel velocity", FlyWheel.getVelocity());
             telemetry.addData("Ball1", ColorDetection.ball1);
             telemetry.addData("Ball2",ColorDetection.ball2);

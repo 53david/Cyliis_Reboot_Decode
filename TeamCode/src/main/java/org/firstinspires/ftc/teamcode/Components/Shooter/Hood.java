@@ -6,6 +6,7 @@ import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Math.ShooterCalculator;
+import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 
 @Configurable
 public class Hood {
@@ -19,16 +20,15 @@ public class Hood {
     public void updateState(){
         switch (state){
             case IDLE :
-                hood.setPosition(IdlePos);
+                hood.setPosition(ShooterCalculator.hoodAngle(Odo.distance()));
                 break;
             case SHOOT:
-                hood.setPosition(ShooterCalculator.hoodAngle(FlyWheel.getVelocity()));
+                hood.setPosition(ShooterCalculator.hoodRegression(FlyWheel.getVelocity()));
                 break;
         }
     }
     public Hood(){
         hood.setDirection(Servo.Direction.FORWARD);
-        hood.setPosition(0.5);
     }
     public void update(){
         updateState();
