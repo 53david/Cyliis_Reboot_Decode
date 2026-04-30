@@ -21,7 +21,7 @@ public class TurretBlueTest extends LinearOpMode {
         Turret.allienceState = Turret.AllianceState.BLUE;
         waitForStart();
         while (opModeIsActive()){
-            turret.test();
+            turret.update();
             odo.update();
         }
     }

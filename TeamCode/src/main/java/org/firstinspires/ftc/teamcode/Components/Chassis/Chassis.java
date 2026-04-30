@@ -35,8 +35,8 @@ public class Chassis{
     public static double lateralMultiplier=1.5;
     public static  double realHeading;
 
-    public static double kp=0 , kd=0;
-    public static double KP=0 , KD=0;
+    public static double kp=0.1 , kd=0;
+    public static double KP=1.6 , KD=0;
     public PIDController controllerX=new PIDController(kp, 0, kd);
     public PIDController controllerY=new PIDController(kp, 0, kd);
     public PIDController controllerHeading=new PIDController(KP, 0, KD);

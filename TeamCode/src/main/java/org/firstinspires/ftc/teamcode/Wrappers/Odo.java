@@ -12,12 +12,18 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Turret;
 import org.firstinspires.ftc.teamcode.Math.LowPassFilter;
+import org.firstinspires.ftc.teamcode.Math.ShooterCalculator;
 
 import java.lang.Math;
 
 @Configurable
 public class Odo {
-
+    public enum State{
+        CLOSE,
+        FAR,
+    }
+    public static double power = -1;
+    public static State state = State.CLOSE;
     public  static double heading,x ,y, xVelocity, yVelocity, predictedX, predictedY;
     public Odo(){
         pp.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED , org.firstinspires.ftc.teamcode.Wrappers.GoBildaPinpointDriver.EncoderDirection.FORWARD);
@@ -73,7 +79,24 @@ public class Odo {
                         (predictedY - Turret.goalPositionY) * (predictedY - Turret.goalPositionY)
         );
     }
-
+    public void stateUpdate(){
+        switch (state){
+            case FAR :
+                power = -0.74;
+                ShooterCalculator.fwOffset = 60;
+                break;
+            case CLOSE:
+                power = -1;
+                ShooterCalculator.fwOffset = 80;
+                break;
+        }
+        if (distance()>2200){
+            state = State.FAR;
+        }
+        else {
+            state = State.CLOSE;
+        }
+    }
     public void update() {
         pp.update();
 
@@ -83,6 +106,7 @@ public class Odo {
         xVelocity = xVelocityFilter.getValue(pp.getVelocity().getX(DistanceUnit.MM));
         yVelocity = yVelocityFilter.getValue(pp.getVelocity().getY(DistanceUnit.MM));
         updateGlide();
+        stateUpdate();
         predictedX = x + xGlide;
         predictedY = y + yGlide;
     }

@@ -16,6 +16,7 @@ import static org.firstinspires.ftc.teamcode.Math.ShooterCalculator.Kv;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 import org.firstinspires.ftc.teamcode.Math.ShooterCalculator;
@@ -38,7 +39,7 @@ public class FlyWheel {
     public void updateState(){
         switch (state){
             case IDLE :
-                vel = 920;
+                vel = 0;
                 break;
             case SHOOT:
                 vel = ShooterCalculator.fwVel(Odo.distance());
@@ -53,9 +54,10 @@ public class FlyWheel {
     }
     public void updateShooter(){
         rpm = controller.calculate(getVelocity(),vel) + Kv * vel +Ks + (vel-getVelocity()) * Ka;
-        rpm *= Voltage;
+        rpm = rpm * Voltage;
         shoot1.setPower(rpm);
         shoot2.setPower(rpm);
+
     }
     public static boolean IsShootReady(){
         return Math.abs(vel-getVelocity()) < errorThreshold;

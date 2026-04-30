@@ -37,7 +37,7 @@ public class Initializer {
     public static Gamepad prevgm1,prevgm2;
     public static Gamepad gm1,gm2;
     public static void start(HardwareMap hwMap){
-        Voltage = 12.0/hwMap.getAll(VoltageSensor.class).get(0).getVoltage();
+        Voltage = 12.90/hwMap.getAll(VoltageSensor.class).get(0).getVoltage();
         prevgm1 = new Gamepad();
         prevgm2 = new Gamepad();
         gm1 = new Gamepad();

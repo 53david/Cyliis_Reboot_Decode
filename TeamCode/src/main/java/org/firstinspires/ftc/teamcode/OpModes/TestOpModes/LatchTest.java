@@ -18,7 +18,7 @@ public class LatchTest extends LinearOpMode {
         latch = new Latch();
         waitForStart();
         while (opModeIsActive()){
-            transfer.setPosition(Latch.pos);
+            latch.test();
         }
     }
 }

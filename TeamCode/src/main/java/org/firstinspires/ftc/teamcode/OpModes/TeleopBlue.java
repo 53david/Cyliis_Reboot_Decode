@@ -3,7 +3,9 @@ package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.Voltage;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.gm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.isAutonomousActive;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.prevgm1;
@@ -47,6 +49,7 @@ public class TeleopBlue extends LinearOpMode {
         Hood.state = Hood.State.IDLE;
         waitForStart();
         while (opModeIsActive()) {
+            Voltage = 12.3/hardwareMap.getAll(VoltageSensor.class).get(0).getVoltage();
             gm1.copy(gamepad1);
             gm2.copy(gamepad2);
             intake.update();

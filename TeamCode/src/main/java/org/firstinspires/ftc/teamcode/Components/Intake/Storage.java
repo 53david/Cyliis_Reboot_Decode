@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Components.Shooter.FlyWheel;
 import org.firstinspires.ftc.teamcode.Components.Shooter.Hood;
+import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 
 @Configurable
 public class Storage {
@@ -97,7 +98,7 @@ public class Storage {
                 Hood.state = Hood.State.SHOOT;
                 pid.setPID(0,0,0);
                 special.setPID(0,0,0);
-                spin.setPower(-1);
+                spin.setPower(Odo.power);
 
                 if (timer.seconds()>0.6){
                     state = State.RESET;

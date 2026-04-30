@@ -18,7 +18,6 @@ public class Turret {
     public double targetAngle = 0;
     public double targetPosition = 0.5;
     public double maxAngle = Math.PI*2;
-    Odo odo = new Odo();
     public enum AllianceState {
         RED,
         BLUE,
@@ -85,7 +84,6 @@ public class Turret {
         telemetryM.addData("Heading",Odo.getHeading());
         telemetryM.addData("Goal X",goalPositionX);
         telemetryM.addData("Goal Y",goalPositionY);
-        odo.update();
         telemetryM.update();
         AllianceUpdate();
         updateAngle();

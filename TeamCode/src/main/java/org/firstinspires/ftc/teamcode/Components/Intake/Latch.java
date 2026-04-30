@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.Components.Intake;
+import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.telemetryM;
 import static org.firstinspires.ftc.teamcode.Wrappers.Initializer.transfer;
 
 import com.bylazar.configurables.annotations.Configurable;
@@ -10,7 +11,7 @@ public class Latch {
 
     public static double transPos = 0.385;
     public static double idlePos = 0.16;
-    public double currentPos = 0;
+    public double currentPos = 0.16;
     public static double pos = 0.16;
 
         public enum State{
@@ -21,10 +22,10 @@ public class Latch {
     public static double maxVel=20, acc=16, dec=16;
     BetterMotionProfile profile;
     public Latch(){
-        profile = new BetterMotionProfile(maxVel,acc,dec);
         transfer.setPosition(idlePos);
         state = State.IDLE;
         currentPos = idlePos;
+        profile = new BetterMotionProfile(maxVel,acc,dec);
         profile.setMotion(currentPos, currentPos, 0);
 
 
@@ -48,6 +49,9 @@ public class Latch {
         currentPos = pos;
         if(profile.finalPosition != currentPos)
             profile.setMotion(profile.getPosition(), currentPos, profile.getVelocity());
+        telemetryM.addData("pos",profile.getPosition());
+        telemetryM.addData("vel",profile.getVelocity());
+        telemetryM.update();
         transfer.setPosition(profile.getPosition());
     }
 }
