@@ -49,7 +49,6 @@ public class TeleopBlue extends LinearOpMode {
         Hood.state = Hood.State.IDLE;
         waitForStart();
         while (opModeIsActive()) {
-            Voltage = 12.3/hardwareMap.getAll(VoltageSensor.class).get(0).getVoltage();
             gm1.copy(gamepad1);
             gm2.copy(gamepad2);
             intake.update();

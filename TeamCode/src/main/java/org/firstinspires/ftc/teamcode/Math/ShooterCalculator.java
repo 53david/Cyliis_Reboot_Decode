@@ -10,11 +10,11 @@ public class ShooterCalculator {
     public static double Ks = 0.14;
     public static double Kv = 0.00044;
     public static double Ka = 0.00635;
-    public static double hoodOffset = 0.0345;
+    public static double hoodOffset = 0.034;
     public static double fwOffset = 0;
 
     public static double fwVel(double delta) {
-        return Math.clamp(0.344376 * delta + 1115.454971400,1500,2300) + fwOffset;
+        return Math.clamp(0.0000706922*Math.pow(delta,2)-0.00691289*delta+1457.42598,1500,2400);
     }
 
     public static double hoodRegression(double velocity) {

@@ -3,12 +3,14 @@ package org.firstinspires.ftc.teamcode.Components.Shooter;
 public class Shooter {
     FlyWheel flyWheel;
     Hood hood;
+    Turret turret;
     public enum State{
         IDLE,
         SHOOT,
     }
     public static State state = State.SHOOT;
     public Shooter(){
+        turret = new Turret();
         flyWheel =new FlyWheel();
         hood = new Hood();
     }
@@ -25,6 +27,7 @@ public class Shooter {
     }
     public void update(){
         updateState();
+        turret.update();
         hood.update();
         flyWheel.update();
     }

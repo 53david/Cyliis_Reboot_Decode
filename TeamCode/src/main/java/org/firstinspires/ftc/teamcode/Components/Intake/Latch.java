@@ -49,6 +49,7 @@ public class Latch {
         currentPos = pos;
         if(profile.finalPosition != currentPos)
             profile.setMotion(profile.getPosition(), currentPos, profile.getVelocity());
+        profile.update();
         telemetryM.addData("pos",profile.getPosition());
         telemetryM.addData("vel",profile.getVelocity());
         telemetryM.update();

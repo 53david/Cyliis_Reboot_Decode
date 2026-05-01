@@ -9,7 +9,6 @@ public class Intake {
 
     public enum State{
         IDLE,
-        SHOOT,
         REVERSE,
         INTAKE,
         TRANSFER,
@@ -39,13 +38,6 @@ public class Intake {
                 break;
             case REVERSE:
                 ActiveIntake.state = ActiveIntake.State.REVERSE;
-                break;
-            case TRANSFER:
-                Storage.state = Storage.State.TRANSFER;
-                break;
-            case SHOOT:
-                ActiveIntake.state = ActiveIntake.State.IDLE;
-                Storage.state = Storage.State.SHOOT;
                 break;
         }
     }

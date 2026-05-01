@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 @Configurable
 public class ColorDetection {
     Storage storage = new Storage();
-    public static double a = 45;
+    public static double a = 50;
     public float red = 0;
     public float green = 0;
     public float blue = 0;
@@ -21,19 +21,19 @@ public class ColorDetection {
         color.enableLed(true);
     }
     public void update(){
-        if (isBallInStorage() && !storage.IsStorageSpinning()) {
             red = color.red();
             blue = color.blue();
             green = color.green();
             greenBall = distance(red, green, blue, 0, 255, 0);
             purpleBall = distance(red, green, blue, 175, 0, 175);
-        }
+
         if (isBallInStorage() && purpleBall<=greenBall){
             currentBall = "Green";
         }
         else if (isBallInStorage() && purpleBall> greenBall){
             currentBall = "Purple";
         }
+
         if (Storage.state == Storage.State.BALL1
                 && isBallInStorage() && !storage.IsStorageSpinning()){
             ball1 = currentBall;

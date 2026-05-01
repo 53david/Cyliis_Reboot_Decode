@@ -39,7 +39,7 @@ public class CloseBlue {
     public Pose2D spike1Pos = new Pose2D(-1270 , 620 , Math.PI/2);
     Node shoot,beforeSpike2,beforeSpike1,openGate,spike1,spike2,afterCollecting,beforeGate,gate;
     public Node currentNode;
-    boolean isShootReady = false;
+
     public CloseBlue(HardwareMap hardwareMap){
         Initializer.start(hardwareMap);
         storage = new Storage();
@@ -67,9 +67,13 @@ public class CloseBlue {
                     chassis.setTargetPosition(shootPos);
                     Shooter.state = Shooter.State.SHOOT;
                     if (chassis.inPosition(40,40,0.13) && Math.abs(Initializer.pp.getVelX(DistanceUnit.MM))<=25
-                            && Math.abs(Initializer.pp.getVelX())<=25 && !isShootReady){
-                        Intake.state = Intake.State.SHOOT;
-                        isShootReady = false;
+                            && Math.abs(Initializer.pp.getVelY(DistanceUnit.MM))<=25){
+                                if (Storage.state == Storage.State.TRANSFER) {
+                                    Storage.state = Storage.State.SHOOT;
+                                }
+                                else {
+                                    Storage.state = Storage.State.TRANSFER;
+                                }
                     }
                 },
                 ()->{
@@ -100,7 +104,6 @@ public class CloseBlue {
         );
         afterCollecting.addConditions(
                 ()->{
-                    isShootReady = false;
                     chassis.setTargetPosition(beforeShootPos);
                     Shooter.state = Shooter.State.SHOOT;
                     if (Storage.state == Storage.State.TRANSFER){
@@ -147,7 +150,6 @@ public class CloseBlue {
         );
         spike1.addConditions(
                 ()->{
-                    isShootReady = false;
                     chassis.setTargetPosition(spike1Pos);
                     Intake.state = Intake.State.INTAKE;
                     Shooter.state = Shooter.State.IDLE;

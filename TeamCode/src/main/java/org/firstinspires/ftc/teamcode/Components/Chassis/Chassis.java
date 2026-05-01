@@ -36,7 +36,7 @@ public class Chassis{
     public static  double realHeading;
 
     public static double kp=0.1 , kd=0;
-    public static double KP=1.6 , KD=0;
+    public static double KP=1.6 , KD=0.1;
     public PIDController controllerX=new PIDController(kp, 0, kd);
     public PIDController controllerY=new PIDController(kp, 0, kd);
     public PIDController controllerHeading=new PIDController(KP, 0, KD);
@@ -50,14 +50,6 @@ public class Chassis{
         frontRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         backLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        if (state == State.DRIVE){
-            MotorConfigurationType unlock= frontLeft.getMotorType();
-            unlock.setAchieveableMaxRPMFraction(1);
-            frontRight.setMotorType(unlock);
-            frontLeft.setMotorType(unlock);
-            backLeft.setMotorType(unlock);
-            backRight.setMotorType(unlock);
-        }
     }
 
     public boolean inPosition(double ErrorX , double ErrorY , double ErrorRx)

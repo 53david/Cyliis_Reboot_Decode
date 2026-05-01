@@ -44,8 +44,6 @@ public class Turret {
         targetPosition = Math.max(0.007, targetPosition);
         targetPosition = Math.min(1 - 0.007, targetPosition);
 
-        servo1.setPosition(targetPosition);
-        servo2.setPosition(targetPosition);
     }
     public void updateAngle() {
 
