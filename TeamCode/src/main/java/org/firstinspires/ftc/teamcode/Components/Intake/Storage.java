@@ -15,8 +15,6 @@ import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 
 @Configurable
 public class Storage {
-    PIDController pid = new PIDController(Kp,0,Kd);
-    PIDController special = new PIDController(P,0,D);
     ElapsedTime timer = new ElapsedTime();
     public static boolean isTransferReady = false;
     public static double target = Math.PI/4.0;
@@ -24,11 +22,13 @@ public class Storage {
     public static double resetPos = Math.toRadians(77);
     public static double specialPos = Math.toRadians(318);
     public static double ballPos1 = Math.PI/4.0,ballPos2 = ballPos1 + Math.PI *2/3,ballPos3 = ballPos2 + Math.PI*2/3;
-    public static double Kp = 0.6;
-    public static double Kd = 0.02;
+    public static double Kp = 0.65;
+    public static double Kd = 0.011;
     public static double P = 1.5;
-    public static double D = 0.05;
+    public static double D = 0.0275;
     public static double Ks = 0;
+    PIDController pid = new PIDController(Kp,0,Kd);
+    PIDController special = new PIDController(P,0,D);
     public enum State{
         BALL1,
         BALL2,
@@ -134,8 +134,6 @@ public class Storage {
         if (gm1.circle && prevgm1.circle!= gm1.circle && nrBalls>=1){
             state = State.TRANSFER;
         }
-        pid.setPID(Kp,0,Kd);
-        special.setPID(P,0,D);
     }
     public void spinUpdate(){
         if (state == State.SHOOT){
@@ -144,10 +142,12 @@ public class Storage {
         }
         else {
             if (Math.toDegrees(Math.abs(FromVtoRads()-target)) >= 10) {
-                spin.setPower(pid.calculate(FromVtoRads(), target) + Ks * Math.signum(FromVtoRads()-target));
+                spin.setPower(pid.calculate(FromVtoRads(), target) + Ks * Math.signum(target-FromVtoRads()));
+                pid.setPID(Kp,0,Kd);
             }
             else {
-                spin.setPower(special.calculate(FromVtoRads(), target) + Ks * Math.signum(FromVtoRads()-target));
+                spin.setPower(special.calculate(FromVtoRads(), target) + Ks * Math.signum(target-FromVtoRads()));
+                special.setPID(P,0,D);
             }
         }
         }

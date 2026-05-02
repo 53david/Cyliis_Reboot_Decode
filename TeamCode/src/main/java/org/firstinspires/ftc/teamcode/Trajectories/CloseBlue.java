@@ -64,6 +64,12 @@ public class CloseBlue {
                     if ((Intake.state == Intake.State.INTAKE || Intake.state == Intake.State.REVERSE)&& !storage.IsStorageSpinning()){
                         Intake.state = Intake.State.IDLE;
                     }
+                    else if (Intake.state == Intake.State.INTAKE && storage.IsStorageSpinning()){
+                        Intake.state = Intake.State.INTAKE;
+                    }
+                    else if (Intake.state == Intake.State.REVERSE && storage.IsStorageSpinning()){
+                        Intake.state = Intake.State.REVERSE;
+                    }
                     chassis.setTargetPosition(shootPos);
                     Shooter.state = Shooter.State.SHOOT;
                     if (chassis.inPosition(40,40,0.13) && Math.abs(Initializer.pp.getVelX(DistanceUnit.MM))<=25

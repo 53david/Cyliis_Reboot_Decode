@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode.Wrappers;
 
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
@@ -13,9 +16,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
+import java.util.List;
+
 
 public class Initializer {
     public static double Voltage = 0;
+    public static List<LynxModule> allHubs;
     public static boolean isAutonomousActive = false;
     public static TelemetryManager telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
     public static CRServo intakeMotor;
@@ -37,6 +43,10 @@ public class Initializer {
     public static Gamepad prevgm1,prevgm2;
     public static Gamepad gm1,gm2;
     public static void start(HardwareMap hwMap){
+        allHubs = hardwareMap.getAll(LynxModule.class);
+        for (LynxModule hub : allHubs) {
+            hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+        }
         Voltage = 12.90/hwMap.getAll(VoltageSensor.class).get(0).getVoltage();
         prevgm1 = new Gamepad();
         prevgm2 = new Gamepad();

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
@@ -34,7 +35,6 @@ public class TeleopBlue extends LinearOpMode {
     Chassis drive;
     Shooter shooter;
     Odo odo;
-
     @Override
     public void runOpMode() {
         isAutonomousActive = false;
@@ -49,6 +49,9 @@ public class TeleopBlue extends LinearOpMode {
         Hood.state = Hood.State.IDLE;
         waitForStart();
         while (opModeIsActive()) {
+            for (LynxModule hub : Initializer.allHubs) {
+                hub.clearBulkCache();
+            }
             gm1.copy(gamepad1);
             gm2.copy(gamepad2);
             intake.update();
