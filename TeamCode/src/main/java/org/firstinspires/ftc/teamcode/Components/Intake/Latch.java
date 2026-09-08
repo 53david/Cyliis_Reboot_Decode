@@ -62,6 +62,7 @@ public class Latch {
         State.GOINGIDLE.position = idlePos;
     }
     private void updateState(){
+
         switch (state){
             case IDLE:
             case TRANSFER:

@@ -117,7 +117,6 @@
                 power = -1;
                 timerTreshold = 0.42;
             }
-
             predictedX = x + xGlide;
             predictedY = y + yGlide;
             prevX = x;

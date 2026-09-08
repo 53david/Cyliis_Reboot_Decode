@@ -2,7 +2,11 @@ package org.firstinspires.ftc.teamcode.OpModes;
 
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.bylazar.configurables.annotations.Configurable;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
@@ -14,6 +18,7 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Hardware.gm2;
 import static org.firstinspires.ftc.teamcode.Wrappers.Hardware.prevgm1;
 import static org.firstinspires.ftc.teamcode.Wrappers.Hardware.prevgm2;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.Components.Chassis.Chassis;
 import org.firstinspires.ftc.teamcode.Components.Intake.Intake;
 import org.firstinspires.ftc.teamcode.Components.Intake.Latch;
@@ -26,6 +31,7 @@ import org.firstinspires.ftc.teamcode.Wrappers.Hardware;
 import org.firstinspires.ftc.teamcode.Wrappers.Odo;
 
 @TeleOp
+@Autonomous
 public class TeleopBlue extends LinearOpMode {
 
     public static double currentVoltage =0;
@@ -53,6 +59,9 @@ public class TeleopBlue extends LinearOpMode {
         shooter =new Shooter(Shooter.State.ACTIVE);
         shooter.turret.setState(Turret.State.BLUE);
         Hood.offset = 0;
+        while (opModeInInit()){
+
+        }
         waitForStart();
         while (opModeIsActive()) {
 

@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.Components.Shooter;
 
-import static org.firstinspires.ftc.teamcode.Wrappers.Hardware.Voltage;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.PwmControl;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 
 import org.firstinspires.ftc.teamcode.Math.PIDController;
@@ -22,6 +25,7 @@ public class FlyWheel {
     public static double Ks = 0;
     public static double Kv = 0.00041;
     public static double Ka = 0.0055;
+    public static double Kg = 0;
     public static double shootPower = 0,idlePower = 1450,x = 0;
     public static double currentVelocity = 0,targetVelocity =0,offset = -80;
     PIDController controller = new PIDController(Kp,Ki,Kd);

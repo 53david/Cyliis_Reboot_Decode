@@ -100,7 +100,7 @@ public class QuantumBlue {
                     if (!chassis.inPosition(30,30,0.1)) gateTimer.reset();
                 },
                 ()->{
-                    return gateTimer.seconds()>0.035;
+                    return gateTimer.seconds()>0.032;
                 },
                 new Node[]{shoot}
         );

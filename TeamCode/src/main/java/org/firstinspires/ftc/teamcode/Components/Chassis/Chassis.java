@@ -4,12 +4,11 @@ import static org.firstinspires.ftc.teamcode.Wrappers.Hardware.pp;
 
 
 import com.bylazar.configurables.annotations.Configurable;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-import org.firstinspires.ftc.teamcode.Components.Shooter.Turret;
 import org.firstinspires.ftc.teamcode.Math.PIDController;
 import org.firstinspires.ftc.teamcode.Wrappers.Hardware;
 import org.firstinspires.ftc.teamcode.Wrappers.Odo;
@@ -32,7 +31,7 @@ public class Chassis{
     public static double lateralMultiplier=1.5;
     public static  double realHeading;
 
-    public static double kp=0.0065 , kd=0;
+    public static double kp=0.0066 , kd=0;
     public static double KP=1.25 , KD=0.15;
     public PIDController controllerX=new PIDController(kp, 0, kd);
     public PIDController controllerY=new PIDController(kp, 0, kd);
@@ -55,7 +54,8 @@ public class Chassis{
     }
 
     public boolean inPosition(double ErrorX , double ErrorY , double ErrorRx)
-    { 
+    {
+
         double heading= Odo.getHeading();
         if(heading<0)realHeading=Math.abs(heading);
         else realHeading=2*Math.PI-heading;
